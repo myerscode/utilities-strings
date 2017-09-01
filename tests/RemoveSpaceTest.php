@@ -12,7 +12,7 @@ class RemoveSpaceTest extends BaseStringSuite
     /**
      * Check a value has spaces removed
      *
-     * @covers ::stripSpaces
+     * @covers ::removeSpace
      */
     public function testTextHasSpacesRemoved()
     {
