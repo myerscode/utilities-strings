@@ -405,6 +405,25 @@ class Utility
     }
 
     /**
+     * Find all the positions of occurrences of the given needle in the string
+     *
+     * @param string $needle The value to find in the string
+     * @return array
+     */
+    public function occurrences(string $needle)
+    {
+        $offset = 0;
+        $allPositions = [];
+
+        while (($position = strpos($this->string, $needle, $offset)) !== false) {
+            $offset = $position + 1;
+            $allPositions[] = $position;
+        }
+
+        return $allPositions;
+    }
+
+    /**
      * Prepend the string with a given value
      *
      * @param $prefix
