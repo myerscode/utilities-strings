@@ -503,6 +503,17 @@ class Utility
     }
 
     /**
+     * Remove part of the string
+     *
+     * @param string|array $remove Value(s) to remove
+     * @return $this
+     */
+    public function remove($remove)
+    {
+        return $this->replace($remove, null);
+    }
+
+    /**
      * Replace occurrences in the string with a given value
      *
      * @param string|array $replace Value(s) in the string to replace
