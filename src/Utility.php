@@ -648,6 +648,30 @@ class Utility
     }
 
     /**
+     * Create the substring from index specified by $start up to, but not including the index specified by $end.
+     * If $end value is omitted, the rest of the string is used.
+     * If $end is negative, it is computed from the end of the string.
+     *
+     * @param  int $start Index position to start slice from
+     * @param  int $end Optional index position to end slice on
+     * @return $this
+     */
+    public function slice(int $start, int $end = null)
+    {
+        if ($end === null) {
+            $length = $this->length();
+        } elseif ($end >= 0 && $end <= $start) {
+            return new static('', $this->encoding);
+        } elseif ($end < 0) {
+            $length = $this->length() + $end - $start;
+        } else {
+            $length = $end - $start;
+        }
+
+        return $this->substring($start, $length);
+    }
+
+    /**
      * Create substring from the string beginning at $start with a length of $end.
      * If $end value is omitted, the rest of the string is used.
      * If $end is negative, it is computed from the end of the string.
