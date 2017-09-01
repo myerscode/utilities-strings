@@ -632,6 +632,22 @@ class Utility
     }
 
     /**
+     * Reverse the string
+     *
+     * @return $this
+     */
+    public function reverse()
+    {
+        $string = '';
+
+        for ($i = $this->length() - 1; $i >= 0; $i--) {
+            $string .= \mb_substr($this->string, $i, 1, $this->encoding);
+        }
+
+        return new static($string, $this->encoding);
+    }
+
+    /**
      * Return the value when casting to string
      *
      * @return string
