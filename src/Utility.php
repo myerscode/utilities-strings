@@ -539,6 +539,19 @@ class Utility
     }
 
     /**
+     * Repeat the string by the amount of the multiplier
+     *
+     * @param  int $multiplier The number of times to repeat the string
+     * @return $this
+     */
+    public function repeat(int $multiplier)
+    {
+        $string = str_repeat($this->string, $multiplier);
+
+        return new static($string, $this->encoding);
+    }
+
+    /**
      * Replace occurrences in the string with a given value
      *
      * @param string|array $replace Value(s) in the string to replace
