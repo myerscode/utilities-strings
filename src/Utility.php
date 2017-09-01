@@ -648,6 +648,24 @@ class Utility
     }
 
     /**
+     * Create substring from the string beginning at $start with a length of $end.
+     * If $end value is omitted, the rest of the string is used.
+     * If $end is negative, it is computed from the end of the string.
+     *
+     * @param  int $start Index position to start substring from
+     * @param  int $end [optional] index for length of substring
+     * @return $this
+     */
+    public function substring(int $start, int $end = null)
+    {
+        $length = ($end === null) ? $this->length() : $end;
+
+        $string = mb_substr($this->string, $start, $length, $this->encoding);
+
+        return new static($string, $this->encoding);
+    }
+
+    /**
      * Return the value when casting to string
      *
      * @return string
