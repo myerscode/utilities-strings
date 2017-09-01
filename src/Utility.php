@@ -526,6 +526,19 @@ class Utility
     }
 
     /**
+     * Remove repeating characters from the value
+     *
+     * @param string $repeatingValue Value to remove
+     * @return $this
+     */
+    public function removeRepeating(string $repeatingValue = ' ')
+    {
+        $string = preg_replace('{(' . preg_quote($repeatingValue) . ')\1+}', $repeatingValue, $this->string);
+
+        return new static($string, $this->encoding);
+    }
+
+    /**
      * Replace occurrences in the string with a given value
      *
      * @param string|array $replace Value(s) in the string to replace
