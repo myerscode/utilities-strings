@@ -198,6 +198,36 @@ class Utility
     }
 
     /**
+     * Ensure the string starts with a given value
+     *
+     * @param $ensure
+     * @return $this
+     */
+    public function ensureBeginsWith($ensure)
+    {
+        if (!$this->beginsWith($ensure)) {
+            return $this->prepend($ensure);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Ensure the string starts with a given value
+     *
+     * @param $ensure
+     * @return $this
+     */
+    public function ensureEndsWith($ensure)
+    {
+        if (!$this->endsWith($ensure)) {
+            return $this->append($ensure);
+        }
+
+        return $this;
+    }
+
+    /**
      * Create a new instance of the string utility
      *
      * @param $string
