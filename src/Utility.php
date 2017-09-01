@@ -492,6 +492,28 @@ class Utility
     }
 
     /**
+     * Clean up and chunk a string ready for use in casing the string value
+     *
+     * @param $string
+     * @return array
+     */
+    private function prepareForCasing($string)
+    {
+        $string = str_replace(['.', '_', '-'], ' ', $string);
+
+        // split on capital letters
+        $string = implode(' ', preg_split('/(?<=\\w)(?=[A-Z])/', $string));
+
+        // explode on numbers
+        $parts = preg_split("/(,?\s+)|((?<=[a-z])(?=\d))|((?<=\d)(?=[a-z]))/i", $string);
+
+        // return only words
+        return array_values(array_filter($parts, function ($value) {
+            return !empty($value);
+        }));
+    }
+
+    /**
      * Prepend the string with a given value
      *
      * @param $prefix
@@ -526,18 +548,6 @@ class Utility
     }
 
     /**
-     * Remove all spaces and white space from the string
-     *
-     * @return $this
-     */
-    public function removeSpace()
-    {
-        $string = preg_replace('~[[:cntrl:][:space:]]~', '', trim($this->string));
-
-        return new static($string, $this->encoding);
-    }
-
-    /**
      * Remove repeating characters from the value
      *
      * @param string $repeatingValue Value to remove
@@ -546,6 +556,18 @@ class Utility
     public function removeRepeating(string $repeatingValue = ' ')
     {
         $string = preg_replace('{(' . preg_quote($repeatingValue) . ')\1+}', $repeatingValue, $this->string);
+
+        return new static($string, $this->encoding);
+    }
+
+    /**
+     * Remove all spaces and white space from the string
+     *
+     * @return $this
+     */
+    public function removeSpace()
+    {
+        $string = preg_replace('~[[:cntrl:][:space:]]~', '', trim($this->string));
 
         return new static($string, $this->encoding);
     }
@@ -697,6 +719,175 @@ class Utility
         $length = ($end === null) ? $this->length() : $end;
 
         $string = mb_substr($this->string, $start, $length, $this->encoding);
+
+        return new static($string, $this->encoding);
+    }
+
+    /**
+     * Sanitize a string to only contain letters
+     *
+     * @return $this
+     */
+    public function toAlpha()
+    {
+        return $this->replaceNonAlpha('', true);
+    }
+
+    /**
+     * Transform the string to only contain letters and numbers
+     *
+     * @return $this
+     */
+    public function toAlphanumeric()
+    {
+        return $this->replaceNonAlphanumeric('', true);
+    }
+
+    /**
+     *  Transform the value to into camelCase format
+     *
+     * @return $this
+     */
+    public function toCamelCase()
+    {
+        // separate existing joined words
+        $string = preg_replace('/([a-z0-9])(?=[A-Z])/', '$1 ', $this->string);
+
+        $words = preg_split('/[\W_]/', $string);
+
+        $words = array_map(function ($word) {
+            return ucfirst(strtolower($word));
+        }, $words);
+
+        $string = lcfirst(implode('', $words));
+
+        return new static($string, $this->encoding);
+    }
+
+    /**
+     * Transform the value to kebab-case format
+     *
+     * @return $this
+     */
+    public function toKebabCase()
+    {
+        $string = $this->toSlug('-');
+
+        return new static(strtolower($string), $this->encoding);
+    }
+
+    /**
+     * Sanitize a string to only contain letters and numbers
+     *
+     * @return $this
+     */
+    public function toNumeric()
+    {
+        return $this->replaceNonNumeric('', true);
+    }
+
+    /**
+     *  Transform the value to into PascalCase format
+     *
+     * @return $this
+     */
+    public function toPascalCase()
+    {
+        $string = ucfirst($this->toCamelCase()->value());
+
+        return new static($string, $this->encoding);
+    }
+
+    /**
+     * Turn the string into a sentence.
+     *
+     * @return $this
+     */
+    public function toSentence()
+    {
+        $sentences = preg_split(
+            '/([^\.\!\?;]+[\.\!\?;"]+)/',
+            $this->string,
+            -1,
+            PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE
+        );
+
+        $sentences = array_map(function ($sentence) {
+            $sentence = trim($sentence);
+            if (!ctype_upper($sentence[0])) {
+                $sentence = ucfirst($sentence);
+            }
+            return $sentence;
+        }, $sentences);
+
+        $string = implode(' ', $sentences);
+
+        return (new static($string, $this->encoding))->ensureEndsWith('.');
+    }
+
+    /**
+     *  Clean a string to only have alpha numeric characters,
+     *  turn spaces into a separator slug
+     *
+     * @param string $separator
+     * @return $this
+     */
+    public function toSlug($separator = '-')
+    {
+        // translate fancy chars
+        $string = iconv('utf-8', 'ASCII//TRANSLIT', $this->string);
+        //Lower case everything
+        $string = strtolower($string);
+        //Make alphanumeric (removes all other characters)
+        $string = preg_replace('/[^A-Za-z0-9_\s-]/', '', $string);
+        //Clean up multiple dashes or whitespaces
+        $string = preg_replace('/[\s-]+/', ' ', $string);
+        //Convert whitespaces and underscore to dash
+        $string = preg_replace('/[\s_]/', $separator, $string);
+
+        return new static($string, $this->encoding);
+    }
+
+    /**
+     * Transform the value to snake_case format
+     *
+     * @return $this
+     */
+    public function toSnakeCase()
+    {
+        $string = mb_ereg_replace('\B([A-Z])', '-\1', trim($this->string));
+
+        $string = mb_strtolower($string, $this->encoding);
+
+        $string = mb_ereg_replace('[-_\s]+', '_', $string);
+
+        return new static($string, $this->encoding);
+    }
+
+    /**
+     * Transform the value to StudlyCase format
+     *
+     * @return $this
+     */
+    public function toStudlyCase()
+    {
+        $string = implode(' ', $this->prepareForCasing($this->string));
+
+        $string = str_replace(' ', '', ucwords($string));
+
+        return new static($string, $this->encoding);
+    }
+
+    /**
+     *  Transform the value to into Title Case format
+     *
+     * @return $this
+     */
+    public function toTitleCase()
+    {
+        $words = explode(' ', $this->string);
+
+        $string = mb_convert_case(implode(' ', $words), MB_CASE_TITLE, $this->encoding());
 
         return new static($string, $this->encoding);
     }
