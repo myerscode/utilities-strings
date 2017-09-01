@@ -100,6 +100,19 @@ class Utility
     }
 
     /**
+     * Remove tags and trim the string
+     *
+     * @param string $allowable_tags [optional] Tags to keep when passing through strip_tags
+     * @return $this
+     */
+    public function clean(string $allowable_tags = null)
+    {
+        $string = strip_tags(trim($this->string), $allowable_tags);
+
+        return new static($string, $this->encoding);
+    }
+
+    /**
      * Get the strings encoding
      *
      * @return mixed
