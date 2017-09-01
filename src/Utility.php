@@ -58,6 +58,17 @@ class Utility
     }
 
     /**
+     * Append the string with a given value
+     *
+     * @param $postfix
+     * @return $this
+     */
+    public function append($postfix)
+    {
+        return new static($this->string . new static($postfix, $this->encoding), $this->encoding);
+    }
+
+    /**
      * Get the strings encoding
      *
      * @return mixed
