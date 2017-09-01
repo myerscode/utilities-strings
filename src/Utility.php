@@ -514,6 +514,18 @@ class Utility
     }
 
     /**
+     * Remove punctuation from the string
+     *
+     * @return $this
+     */
+    public function removePunctuation()
+    {
+        $string = preg_replace('/[[:punct:]]/', "", $this->string);
+
+        return new static($string, $this->encoding);
+    }
+
+    /**
      * Replace occurrences in the string with a given value
      *
      * @param string|array $replace Value(s) in the string to replace
