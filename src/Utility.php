@@ -70,6 +70,36 @@ class Utility
     }
 
     /**
+     * Adds the specified amount of left and right padding to the given string.
+     * The default character used is a space.
+     *
+     * @param  int $left Length of left padding
+     * @param  int $right Length of right padding
+     * @param  string $padding String used to pad the value
+     * @return static String with padding applied
+     */
+    protected function applyPadding(int $left = 0, int $right = 0, $padding = ' ')
+    {
+        $length = \mb_strlen($padding, $this->encoding);
+
+        $stringLength = $this->length();
+
+        $paddedLength = $stringLength + $left + $right;
+
+        if (!$length || $paddedLength <= $stringLength) {
+            return $this;
+        }
+
+        $leftPadding = \mb_substr(str_repeat($padding, ceil($left / $length)), 0, $left, $this->encoding);
+
+        $rightPadding = \mb_substr(str_repeat($padding, ceil($right / $length)), 0, $right, $this->encoding);
+
+        $string = $leftPadding . $this->string . $rightPadding;
+
+        return new static($string, $this->encoding);
+    }
+
+    /**
      * Does string start with a given value(s).
      * You can pass a single string or an array of strings to look check for.
      *
@@ -421,6 +451,44 @@ class Utility
         }
 
         return $allPositions;
+    }
+
+    /**
+     * Pad the string with a value until it is the given length
+     *
+     * @param  int $length Desired string length after padding
+     * @param  string $padding Value to pad the string with
+     * @return $this
+     */
+    public function pad(int $length, $padding = ' ')
+    {
+        $padLength = $length - $this->length();
+
+        return $this->applyPadding(floor($padLength / 2), ceil($padLength / 2), $padding);
+    }
+
+    /**
+     * Pad the left the string with a value until it is the given length
+     *
+     * @param  int $length Desired string length after padding
+     * @param  string $padding Value to pad the string with
+     * @return $this
+     */
+    public function padLeft($length, $padding = ' ')
+    {
+        return $this->applyPadding($length - $this->length(), 0, $padding);
+    }
+
+    /**
+     * Pad the right the string with a value until it is the given length
+     *
+     * @param  int $length Desired string length after padding
+     * @param  string $padding Value to pad the string with
+     * @return $this
+     */
+    public function padRight($length, $padding = ' ')
+    {
+        return $this->applyPadding(0, $length - $this->length(), $padding);
     }
 
     /**
