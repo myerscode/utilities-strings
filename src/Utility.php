@@ -503,6 +503,26 @@ class Utility
     }
 
     /**
+     * Replace occurrences in the string with a given value
+     *
+     * @param string|array $replace Value(s) in the string to replace
+     * @param string $with Value to replace occurrences with
+     * @return $this
+     */
+    public function replace($replace, $with)
+    {
+        if (!is_array($replace)) {
+            $replace = [$replace];
+        }
+
+        $withString = new static($with, $this->encoding);
+
+        $string = preg_replace('#(' . implode('|', $replace) . ')#', $withString->value(), $this->string);
+
+        return new static($string, $this->encoding);
+    }
+
+    /**
      * Return the value when casting to string
      *
      * @return string
