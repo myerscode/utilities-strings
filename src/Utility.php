@@ -253,6 +253,77 @@ class Utility
     }
 
     /**
+     * Does a string to only contain letters
+     *
+     * @return bool
+     */
+    public function isAlpha()
+    {
+        return (bool)preg_match('/^[a-z\s]*$/i', $this->string);
+    }
+
+    /**
+     * Does the string only contain letters and numbers
+     *
+     * @return bool
+     */
+    public function isAlphaNumeric()
+    {
+        return (bool)preg_match('/^[a-z0-9\s]*$/i', $this->string);
+    }
+
+    /**
+     * Is the string in a valid email format
+     *
+     * @return bool
+     */
+    public function isEmail()
+    {
+        return filter_var($this->string, FILTER_VALIDATE_EMAIL) !== false;
+    }
+
+    /**
+     * Check if a given value can be perceived as false.
+     * Will only return false if the value "looks false-y" by being a value of "false", "0", "no", "off", ""
+     *
+     * @return bool
+     */
+    public function isFalse()
+    {
+        return (
+            in_array($this->string, ['']) ||
+            (false === filter_var($this->string, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE))
+        );
+    }
+
+    /**
+     * Is the string valid json
+     *
+     * @return bool
+     */
+    public function isJson()
+    {
+        json_decode($this->string);
+
+        return (json_last_error() == JSON_ERROR_NONE);
+    }
+
+    /**
+     * Check if a given value can be perceived as true
+     * Will on return true if the value "looks true-y"
+     * "true", "1", "yes", "on", "ok"
+     *
+     * @return bool
+     */
+    public function isTrue()
+    {
+        return (
+            in_array($this->string, ['ok']) ||
+            (true === filter_var($this->string, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE))
+        );
+    }
+
+    /**
      * Create a new instance of the string utility
      *
      * @param $string
