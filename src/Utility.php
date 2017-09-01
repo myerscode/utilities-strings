@@ -324,6 +324,16 @@ class Utility
     }
 
     /**
+     * The length of the string.
+     *
+     * @return int The number of characters in the string
+     */
+    public function length()
+    {
+        return \mb_strlen($this->string, $this->encoding());
+    }
+
+    /**
      * Create a new instance of the string utility
      *
      * @param $string
