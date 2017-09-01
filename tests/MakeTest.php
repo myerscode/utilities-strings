@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Tests\StringUtility;
 
 use Myerscode\Utilities\Strings\Utility;
 use Tests\Support\BaseStringSuite;
@@ -9,7 +9,7 @@ use Tests\Support\StringConstructorTestCase;
 /**
  * @coversDefaultClass Myerscode\Utilities\Strings\Utility
  */
-class ConstructTest extends BaseStringSuite
+class MakeTest extends BaseStringSuite
 {
     public function validDataProvider()
     {
@@ -32,17 +32,17 @@ class ConstructTest extends BaseStringSuite
     }
 
     /**
-     * Test that the constructor takes values that can be used as string and sets them internally
+     * Test the value assigned to the utility via make static constructor
      *
      * @param string $expected The value expected to be returned
      * @param string $string The value to pass to the utility
      *
      * @dataProvider validDataProvider
-     * @covers ::__construct
+     * @covers ::make
      */
-    public function testStringIsSetViaConstructor($expected, $string)
+    public function testValueSetViaMake($expected, $string)
     {
-        $this->assertEquals($expected, $this->utility($string)->value());
+        $this->assertEquals($expected, Utility::make($string)->value());
     }
 
     /**
@@ -52,10 +52,10 @@ class ConstructTest extends BaseStringSuite
      *
      * @dataProvider invalidDataProvider
      * @expectedException \Myerscode\Utilities\Strings\Exceptions\InvalidStringException
-     * @covers ::__construct
+     * @covers ::make
      */
-    public function testConstructorDoesNotTakeInvalidValues($string)
+    public function testMakeDoesNotTakeInvalidValues($string)
     {
-        $this->utility($string);
+        Utility::make($string);
     }
 }
