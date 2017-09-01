@@ -58,6 +58,16 @@ class Utility
     }
 
     /**
+     * Get the strings encoding
+     *
+     * @return mixed
+     */
+    public function encoding()
+    {
+        return $this->encoding;
+    }
+
+    /**
      * Create a new instance of the string utility
      *
      * @param $string
