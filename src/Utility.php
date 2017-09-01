@@ -69,6 +69,37 @@ class Utility
     }
 
     /**
+     * Does string start with a given value(s).
+     * You can pass a single string or an array of strings to look check for.
+     *
+     * @param string|array $search String(s) to look at the beginning for
+     * @param bool $strict [optional] Should do a case sensitive check
+     * @return bool
+     */
+    public function beginsWith($search, bool $strict = false)
+    {
+        if (empty($search)) {
+            return false;
+        }
+
+        $needles = !is_array($search) ? [$search] : $search;
+
+        foreach ($needles as $needle) {
+            if ($strict) {
+                if (strcmp(substr($this->string, 0, strlen($needle)), $needle) === 0) {
+                    return true;
+                }
+            } else {
+                if (strcasecmp(substr($this->string, 0, strlen($needle)), $needle) === 0) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Get the strings encoding
      *
      * @return mixed
