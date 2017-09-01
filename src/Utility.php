@@ -2,6 +2,7 @@
 
 namespace Myerscode\Utilities\Strings;
 
+use Myerscode\Utilities\Strings\Exceptions\InvalidFormatArgumentException;
 use Myerscode\Utilities\Strings\Exceptions\InvalidStringException;
 
 /**
@@ -225,6 +226,30 @@ class Utility
         }
 
         return $this;
+    }
+
+    /**
+     * Inserts the given values into the chronological placeholders
+     *
+     * @param mixed $replacements Collection of items to insert into the string
+     * @return $this
+     */
+    public function format(...$replacements)
+    {
+        $string = $this->string;
+
+        foreach ($replacements as $index => $value) {
+            if (!is_scalar($value) || (is_object($value) && !method_exists($value, '__toString'))) {
+                $type = is_object($value) ? get_class($value) : gettype($value);
+                throw new InvalidFormatArgumentException(
+                    sprintf("Placeholder %s could not convert type %s to a string", $index, $type)
+                );
+            }
+
+            $string = str_replace('{' . $index . '}', $value, $string);
+        }
+
+        return new static($string, $this->encoding);
     }
 
     /**
