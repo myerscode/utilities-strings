@@ -210,6 +210,17 @@ class Utility
     }
 
     /**
+     * Prepend the string with a given value
+     *
+     * @param $prefix
+     * @return $this
+     */
+    public function prepend($prefix)
+    {
+        return new static(new static($prefix, $this->encoding) . $this->string, $this->encoding);
+    }
+
+    /**
      * Return the value when casting to string
      *
      * @return string
