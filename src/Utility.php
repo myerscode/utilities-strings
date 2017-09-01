@@ -612,6 +612,26 @@ class Utility
     }
 
     /**
+     * Remove none letters and numbers with a given value
+     *
+     * @param string $turnTo
+     * @param boolean $strict
+     * @return $this
+     */
+    public function replaceNonNumeric($turnTo = '', bool $strict = false)
+    {
+        if ($strict) {
+            $pattern = "/[^0-9]/";
+        } else {
+            $pattern = "/[^0-9 ]/";
+        }
+
+        $string = preg_replace($pattern, $turnTo, trim($this->string));
+
+        return new static($string, $this->encoding);
+    }
+
+    /**
      * Return the value when casting to string
      *
      * @return string
