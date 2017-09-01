@@ -1,0 +1,85 @@
+<?php
+
+namespace Tests;
+
+use Myerscode\Utilities\Strings\Utility;
+use Tests\Support\BaseStringSuite;
+use Tests\Support\StringConstructorTestCase;
+
+/**
+ * @coversDefaultClass Myerscode\Utilities\Strings\Utility
+ */
+class ConstructTest extends BaseStringSuite
+{
+    public function validDataProvider()
+    {
+        return [
+            ['hello world', 'hello world'],
+            ['123', 123],
+            ['1', true],
+            ['0', false],
+            ['', null],
+            ['StringConstructorTestCase::class', new StringConstructorTestCase()],
+        ];
+    }
+
+    public function invalidDataProvider()
+    {
+        return [
+            [new \stdClass()],
+            [[]],
+        ];
+    }
+
+    /**
+     * Test that the constructor takes values that can be used as string and sets them internally
+     *
+     * @param number $expected The value expected to be returned
+     * @param number $string The value to pass to the utility
+     * @dataProvider validDataProvider
+     * @covers ::__construct
+     */
+    public function testStringIsSetViaConstructor($expected, $string)
+    {
+        $this->assertEquals($expected, $this->utility($string)->value());
+    }
+
+    /**
+     * Test that the constructor takes values that can be used as string and sets them internally
+     *
+     * @param number $expected The value expected to be returned
+     * @param number $string The value to pass to the utility
+     * @dataProvider validDataProvider
+     * @covers ::__construct
+     */
+    public function testStringIsSetViaMake($expected, $string)
+    {
+        $this->assertEquals($expected, Utility::make($string)->value());
+    }
+
+    /**
+     * Test that the constructor does not accept invalid values
+     *
+     * @param number $string The value to pass to the utility
+     * @dataProvider invalidDataProvider
+     * @expectedException \Myerscode\Utilities\Strings\Exceptions\InvalidStringException
+     * @covers ::__construct
+     */
+    public function testConstructorDoesNotTakeInvalidValues($string)
+    {
+        $this->utility($string);
+    }
+
+    /**
+     * Test that the constructor does not accept invalid values
+     *
+     * @param number $string The value to pass to the utility
+     * @dataProvider invalidDataProvider
+     * @expectedException \Myerscode\Utilities\Strings\Exceptions\InvalidStringException
+     * @covers ::__construct
+     */
+    public function testMakeDoesNotTakeInvalidValues($string)
+    {
+        Utility::make($string);
+    }
+}
