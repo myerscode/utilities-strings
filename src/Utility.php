@@ -572,6 +572,26 @@ class Utility
     }
 
     /**
+     * Replace none alpha characters in the string with the given value
+     *
+     * @param string $replacement Value to replace none alphanumeric characters with
+     * @param boolean $strict Should spaces be stripped
+     * @return $this
+     */
+    public function replaceNonAlpha(string $replacement = '', bool $strict = false)
+    {
+        if ($strict) {
+            $pattern = "/[^a-zA-Z]/";
+        } else {
+            $pattern = "/[^a-zA-Z ]/";
+        }
+
+        $string = preg_replace($pattern, $replacement, trim($this->string));
+
+        return new static($string, $this->encoding);
+    }
+
+    /**
      * Return the value when casting to string
      *
      * @return string
