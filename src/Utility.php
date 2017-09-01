@@ -526,6 +526,18 @@ class Utility
     }
 
     /**
+     * Remove all spaces and white space from the string
+     *
+     * @return $this
+     */
+    public function removeSpace()
+    {
+        $string = preg_replace('~[[:cntrl:][:space:]]~', '', trim($this->string));
+
+        return new static($string, $this->encoding);
+    }
+
+    /**
      * Remove repeating characters from the value
      *
      * @param string $repeatingValue Value to remove
