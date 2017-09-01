@@ -113,6 +113,28 @@ class Utility
     }
 
     /**
+     * Check if a string contains all of the given values
+     *
+     * @param string|array $needles Values to look for in the string
+     * @param int $offset [optional] Search will start this number of characters from the beginning of the string.
+     * @return bool
+     */
+    public function containsAll($needles, $offset = 0)
+    {
+        if (!is_array($needles)) {
+            $needles = [$needles];
+        }
+
+        foreach ($needles as $query) {
+            if (strpos($this->string, $query, $offset) === false) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Get the strings encoding
      *
      * @return mixed
