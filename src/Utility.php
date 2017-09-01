@@ -879,7 +879,7 @@ class Utility
     }
 
     /**
-     *  Transform the value to into Title Case format
+     * Transform the value to into Title Case format
      *
      * @return $this
      */
@@ -890,6 +890,60 @@ class Utility
         $string = mb_convert_case(implode(' ', $words), MB_CASE_TITLE, $this->encoding());
 
         return new static($string, $this->encoding);
+    }
+
+    /**
+     * Trim a collection of values from the string using trim
+     *
+     * @param $values
+     *
+     * @return $this
+     */
+    public function trim($values = " \t\n\r\0\x0B")
+    {
+        $trim = (!is_array($values)) ? (array)$values : $values;
+
+        $charList = implode('', $trim);
+
+        $string = trim($this->string, $charList);
+
+        return new static($string, $this->encoding);
+    }
+
+    /**
+     * Trim a collection of values from the string using rtrim
+     *
+     * @param $values
+     *
+     * @return $this
+     */
+    public function trimLeft($values = " \t\n\r\0\x0B")
+    {
+        $trim = (!is_array($values)) ? (array)$values : $values;
+
+        $charList = implode('', $trim);
+
+        $this->string = ltrim($this->string, $charList);
+
+        return $this;
+    }
+
+    /**
+     * Trim a collection of values from the string using ltrim
+     *
+     * @param $values
+     *
+     * @return $this
+     */
+    public function trimRight($values = " \t\n\r\0\x0B")
+    {
+        $trim = (!is_array($values)) ? (array)$values : $values;
+
+        $charList = implode('', $trim);
+
+        $this->string = rtrim($this->string, $charList);
+
+        return $this;
     }
 
     /**
