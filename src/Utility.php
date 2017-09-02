@@ -834,12 +834,12 @@ class Utility
      */
     public function toSlug($separator = '-')
     {
+        //Make alphanumeric (removes all other characters)
+        $string = preg_replace('/[^A-Za-z0-9_\s-]/', '', $this->string);
         // translate fancy chars
-        $string = iconv('utf-8', 'ASCII//TRANSLIT', $this->string);
+        $string = iconv('utf-8', 'ASCII//TRANSLIT', $string);
         //Lower case everything
         $string = strtolower($string);
-        //Make alphanumeric (removes all other characters)
-        $string = preg_replace('/[^A-Za-z0-9_\s-]/', '', $string);
         //Clean up multiple dashes or whitespaces
         $string = preg_replace('/[\s-]+/', ' ', $string);
         //Convert whitespaces and underscore to dash

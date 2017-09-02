@@ -18,7 +18,7 @@ class ToKebabCaseTest extends BaseStringSuite
             ['foo-bar-123', 'foo bar 123'],
             ['omg-its-a-fox-d', 'omg!!! its a fox =D'],
             ['', ':"{}~`'],
-            ['lb', '!@£$%^&*()'],
+            ['', '!@£$%^&*()'],
             ['', ''],
         ];
     }
