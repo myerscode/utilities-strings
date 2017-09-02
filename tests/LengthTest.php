@@ -31,5 +31,4 @@ class LengthTest extends BaseStringSuite
     {
         $this->assertEquals($expected, $this->utility($string)->length());
     }
-
 }

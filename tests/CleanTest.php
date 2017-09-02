@@ -18,7 +18,11 @@ class CleanTest extends BaseStringSuite
             ['hello world.', 'hello world.  '],
             ['hello world.', '  hello world.'],
             ['Hello World. Foo Bar', '<p>Hello World.</p><!-- Comment --> <a href="#hash">Foo Bar</a>'],
-            ['<p>Hello World.</p> <a href="#hash">Foo Bar</a>', '<p>Hello World.</p><!-- Comment --> <a href="#hash">Foo Bar</a>', '<p><a>'],
+            [
+                '<p>Hello World.</p> <a href="#hash">Foo Bar</a>',
+                '<p>Hello World.</p><!-- Comment --><a href="#hash">Foo Bar</a>',
+                '<p><a>'
+            ],
         ];
     }
 
@@ -28,6 +32,7 @@ class CleanTest extends BaseStringSuite
      * @param $expected
      * @param $string
      * @param null $allowable_tags
+     *
      * @dataProvider dataProvider
      * @covers ::clean
      */

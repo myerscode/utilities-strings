@@ -35,5 +35,4 @@ class RemoveTest extends BaseStringSuite
     {
         $this->assertEquals($expected, $this->utility($value)->remove($remove)->value());
     }
-
 }

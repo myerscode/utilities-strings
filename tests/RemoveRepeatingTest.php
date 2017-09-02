@@ -34,5 +34,4 @@ class RemoveRepeatingTest extends BaseStringSuite
     {
         $this->assertEquals($expected, $this->utility($string)->removeRepeating($repeatingValue)->value());
     }
-
 }

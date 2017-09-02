@@ -38,5 +38,4 @@ class ReplaceTest extends BaseStringSuite
     {
         $this->assertEquals($expected, $this->utility($value)->replace($replace, $with)->value());
     }
-
 }

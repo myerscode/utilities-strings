@@ -36,5 +36,4 @@ class RemovePunctuationTest extends BaseStringSuite
     {
         $this->assertEquals($expected, $this->utility($string)->removePunctuation()->value());
     }
-
 }

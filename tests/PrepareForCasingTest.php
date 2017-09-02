@@ -37,7 +37,8 @@ class PrepareForCasingTest extends BaseStringSuite
         $class = $this->utility($string);
         $reflection = new \ReflectionClass(get_class($class));
         $method = $reflection->getMethod('prepareForCasing');
-        $method->setAccessible(true);;
+        $method->setAccessible(true);
+        ;
         $this->assertEquals($expected, $method->invokeArgs($class, [$string]));
     }
 }

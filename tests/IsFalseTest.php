@@ -34,5 +34,4 @@ class IsFalseTest extends BaseStringSuite
     {
         $this->assertEquals($expected, $this->utility($string)->isFalse());
     }
-
 }
