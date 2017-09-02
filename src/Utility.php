@@ -30,8 +30,8 @@ class Utility
     /**
      * Utility constructor.
      *
-     * @param string $string
-     * @param null $encoding
+     * @param mixed $string
+     * @param string $encoding
      */
     public function __construct($string = '', $encoding = null)
     {
@@ -61,11 +61,11 @@ class Utility
     /**
      * Append the string with a given value
      *
-     * @param $postfix
+     * @param string $postfix Value to append to the string
      *
      * @return $this
      */
-    public function append($postfix)
+    public function append(string $postfix)
     {
         return new static($this->string . new static($postfix, $this->encoding), $this->encoding);
     }
@@ -74,13 +74,13 @@ class Utility
      * Adds the specified amount of left and right padding to the given string.
      * The default character used is a space.
      *
-     * @param  int $left Length of left padding
-     * @param  int $right Length of right padding
-     * @param  string $padding String used to pad the value
+     * @param int $left Length of left padding
+     * @param int $right Length of right padding
+     * @param string $padding String used to pad the value
      *
      * @return static String with padding applied
      */
-    protected function applyPadding(int $left = 0, int $right = 0, $padding = ' ')
+    protected function applyPadding(int $left = 0, int $right = 0, string $padding = ' ')
     {
         $length = \mb_strlen($padding, $this->encoding);
 
@@ -155,7 +155,7 @@ class Utility
      *
      * @return bool
      */
-    public function containsAll($needles, $offset = 0)
+    public function containsAll($needles, int $offset = 0)
     {
         if (!is_array($needles)) {
             $needles = [$needles];
@@ -178,7 +178,7 @@ class Utility
      *
      * @return bool
      */
-    public function containsAny($needles, $offset = 0)
+    public function containsAny($needles, int $offset = 0)
     {
         if (!is_array($needles)) {
             $needles = [$needles];
@@ -238,11 +238,11 @@ class Utility
     /**
      * Ensure the string starts with a given value
      *
-     * @param $ensure
+     * @param string $ensure Value to ensure the string begins with
      *
      * @return $this
      */
-    public function ensureBeginsWith($ensure)
+    public function ensureBeginsWith(string $ensure)
     {
         if (!$this->beginsWith($ensure)) {
             return $this->prepend($ensure);
@@ -254,11 +254,11 @@ class Utility
     /**
      * Ensure the string starts with a given value
      *
-     * @param $ensure
+     * @param string $ensure Value to ensure the string ends with
      *
      * @return $this
      */
-    public function ensureEndsWith($ensure)
+    public function ensureEndsWith(string $ensure)
     {
         if (!$this->endsWith($ensure)) {
             return $this->append($ensure);
@@ -366,7 +366,7 @@ class Utility
     /**
      * The length of the string.
      *
-     * @return int The number of characters in the string
+     * @return int
      */
     public function length()
     {
@@ -377,11 +377,11 @@ class Utility
      * Create a new instance of the string utility
      *
      * @param $string
-     * @param $encoding
+     * @param string $encoding
      *
-     * @return static
+     * @return $this
      */
-    public static function make($string, $encoding = null)
+    public static function make($string, string $encoding = null)
     {
         return new static($string, $encoding);
     }
@@ -468,12 +468,12 @@ class Utility
     /**
      * Pad the string with a value until it is the given length
      *
-     * @param  int $length Desired string length after padding
-     * @param  string $padding Value to pad the string with
+     * @param int $length Desired string length after padding
+     * @param string $padding Value to pad the string with
      *
      * @return $this
      */
-    public function pad(int $length, $padding = ' ')
+    public function pad(int $length, string $padding = ' ')
     {
         $padLength = $length - $this->length();
 
@@ -483,8 +483,8 @@ class Utility
     /**
      * Pad the left the string with a value until it is the given length
      *
-     * @param  int $length Desired string length after padding
-     * @param  string $padding Value to pad the string with
+     * @param int $length Desired string length after padding
+     * @param string $padding Value to pad the string with
      *
      * @return $this
      */
@@ -496,8 +496,8 @@ class Utility
     /**
      * Pad the right the string with a value until it is the given length
      *
-     * @param  int $length Desired string length after padding
-     * @param  string $padding Value to pad the string with
+     * @param int $length Desired string length after padding
+     * @param string $padding Value to pad the string with
      *
      * @return $this
      */
@@ -594,7 +594,7 @@ class Utility
     /**
      * Repeat the string by the amount of the multiplier
      *
-     * @param  int $multiplier The number of times to repeat the string
+     * @param int $multiplier The number of times to repeat the string
      *
      * @return $this
      */
@@ -629,8 +629,8 @@ class Utility
     /**
      * Replace none alpha characters in the string with the given value
      *
-     * @param string $replacement Value to replace none alphanumeric characters with
-     * @param boolean $strict Should spaces be stripped
+     * @param string $replacement Value to replace none alpha characters with
+     * @param boolean $strict Should spaces be preserved
      *
      * @return $this
      */
@@ -651,7 +651,7 @@ class Utility
      * Replace none alphanumeric characters in the string with the given value
      *
      * @param string $replacement Value to replace none alphanumeric characters with
-     * @param boolean $strict Should spaces be stripped
+     * @param boolean $strict Should spaces be preserved
      *
      * @return $this
      */
@@ -671,12 +671,12 @@ class Utility
     /**
      * Remove none letters and numbers with a given value
      *
-     * @param string $turnTo
-     * @param boolean $strict
+     * @param string $replacement Value to replace none alphanumeric characters with
+     * @param boolean $strict Should spaces be preserved
      *
      * @return $this
      */
-    public function replaceNonNumeric($turnTo = '', bool $strict = false)
+    public function replaceNonNumeric(string $replacement = '', bool $strict = false)
     {
         if ($strict) {
             $pattern = "/[^0-9]/";
@@ -684,7 +684,7 @@ class Utility
             $pattern = "/[^0-9 ]/";
         }
 
-        $string = preg_replace($pattern, $turnTo, trim($this->string));
+        $string = preg_replace($pattern, $replacement, trim($this->string));
 
         return new static($string, $this->encoding);
     }
@@ -710,8 +710,8 @@ class Utility
      * If $end value is omitted, the rest of the string is used.
      * If $end is negative, it is computed from the end of the string.
      *
-     * @param  int $start Index position to start slice from
-     * @param  int $end Optional index position to end slice on
+     * @param int $start Index position to start slice from
+     * @param int $end Optional index position to end slice on
      *
      * @return $this
      */
@@ -735,8 +735,8 @@ class Utility
      * If $end value is omitted, the rest of the string is used.
      * If $end is negative, it is computed from the end of the string.
      *
-     * @param  int $start Index position to start substring from
-     * @param  int $end [optional] index for length of substring
+     * @param int $start Index position to start substring from
+     * @param int $end [optional] index for length of substring
      *
      * @return $this
      */
@@ -855,11 +855,11 @@ class Utility
      *  Clean a string to only have alpha numeric characters,
      *  turn spaces into a separator slug
      *
-     * @param string $separator
+     * @param string $separator Value to separate chunks with
      *
      * @return $this
      */
-    public function toSlug($separator = '-')
+    public function toSlug(string $separator = '-')
     {
         //Make alphanumeric (removes all other characters)
         $string = preg_replace('/[^A-Za-z0-9_\s-]/', '', $this->string);
@@ -922,7 +922,7 @@ class Utility
     /**
      * Trim a collection of values from the string using trim
      *
-     * @param $values
+     * @param mixed $values Values to be trimmed from the string
      *
      * @return $this
      */
@@ -940,7 +940,7 @@ class Utility
     /**
      * Trim a collection of values from the string using rtrim
      *
-     * @param $values
+     * @param mixed $values Values to be trimmed from the string
      *
      * @return $this
      */
@@ -958,7 +958,7 @@ class Utility
     /**
      * Trim a collection of values from the string using ltrim
      *
-     * @param $values
+     * @param mixed $values Values to be trimmed from the string
      *
      * @return $this
      */
