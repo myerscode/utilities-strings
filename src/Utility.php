@@ -53,7 +53,7 @@ class Utility
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->value();
     }
@@ -65,7 +65,7 @@ class Utility
      *
      * @return $this
      */
-    public function append(string $postfix)
+    public function append(string $postfix): Utility
     {
         return new static($this->string . new static($postfix, $this->encoding), $this->encoding);
     }
@@ -78,9 +78,9 @@ class Utility
      * @param int $right Length of right padding
      * @param string $padding String used to pad the value
      *
-     * @return static String with padding applied
+     * @return $this
      */
-    protected function applyPadding(int $left = 0, int $right = 0, string $padding = ' ')
+    protected function applyPadding(int $left = 0, int $right = 0, string $padding = ' '): Utility
     {
         $length = \mb_strlen($padding, $this->encoding);
 
@@ -110,7 +110,7 @@ class Utility
      *
      * @return bool
      */
-    public function beginsWith($search, bool $strict = false)
+    public function beginsWith($search, bool $strict = false): bool
     {
         if (empty($search)) {
             return false;
@@ -140,7 +140,7 @@ class Utility
      *
      * @return $this
      */
-    public function clean(string $allowable_tags = null)
+    public function clean(string $allowable_tags = null): Utility
     {
         $string = strip_tags(trim($this->string), $allowable_tags);
 
@@ -155,7 +155,7 @@ class Utility
      *
      * @return bool
      */
-    public function containsAll($needles, int $offset = 0)
+    public function containsAll($needles, int $offset = 0): bool
     {
         if (!is_array($needles)) {
             $needles = [$needles];
@@ -178,7 +178,7 @@ class Utility
      *
      * @return bool
      */
-    public function containsAny($needles, int $offset = 0)
+    public function containsAny($needles, int $offset = 0): bool
     {
         if (!is_array($needles)) {
             $needles = [$needles];
@@ -196,9 +196,9 @@ class Utility
     /**
      * Get the strings encoding
      *
-     * @return mixed
+     * @return string
      */
-    public function encoding()
+    public function encoding(): string
     {
         return $this->encoding;
     }
@@ -212,7 +212,7 @@ class Utility
      *
      * @return bool
      */
-    public function endsWith($search, bool $strict = false)
+    public function endsWith($search, bool $strict = false): bool
     {
         if (empty($search)) {
             return false;
@@ -242,7 +242,7 @@ class Utility
      *
      * @return $this
      */
-    public function ensureBeginsWith(string $ensure)
+    public function ensureBeginsWith(string $ensure): Utility
     {
         if (!$this->beginsWith($ensure)) {
             return $this->prepend($ensure);
@@ -258,7 +258,7 @@ class Utility
      *
      * @return $this
      */
-    public function ensureEndsWith(string $ensure)
+    public function ensureEndsWith(string $ensure): Utility
     {
         if (!$this->endsWith($ensure)) {
             return $this->append($ensure);
@@ -274,7 +274,7 @@ class Utility
      *
      * @return $this
      */
-    public function format(...$replacements)
+    public function format(...$replacements): Utility
     {
         $string = $this->string;
 
@@ -297,7 +297,7 @@ class Utility
      *
      * @return bool
      */
-    public function isAlpha()
+    public function isAlpha(): bool
     {
         return (bool)preg_match('/^[a-z\s]*$/i', $this->string);
     }
@@ -307,7 +307,7 @@ class Utility
      *
      * @return bool
      */
-    public function isAlphaNumeric()
+    public function isAlphaNumeric(): bool
     {
         return (bool)preg_match('/^[a-z0-9\s]*$/i', $this->string);
     }
@@ -317,7 +317,7 @@ class Utility
      *
      * @return bool
      */
-    public function isEmail()
+    public function isEmail(): bool
     {
         return filter_var($this->string, FILTER_VALIDATE_EMAIL) !== false;
     }
@@ -328,7 +328,7 @@ class Utility
      *
      * @return bool
      */
-    public function isFalse()
+    public function isFalse(): bool
     {
         return (
             in_array($this->string, ['']) ||
@@ -341,7 +341,7 @@ class Utility
      *
      * @return bool
      */
-    public function isJson()
+    public function isJson(): bool
     {
         json_decode($this->string);
 
@@ -355,7 +355,7 @@ class Utility
      *
      * @return bool
      */
-    public function isTrue()
+    public function isTrue(): bool
     {
         return (
             in_array($this->string, ['ok']) ||
@@ -368,7 +368,7 @@ class Utility
      *
      * @return int
      */
-    public function length()
+    public function length(): int
     {
         return \mb_strlen($this->string, $this->encoding());
     }
@@ -381,7 +381,7 @@ class Utility
      *
      * @return $this
      */
-    public static function make($string, string $encoding = null)
+    public static function make($string, string $encoding = null): Utility
     {
         return new static($string, $encoding);
     }
@@ -391,7 +391,7 @@ class Utility
      *
      * @return $this
      */
-    public function minimise()
+    public function minimise(): Utility
     {
         // remove redundant (white-space) characters
         $replace = [
@@ -452,7 +452,7 @@ class Utility
      *
      * @return array
      */
-    public function occurrences(string $needle)
+    public function occurrences(string $needle): array
     {
         $offset = 0;
         $allPositions = [];
@@ -473,7 +473,7 @@ class Utility
      *
      * @return $this
      */
-    public function pad(int $length, string $padding = ' ')
+    public function pad(int $length, string $padding = ' '): Utility
     {
         $padLength = $length - $this->length();
 
@@ -488,7 +488,7 @@ class Utility
      *
      * @return $this
      */
-    public function padLeft($length, $padding = ' ')
+    public function padLeft($length, $padding = ' '): Utility
     {
         return $this->applyPadding($length - $this->length(), 0, $padding);
     }
@@ -501,7 +501,7 @@ class Utility
      *
      * @return $this
      */
-    public function padRight($length, $padding = ' ')
+    public function padRight($length, $padding = ' '): Utility
     {
         return $this->applyPadding(0, $length - $this->length(), $padding);
     }
@@ -513,7 +513,7 @@ class Utility
      *
      * @return array
      */
-    private function prepareForCasing($string)
+    private function prepareForCasing($string): array
     {
         $string = str_replace(['.', '_', '-'], ' ', $string);
 
@@ -536,7 +536,7 @@ class Utility
      *
      * @return $this
      */
-    public function prepend($prefix)
+    public function prepend($prefix): Utility
     {
         return new static(new static($prefix, $this->encoding) . $this->string, $this->encoding);
     }
@@ -548,7 +548,7 @@ class Utility
      *
      * @return $this
      */
-    public function remove($remove)
+    public function remove($remove): Utility
     {
         return $this->replace($remove, null);
     }
@@ -558,7 +558,7 @@ class Utility
      *
      * @return $this
      */
-    public function removePunctuation()
+    public function removePunctuation(): Utility
     {
         $string = preg_replace('/[[:punct:]]/', "", $this->string);
 
@@ -572,7 +572,7 @@ class Utility
      *
      * @return $this
      */
-    public function removeRepeating(string $repeatingValue = ' ')
+    public function removeRepeating(string $repeatingValue = ' '): Utility
     {
         $string = preg_replace('{(' . preg_quote($repeatingValue) . ')\1+}', $repeatingValue, $this->string);
 
@@ -584,7 +584,7 @@ class Utility
      *
      * @return $this
      */
-    public function removeSpace()
+    public function removeSpace(): Utility
     {
         $string = preg_replace('~[[:cntrl:][:space:]]~', '', trim($this->string));
 
@@ -598,7 +598,7 @@ class Utility
      *
      * @return $this
      */
-    public function repeat(int $multiplier)
+    public function repeat(int $multiplier): Utility
     {
         $string = str_repeat($this->string, $multiplier);
 
@@ -613,7 +613,7 @@ class Utility
      *
      * @return $this
      */
-    public function replace($replace, $with)
+    public function replace($replace, $with): Utility
     {
         if (!is_array($replace)) {
             $replace = [$replace];
@@ -634,7 +634,7 @@ class Utility
      *
      * @return $this
      */
-    public function replaceNonAlpha(string $replacement = '', bool $strict = false)
+    public function replaceNonAlpha(string $replacement = '', bool $strict = false): Utility
     {
         if ($strict) {
             $pattern = "/[^a-zA-Z]/";
@@ -655,7 +655,7 @@ class Utility
      *
      * @return $this
      */
-    public function replaceNonAlphanumeric(string $replacement = '', bool $strict = false)
+    public function replaceNonAlphanumeric(string $replacement = '', bool $strict = false): Utility
     {
         if ($strict) {
             $pattern = "/[^a-zA-Z0-9]/";
@@ -676,7 +676,7 @@ class Utility
      *
      * @return $this
      */
-    public function replaceNonNumeric(string $replacement = '', bool $strict = false)
+    public function replaceNonNumeric(string $replacement = '', bool $strict = false): Utility
     {
         if ($strict) {
             $pattern = "/[^0-9]/";
@@ -694,7 +694,7 @@ class Utility
      *
      * @return $this
      */
-    public function reverse()
+    public function reverse(): Utility
     {
         $string = '';
 
@@ -715,7 +715,7 @@ class Utility
      *
      * @return $this
      */
-    public function slice(int $start, int $end = null)
+    public function slice(int $start, int $end = null): Utility
     {
         if ($end === null) {
             $length = $this->length();
@@ -740,7 +740,7 @@ class Utility
      *
      * @return $this
      */
-    public function substring(int $start, int $end = null)
+    public function substring(int $start, int $end = null): Utility
     {
         $length = ($end === null) ? $this->length() : $end;
 
@@ -754,7 +754,7 @@ class Utility
      *
      * @return $this
      */
-    public function toAlpha()
+    public function toAlpha(): Utility
     {
         return $this->replaceNonAlpha('', true);
     }
@@ -764,7 +764,7 @@ class Utility
      *
      * @return $this
      */
-    public function toAlphanumeric()
+    public function toAlphanumeric(): Utility
     {
         return $this->replaceNonAlphanumeric('', true);
     }
@@ -774,7 +774,7 @@ class Utility
      *
      * @return $this
      */
-    public function toCamelCase()
+    public function toCamelCase(): Utility
     {
         // separate existing joined words
         $string = preg_replace('/([a-z0-9])(?=[A-Z])/', '$1 ', $this->string);
@@ -795,7 +795,7 @@ class Utility
      *
      * @return $this
      */
-    public function toKebabCase()
+    public function toKebabCase(): Utility
     {
         $string = $this->toSlug('-');
 
@@ -807,7 +807,7 @@ class Utility
      *
      * @return $this
      */
-    public function toNumeric()
+    public function toNumeric(): Utility
     {
         return $this->replaceNonNumeric('', true);
     }
@@ -817,7 +817,7 @@ class Utility
      *
      * @return $this
      */
-    public function toPascalCase()
+    public function toPascalCase(): Utility
     {
         $string = ucfirst($this->toCamelCase()->value());
 
@@ -829,7 +829,7 @@ class Utility
      *
      * @return $this
      */
-    public function toSentence()
+    public function toSentence(): Utility
     {
         $sentences = preg_split(
             '/([^\.\!\?;]+[\.\!\?;"]+)/',
@@ -859,7 +859,7 @@ class Utility
      *
      * @return $this
      */
-    public function toSlug(string $separator = '-')
+    public function toSlug(string $separator = '-'): Utility
     {
         //Make alphanumeric (removes all other characters)
         $string = preg_replace('/[^A-Za-z0-9_\s-]/', '', $this->string);
@@ -880,7 +880,7 @@ class Utility
      *
      * @return $this
      */
-    public function toSnakeCase()
+    public function toSnakeCase(): Utility
     {
         $string = mb_ereg_replace('\B([A-Z])', '-\1', trim($this->string));
 
@@ -896,7 +896,7 @@ class Utility
      *
      * @return $this
      */
-    public function toStudlyCase()
+    public function toStudlyCase(): Utility
     {
         $string = implode(' ', $this->prepareForCasing($this->string));
 
@@ -910,7 +910,7 @@ class Utility
      *
      * @return $this
      */
-    public function toTitleCase()
+    public function toTitleCase(): Utility
     {
         $words = explode(' ', $this->string);
 
@@ -926,7 +926,7 @@ class Utility
      *
      * @return $this
      */
-    public function trim($values = " \t\n\r\0\x0B")
+    public function trim($values = " \t\n\r\0\x0B"): Utility
     {
         $trim = (!is_array($values)) ? (array)$values : $values;
 
@@ -944,7 +944,7 @@ class Utility
      *
      * @return $this
      */
-    public function trimLeft($values = " \t\n\r\0\x0B")
+    public function trimLeft($values = " \t\n\r\0\x0B"): Utility
     {
         $trim = (!is_array($values)) ? (array)$values : $values;
 
@@ -962,7 +962,7 @@ class Utility
      *
      * @return $this
      */
-    public function trimRight($values = " \t\n\r\0\x0B")
+    public function trimRight($values = " \t\n\r\0\x0B"): Utility
     {
         $trim = (!is_array($values)) ? (array)$values : $values;
 
@@ -978,7 +978,7 @@ class Utility
      *
      * @return string
      */
-    public function value()
+    public function value(): string
     {
         return $this->string;
     }
