@@ -62,6 +62,7 @@ class Utility
      * Append the string with a given value
      *
      * @param $postfix
+     *
      * @return $this
      */
     public function append($postfix)
@@ -76,6 +77,7 @@ class Utility
      * @param  int $left Length of left padding
      * @param  int $right Length of right padding
      * @param  string $padding String used to pad the value
+     *
      * @return static String with padding applied
      */
     protected function applyPadding(int $left = 0, int $right = 0, $padding = ' ')
@@ -105,6 +107,7 @@ class Utility
      *
      * @param string|array $search String(s) to look at the beginning for
      * @param bool $strict [optional] Should do a case sensitive check
+     *
      * @return bool
      */
     public function beginsWith($search, bool $strict = false)
@@ -134,6 +137,7 @@ class Utility
      * Remove tags and trim the string
      *
      * @param string $allowable_tags [optional] Tags to keep when passing through strip_tags
+     *
      * @return $this
      */
     public function clean(string $allowable_tags = null)
@@ -148,6 +152,7 @@ class Utility
      *
      * @param string|array $needles Values to look for in the string
      * @param int $offset [optional] Search will start this number of characters from the beginning of the string.
+     *
      * @return bool
      */
     public function containsAll($needles, $offset = 0)
@@ -170,6 +175,7 @@ class Utility
      *
      * @param string|array $needles Values to look for in the string
      * @param int $offset [optional] Search will start this number of characters from the beginning of the string.
+     *
      * @return bool
      */
     public function containsAny($needles, $offset = 0)
@@ -203,6 +209,7 @@ class Utility
      *
      * @param string|array $search String(s) to look at the beginning for
      * @param bool $strict [optional] Should do a case sensitive check
+     *
      * @return bool
      */
     public function endsWith($search, bool $strict = false)
@@ -232,6 +239,7 @@ class Utility
      * Ensure the string starts with a given value
      *
      * @param $ensure
+     *
      * @return $this
      */
     public function ensureBeginsWith($ensure)
@@ -247,6 +255,7 @@ class Utility
      * Ensure the string starts with a given value
      *
      * @param $ensure
+     *
      * @return $this
      */
     public function ensureEndsWith($ensure)
@@ -262,6 +271,7 @@ class Utility
      * Inserts the given values into the chronological placeholders
      *
      * @param mixed $replacements Collection of items to insert into the string
+     *
      * @return $this
      */
     public function format(...$replacements)
@@ -368,6 +378,7 @@ class Utility
      *
      * @param $string
      * @param $encoding
+     *
      * @return static
      */
     public static function make($string, $encoding = null)
@@ -438,6 +449,7 @@ class Utility
      * Find all the positions of occurrences of the given needle in the string
      *
      * @param string $needle The value to find in the string
+     *
      * @return array
      */
     public function occurrences(string $needle)
@@ -458,6 +470,7 @@ class Utility
      *
      * @param  int $length Desired string length after padding
      * @param  string $padding Value to pad the string with
+     *
      * @return $this
      */
     public function pad(int $length, $padding = ' ')
@@ -472,6 +485,7 @@ class Utility
      *
      * @param  int $length Desired string length after padding
      * @param  string $padding Value to pad the string with
+     *
      * @return $this
      */
     public function padLeft($length, $padding = ' ')
@@ -484,6 +498,7 @@ class Utility
      *
      * @param  int $length Desired string length after padding
      * @param  string $padding Value to pad the string with
+     *
      * @return $this
      */
     public function padRight($length, $padding = ' ')
@@ -495,6 +510,7 @@ class Utility
      * Clean up and chunk a string ready for use in casing the string value
      *
      * @param $string
+     *
      * @return array
      */
     private function prepareForCasing($string)
@@ -517,6 +533,7 @@ class Utility
      * Prepend the string with a given value
      *
      * @param $prefix
+     *
      * @return $this
      */
     public function prepend($prefix)
@@ -528,6 +545,7 @@ class Utility
      * Remove part of the string
      *
      * @param string|array $remove Value(s) to remove
+     *
      * @return $this
      */
     public function remove($remove)
@@ -551,6 +569,7 @@ class Utility
      * Remove repeating characters from the value
      *
      * @param string $repeatingValue Value to remove
+     *
      * @return $this
      */
     public function removeRepeating(string $repeatingValue = ' ')
@@ -576,6 +595,7 @@ class Utility
      * Repeat the string by the amount of the multiplier
      *
      * @param  int $multiplier The number of times to repeat the string
+     *
      * @return $this
      */
     public function repeat(int $multiplier)
@@ -590,6 +610,7 @@ class Utility
      *
      * @param string|array $replace Value(s) in the string to replace
      * @param string $with Value to replace occurrences with
+     *
      * @return $this
      */
     public function replace($replace, $with)
@@ -610,6 +631,7 @@ class Utility
      *
      * @param string $replacement Value to replace none alphanumeric characters with
      * @param boolean $strict Should spaces be stripped
+     *
      * @return $this
      */
     public function replaceNonAlpha(string $replacement = '', bool $strict = false)
@@ -630,6 +652,7 @@ class Utility
      *
      * @param string $replacement Value to replace none alphanumeric characters with
      * @param boolean $strict Should spaces be stripped
+     *
      * @return $this
      */
     public function replaceNonAlphanumeric(string $replacement = '', bool $strict = false)
@@ -650,6 +673,7 @@ class Utility
      *
      * @param string $turnTo
      * @param boolean $strict
+     *
      * @return $this
      */
     public function replaceNonNumeric($turnTo = '', bool $strict = false)
@@ -688,6 +712,7 @@ class Utility
      *
      * @param  int $start Index position to start slice from
      * @param  int $end Optional index position to end slice on
+     *
      * @return $this
      */
     public function slice(int $start, int $end = null)
@@ -712,6 +737,7 @@ class Utility
      *
      * @param  int $start Index position to start substring from
      * @param  int $end [optional] index for length of substring
+     *
      * @return $this
      */
     public function substring(int $start, int $end = null)
@@ -830,6 +856,7 @@ class Utility
      *  turn spaces into a separator slug
      *
      * @param string $separator
+     *
      * @return $this
      */
     public function toSlug($separator = '-')
