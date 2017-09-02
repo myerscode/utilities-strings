@@ -950,9 +950,9 @@ class Utility
 
         $charList = implode('', $trim);
 
-        $this->string = ltrim($this->string, $charList);
+        $string = ltrim($this->string, $charList);
 
-        return $this;
+        return new static($string, $this->encoding);
     }
 
     /**
@@ -968,9 +968,9 @@ class Utility
 
         $charList = implode('', $trim);
 
-        $this->string = rtrim($this->string, $charList);
+        $string = rtrim($this->string, $charList);
 
-        return $this;
+        return new static($string, $this->encoding);
     }
 
     /**
