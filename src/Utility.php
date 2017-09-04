@@ -33,7 +33,7 @@ class Utility
      * @param mixed $string
      * @param string $encoding
      */
-    public function __construct($string = '', $encoding = null)
+    public function __construct($string = '', string $encoding = null)
     {
         if (is_array($string)) {
             throw new InvalidStringException('Arrays cannot be converted to string');
@@ -45,7 +45,7 @@ class Utility
             $this->string = (string)$string;
         }
 
-        $this->encoding = $encoding ?: \mb_internal_encoding();
+        $this->setEncoding($encoding ?: \mb_internal_encoding());
     }
 
     /**
@@ -703,6 +703,20 @@ class Utility
         }
 
         return new static($string, $this->encoding);
+    }
+
+    /**
+     * Set the strings encoding
+     *
+     * @param string $encoding
+     *
+     * @return $this
+     */
+    public function setEncoding(string $encoding): Utility
+    {
+        $this->encoding = trim($encoding);
+
+        return $this;
     }
 
     /**

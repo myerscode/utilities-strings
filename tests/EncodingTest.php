@@ -25,8 +25,20 @@ class EncodingTest extends BaseStringSuite
      * @dataProvider encodingProvider
      * @covers ::encoding
      */
-    public function testStringsEncodingIsSet($encoding)
+    public function testStringsEncodingIsSetViaConstructor($encoding)
     {
         $this->assertEquals($encoding, $this->utility('hello world', $encoding)->encoding());
+    }
+
+    /**
+     * Check that the strings encoding is set correctly
+     *
+     * @param string $encoding
+     * @dataProvider encodingProvider
+     * @covers ::setEncoding
+     */
+    public function testStringsEncodingIsSetViaMethod($encoding)
+    {
+        $this->assertEquals($encoding, $this->utility('hello world')->setEncoding($encoding)->encoding());
     }
 }
