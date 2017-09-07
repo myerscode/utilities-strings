@@ -20,6 +20,7 @@ class ConstructTest extends BaseStringSuite
             ['0', false],
             ['', null],
             ['StringConstructorTestCase::class', new StringConstructorTestCase()],
+            ['Hello World', new Utility('Hello World')],
         ];
     }
 
