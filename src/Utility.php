@@ -161,6 +161,10 @@ class Utility
             $needles = [$needles];
         }
 
+        if ($offset > $this->length()) {
+            return false;
+        }
+
         foreach ($needles as $query) {
             if (strpos($this->string, $query, $offset) === false) {
                 return false;
@@ -182,6 +186,10 @@ class Utility
     {
         if (!is_array($needles)) {
             $needles = [$needles];
+        }
+
+        if ($offset > $this->length()) {
+            return false;
         }
 
         foreach ($needles as $query) {
