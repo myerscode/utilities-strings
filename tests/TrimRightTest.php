@@ -15,6 +15,7 @@ class TrimRightTest extends BaseStringSuite
         return [
             ['!!!!!fobar', '!!!!!fobar', '!'],
             ['fobar', 'fobar!!!!!', '!'],
+            ['He', 'Hello World!', ['Wor', 'ld!', ' ']],
         ];
     }
 
@@ -35,6 +36,7 @@ class TrimRightTest extends BaseStringSuite
      * @param string $expected The value expected to be returned
      * @param string $string The string to strip values from
      * @param string $charList The value to pass to the utility
+     *
      * @dataProvider dataProvider
      * @covers ::trimRight
      */

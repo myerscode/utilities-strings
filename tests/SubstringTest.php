@@ -16,6 +16,7 @@ class SubstringTest extends BaseStringSuite
             ['foo bar', 'foo bar', 0],
             ['foo', 'foo bar', 0, 3],
             ['bar', 'foo bar', 4],
+            ['foo', 'foo bar', 0, -4],
             ['bar', 'foo bar', 4, null],
             ['o b', 'foo bar', 2, 3],
             ['', 'foo bar', 4, 0],

@@ -15,6 +15,7 @@ class TrimLeftTest extends BaseStringSuite
         return [
             ['fobar', '!!!!!fobar', '!'],
             ['fobar!!!!!', 'fobar!!!!!', '!'],
+            ['o World!', 'Hello World!', ['H', 'el']],
         ];
     }
 

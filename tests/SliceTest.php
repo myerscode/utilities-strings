@@ -13,9 +13,10 @@ class SliceTest extends BaseStringSuite
     public function dataProvider()
     {
         return [
-            ['foo bar', 'foo bar', 0, null],
+            ['foo bar', 'foo bar', 0],
             ['foo bar', 'foo bar', 0, 7],
             ['foo', 'foo bar', 0, 3],
+            ['bar', 'foo bar', 4],
             ['', 'foo bar', 3, 0],
             ['', 'foo bar', 3, 2],
             ['bar', 'foo bar', 4, 7],
@@ -35,7 +36,7 @@ class SliceTest extends BaseStringSuite
      * @dataProvider dataProvider
      * @covers ::slice
      */
-    public function testSliceOfValueIsReturned($expected, $string, $start, $length)
+    public function testSliceOfValueIsReturned($expected, $string, $start, $length = null)
     {
         $this->assertEquals($expected, $this->utility($string)->slice($start, $length)->value());
     }
