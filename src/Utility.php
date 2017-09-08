@@ -952,7 +952,7 @@ class Utility
      *
      * @return $this
      */
-    public function trim($values = ' \t\n\r\0\x0B'): Utility
+    public function trim($values = " \t\n\r\0\x0B"): Utility
     {
         $trim = (!is_array($values)) ? (array)$values : $values;
 
@@ -970,7 +970,7 @@ class Utility
      *
      * @return $this
      */
-    public function trimLeft($values = ' \t\n\r\0\x0B'): Utility
+    public function trimLeft($values = " \t\n\r\0\x0B"): Utility
     {
         $trim = (!is_array($values)) ? (array)$values : $values;
 
@@ -988,7 +988,7 @@ class Utility
      *
      * @return $this
      */
-    public function trimRight($values = ' \t\n\r\0\x0B'): Utility
+    public function trimRight($values = " \t\n\r\0\x0B"): Utility
     {
         $trim = (!is_array($values)) ? (array)$values : $values;
 
