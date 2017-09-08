@@ -15,6 +15,8 @@ class ToSentenceTest extends BaseStringSuite
         return [
             ['Quick brown foo bar.', 'Quick brown foo bar.'],
             ['Quick brown foo bar.', 'Quick brown foo bar'],
+            ['Quick Brown foo bar.', 'Quick Brown foo bar'],
+            ['Hello I\'m called Fred!', 'Hello I\'m called Fred!'],
             ['Quick brown foo bar.', 'quick brown foo bar.'],
             ['Quick brown foo bar.', 'quick brown foo bar'],
             ['Quick brown. Foo bar.', 'quick brown. foo bar.'],

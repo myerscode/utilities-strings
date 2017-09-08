@@ -870,7 +870,11 @@ class Utility
 
         $string = implode(' ', $sentences);
 
-        return (new static($string, $this->encoding))->ensureEndsWith('.');
+        if (preg_match('/[\p{P}]$/', $string)) {
+            return new static($string, $this->encoding);
+        } else {
+            return (new static($string, $this->encoding))->ensureEndsWith('.');
+        }
     }
 
     /**
