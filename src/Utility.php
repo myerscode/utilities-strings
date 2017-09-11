@@ -31,7 +31,7 @@ class Utility
      * Utility constructor.
      *
      * @param mixed $string
-     * @param string $encoding
+     * @param null|string $encoding
      */
     public function __construct($string = '', string $encoding = null)
     {
@@ -116,9 +116,9 @@ class Utility
             return false;
         }
 
-        $needles = !is_array($search) ? [$search] : $search;
+        $searchValues = !is_array($search) ? [$search] : $search;
 
-        foreach ($needles as $needle) {
+        foreach ($searchValues as $needle) {
             if ($strict) {
                 if (strcmp(substr($this->string, 0, strlen($needle)), $needle) === 0) {
                     return true;
@@ -136,13 +136,13 @@ class Utility
     /**
      * Remove tags and trim the string
      *
-     * @param string $allowable_tags [optional] Tags to keep when passing through strip_tags
+     * @param null|string $allowedTags [optional] Tags to keep when passing through strip_tags
      *
      * @return $this
      */
-    public function clean(string $allowable_tags = null): Utility
+    public function clean(string $allowedTags = null): Utility
     {
-        $string = strip_tags(trim($this->string), $allowable_tags);
+        $string = strip_tags(trim($this->string), $allowedTags);
 
         return new static($string, $this->encoding);
     }
@@ -150,23 +150,23 @@ class Utility
     /**
      * Check if a string contains all of the given values
      *
-     * @param string|array $needles Values to look for in the string
+     * @param string|array $searchValues Values to look for in the string
      * @param int $offset [optional] Search will start this number of characters from the beginning of the string.
      *
      * @return bool
      */
-    public function containsAll($needles, int $offset = 0): bool
+    public function containsAll($searchValues, int $offset = 0): bool
     {
-        if (!is_array($needles)) {
-            $needles = [$needles];
+        if (!is_array($searchValues)) {
+            $searchValues = [$searchValues];
         }
 
         if ($offset > $this->length()) {
             return false;
         }
 
-        foreach ($needles as $query) {
-            if (strpos($this->string, $query, $offset) === false) {
+        foreach ($searchValues as $needle) {
+            if (strpos($this->string, $needle, $offset) === false) {
                 return false;
             }
         }
@@ -278,7 +278,7 @@ class Utility
     /**
      * Inserts the given values into the chronological placeholders
      *
-     * @param mixed $replacements Collection of items to insert into the string
+     * @param array $replacements Collection of items to insert into the string
      *
      * @return $this
      */
@@ -290,7 +290,7 @@ class Utility
             if (!is_scalar($value) || (is_object($value) && !method_exists($value, '__toString'))) {
                 $type = is_object($value) ? get_class($value) : gettype($value);
                 throw new InvalidFormatArgumentException(
-                    sprintf("Placeholder %s could not convert type %s to a string", $index, $type)
+                    sprintf('Placeholder %s could not convert type %s to a string', $index, $type)
                 );
             }
 
@@ -385,7 +385,7 @@ class Utility
      * Create a new instance of the string utility
      *
      * @param $string
-     * @param string $encoding
+     * @param null|string $encoding
      *
      * @return $this
      */
@@ -529,7 +529,7 @@ class Utility
         $string = implode(' ', preg_split('/(?<=\\w)(?=[A-Z])/', $string));
 
         // explode on numbers
-        $parts = preg_split("/(,?\s+)|((?<=[a-z])(?=\d))|((?<=\d)(?=[a-z]))/i", $string);
+        $parts = preg_split('/(,?\s+)|((?<=[a-z])(?=\d))|((?<=\d)(?=[a-z]))/i', $string);
 
         // return only words
         return array_values(array_filter($parts, function ($value) {
@@ -616,20 +616,20 @@ class Utility
     /**
      * Replace occurrences in the string with a given value
      *
-     * @param string|array $replace Value(s) in the string to replace
+     * @param string|array $find Value(s) in the string to replace
      * @param string $with Value to replace occurrences with
      *
      * @return $this
      */
-    public function replace($replace, $with): Utility
+    public function replace($find, $with): Utility
     {
-        if (!is_array($replace)) {
-            $replace = [$replace];
+        if (!is_array($find)) {
+            $find = [$find];
         }
 
         $withString = new static($with, $this->encoding);
 
-        $string = preg_replace('#(' . implode('|', $replace) . ')#', $withString->value(), $this->string);
+        $string = preg_replace('#(' . implode('|', $find) . ')#', $withString->value(), $this->string);
 
         return new static($string, $this->encoding);
     }
@@ -645,9 +645,9 @@ class Utility
     public function replaceNonAlpha(string $replacement = '', bool $strict = false): Utility
     {
         if ($strict) {
-            $pattern = "/[^a-zA-Z]/";
+            $pattern = '/[^a-zA-Z]/';
         } else {
-            $pattern = "/[^a-zA-Z ]/";
+            $pattern = '/[^a-zA-Z ]/';
         }
 
         $string = preg_replace($pattern, $replacement, trim($this->string));
@@ -666,9 +666,9 @@ class Utility
     public function replaceNonAlphanumeric(string $replacement = '', bool $strict = false): Utility
     {
         if ($strict) {
-            $pattern = "/[^a-zA-Z0-9]/";
+            $pattern = '/[^a-zA-Z0-9]/';
         } else {
-            $pattern = "/[^a-zA-Z0-9 ]/";
+            $pattern = '/[^a-zA-Z0-9 ]/';
         }
 
         $string = preg_replace($pattern, $replacement, trim($this->string));
@@ -687,9 +687,9 @@ class Utility
     public function replaceNonNumeric(string $replacement = '', bool $strict = false): Utility
     {
         if ($strict) {
-            $pattern = "/[^0-9]/";
+            $pattern = '/[^0-9]/';
         } else {
-            $pattern = "/[^0-9 ]/";
+            $pattern = '/[^0-9 ]/';
         }
 
         $string = preg_replace($pattern, $replacement, trim($this->string));
@@ -733,7 +733,7 @@ class Utility
      * If $end is negative, it is computed from the end of the string.
      *
      * @param int $start Index position to start slice from
-     * @param int $end Optional index position to end slice on
+     * @param null|integer $end Optional index position to end slice on
      *
      * @return $this
      */
@@ -758,7 +758,7 @@ class Utility
      * If $end is negative, it is computed from the end of the string.
      *
      * @param int $start Index position to start substring from
-     * @param int $end [optional] index for length of substring
+     * @param null|integer $end [optional] index for length of substring
      *
      * @return $this
      */
