@@ -565,6 +565,16 @@ echo $str->toKebabCase();
 // foo-bar-123
 ```
 
+#### toLowercase `Utility`
+Convert the string to be all lowercase
+
+```php
+$str = new Utility('HELLO WORLD')
+
+echo $str->toLowercase();
+// hello world
+```
+
 #### toNumeric `Utility`
 Convert the string to only contain numeric characters
 
@@ -658,6 +668,16 @@ $str = new Utility('hello world! foo bar')
 
 echo $str->toTitleCase();
 // Hello World! Foo Bar.
+```
+
+#### toUppercase `Utility`
+Convert the string to be all uppercase
+
+```php
+$str = new Utility('hello world')
+
+echo $str->toUppercase();
+// HELLO WORLD
 ```
 
 #### trimLeft `Utility`

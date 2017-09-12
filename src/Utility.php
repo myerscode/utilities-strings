@@ -825,6 +825,16 @@ class Utility
     }
 
     /**
+     * Transform the value to be all lowercase
+     *
+     * @return Utility
+     */
+    public function toLowercase(): Utility
+    {
+        return new static(strtolower($this->string), $this->encoding);
+    }
+
+    /**
      * Sanitize a string to only contain letters and numbers
      *
      * @return $this
@@ -943,6 +953,16 @@ class Utility
         $string = mb_convert_case(implode(' ', $words), MB_CASE_TITLE, $this->encoding());
 
         return new static($string, $this->encoding);
+    }
+
+    /**
+     * Transform the value to be all uppercase
+     *
+     * @return Utility
+     */
+    public function toUppercase(): Utility
+    {
+        return new static(strtoupper($this->string), $this->encoding);
     }
 
     /**
