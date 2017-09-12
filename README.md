@@ -292,6 +292,16 @@ echo $str->length();
 // 11
 ```
 
+#### limit `Utility`
+Limit the length of the string to a given value
+
+```php
+$str = new Utility('Hello World')
+
+echo $str->limit(5);
+// Hello
+```
+
 #### minimise `Utility`
 Minimise the string removing all spaces and all unnecessary html attributes 
 

@@ -382,6 +382,24 @@ class Utility
     }
 
     /**
+     * Limit the length of the string to a given value
+     *
+     * @param int $length Desired length the string should be
+     *
+     * @return $this
+     */
+    public function limit(int $length)
+    {
+        $string = $this->string;
+
+        if ($this->length() > $length) {
+            $string = substr($string, 0, $length);
+        }
+
+        return new static($string, $this->encoding);
+    }
+
+    /**
      * Create a new instance of the string utility
      *
      * @param $string
