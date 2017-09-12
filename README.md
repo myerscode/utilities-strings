@@ -1,6 +1,9 @@
 # Strings Utilities
 > A PHP utility class that creates a fluent interface for interacting with strings
 
+[![Latest Stable Version](https://poser.pugx.org/myerscode/utilities-strings/v/stable)](https://packagist.org/packages/myerscode/utilities-strings)
+[![Total Downloads](https://poser.pugx.org/myerscode/utilities-strings/downloads)](https://packagist.org/packages/myerscode/utilities-strings)
+[![License](https://poser.pugx.org/myerscode/utilities-strings/license)](https://packagist.org/packages/myerscode/utilities-strings)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/myerscode/utilities-strings/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/myerscode/utilities-strings/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/myerscode/utilities-strings/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/myerscode/utilities-strings/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/myerscode/utilities-strings/badges/build.png?b=master)](https://scrutinizer-ci.com/g/myerscode/utilities-strings/build-status/master)
@@ -289,6 +292,16 @@ echo $str->length();
 // 11
 ```
 
+#### limit `Utility`
+Limit the length of the string to a given value
+
+```php
+$str = new Utility('Hello World')
+
+echo $str->limit(5);
+// Hello
+```
+
 #### minimise `Utility`
 Minimise the string removing all spaces and all unnecessary html attributes 
 
@@ -562,6 +575,16 @@ echo $str->toKebabCase();
 // foo-bar-123
 ```
 
+#### toLowercase `Utility`
+Convert the string to be all lowercase
+
+```php
+$str = new Utility('HELLO WORLD')
+
+echo $str->toLowercase();
+// hello world
+```
+
 #### toNumeric `Utility`
 Convert the string to only contain numeric characters
 
@@ -655,6 +678,16 @@ $str = new Utility('hello world! foo bar')
 
 echo $str->toTitleCase();
 // Hello World! Foo Bar.
+```
+
+#### toUppercase `Utility`
+Convert the string to be all uppercase
+
+```php
+$str = new Utility('hello world')
+
+echo $str->toUppercase();
+// HELLO WORLD
 ```
 
 #### trimLeft `Utility`

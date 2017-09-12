@@ -382,6 +382,24 @@ class Utility
     }
 
     /**
+     * Limit the length of the string to a given value
+     *
+     * @param int $length Desired length the string should be
+     *
+     * @return $this
+     */
+    public function limit(int $length)
+    {
+        $string = $this->string;
+
+        if ($this->length() > $length) {
+            $string = substr($string, 0, $length);
+        }
+
+        return new static($string, $this->encoding);
+    }
+
+    /**
      * Create a new instance of the string utility
      *
      * @param $string
@@ -825,6 +843,16 @@ class Utility
     }
 
     /**
+     * Transform the value to be all lowercase
+     *
+     * @return Utility
+     */
+    public function toLowercase(): Utility
+    {
+        return new static(strtolower($this->string), $this->encoding);
+    }
+
+    /**
      * Sanitize a string to only contain letters and numbers
      *
      * @return $this
@@ -943,6 +971,16 @@ class Utility
         $string = mb_convert_case(implode(' ', $words), MB_CASE_TITLE, $this->encoding());
 
         return new static($string, $this->encoding);
+    }
+
+    /**
+     * Transform the value to be all uppercase
+     *
+     * @return Utility
+     */
+    public function toUppercase(): Utility
+    {
+        return new static(strtoupper($this->string), $this->encoding);
     }
 
     /**
