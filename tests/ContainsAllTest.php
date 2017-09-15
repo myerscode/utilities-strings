@@ -15,6 +15,8 @@ class ContainsAllTest extends BaseStringSuite
         return [
             [true, 'quick brown foo bar', 'foo'],
             [true, 'quick brown foo bar', ['bar', 'foo']],
+            [false, 'quick brown fox', []],
+            [false, 'quick brown fox', ''],
             [false, 'quick brown fox', ['fox', 'bar']],
             [false, 'quick brown fox', ['foo', 'bar']],
             [false, 'quick brown fox', ['foo', 'bar']],

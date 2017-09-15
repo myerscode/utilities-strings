@@ -105,26 +105,27 @@ class Utility
      * Does string start with a given value(s).
      * You can pass a single string or an array of strings to look check for.
      *
-     * @param string|array $search String(s) to look at the beginning for
+     * @param string|array $begins String(s) to look at the beginning for
      * @param bool $strict [optional] Should do a case sensitive check
      *
      * @return bool
      */
-    public function beginsWith($search, bool $strict = false): bool
+    public function beginsWith($begins, bool $strict = false): bool
     {
-        if (empty($search)) {
+        if (empty($begins)) {
             return false;
         }
 
-        $searchValues = !is_array($search) ? [$search] : $search;
+        $parameters = $this->parameters($begins);
 
-        foreach ($searchValues as $needle) {
+        foreach ($parameters as $needle) {
+            $beginning = $this->substring(0, strlen($needle));
             if ($strict) {
-                if (strcmp(substr($this->string, 0, strlen($needle)), $needle) === 0) {
+                if (strcmp($beginning, $needle) === 0) {
                     return true;
                 }
             } else {
-                if (strcasecmp(substr($this->string, 0, strlen($needle)), $needle) === 0) {
+                if (strcasecmp($beginning, $needle) === 0) {
                     return true;
                 }
             }
@@ -150,23 +151,26 @@ class Utility
     /**
      * Check if a string contains all of the given values
      *
-     * @param string|array $searchValues Values to look for in the string
+     * @param string|array $contains Values to look for in the string
      * @param int $offset [optional] Search will start this number of characters from the beginning of the string.
      *
      * @return bool
      */
-    public function containsAll($searchValues, int $offset = 0): bool
+    public function containsAll($contains, int $offset = 0): bool
     {
-        if (!is_array($searchValues)) {
-            $searchValues = [$searchValues];
+        if (empty($contains)) {
+            return false;
         }
+
+        $parameters = $this->parameters($contains);
+
 
         if ($offset > $this->length()) {
             return false;
         }
 
-        foreach ($searchValues as $needle) {
-            if (strpos($this->string, $needle, $offset) === false) {
+        foreach ($parameters as $needle) {
+            if (strpos($this->string, $needle->value(), $offset) === false) {
                 return false;
             }
         }
@@ -177,23 +181,25 @@ class Utility
     /**
      * Check if a string contains any of the given values
      *
-     * @param string|array $needles Values to look for in the string
+     * @param string|array $contains Values to look for in the string
      * @param int $offset [optional] Search will start this number of characters from the beginning of the string.
      *
      * @return bool
      */
-    public function containsAny($needles, int $offset = 0): bool
+    public function containsAny($contains, int $offset = 0): bool
     {
-        if (!is_array($needles)) {
-            $needles = [$needles];
+        if (empty($contains)) {
+            return false;
         }
+
+        $parameters = $this->parameters($contains);
 
         if ($offset > $this->length()) {
             return false;
         }
 
-        foreach ($needles as $query) {
-            if (strpos($this->string, $query, $offset) !== false) {
+        foreach ($parameters as $needle) {
+            if (strpos($this->string, $needle->value(), $offset) !== false) {
                 return true;
             }
         }
@@ -215,26 +221,27 @@ class Utility
      * Does string end with a given value(s).
      * You can pass a single string or an array of strings to look check for.
      *
-     * @param string|array $search String(s) to look at the beginning for
+     * @param string|array $ends String(s) to look at the beginning for
      * @param bool $strict [optional] Should do a case sensitive check
      *
      * @return bool
      */
-    public function endsWith($search, bool $strict = false): bool
+    public function endsWith($ends, bool $strict = false): bool
     {
-        if (empty($search)) {
+        if (empty($ends)) {
             return false;
         }
 
-        $needles = !is_array($search) ? [$search] : $search;
+        $parameters = $this->parameters($ends);
 
-        foreach ($needles as $needle) {
+        foreach ($parameters as $needle) {
+            $ending = $this->substring(strlen($this->string) - strlen($needle));
             if ($strict) {
-                if (strcmp(substr($this->string, strlen($this->string) - strlen($needle)), $needle) === 0) {
+                if (strcmp($ending, $needle->value()) === 0) {
                     return true;
                 }
             } else {
-                if (strcasecmp(substr($this->string, strlen($this->string) - strlen($needle)), $needle) === 0) {
+                if (strcasecmp($ending, $needle->value()) === 0) {
                     return true;
                 }
             }
@@ -278,7 +285,7 @@ class Utility
     /**
      * Inserts the given values into the chronological placeholders
      *
-     * @param array $replacements Collection of items to insert into the string
+     * @param array ...$replacements Collection of items to insert into the string
      *
      * @return $this
      */
@@ -533,6 +540,26 @@ class Utility
     }
 
     /**
+     * Transform user input into a collection of Utility
+     *
+     * @param $parameters
+     *
+     * @return Utility[]
+     */
+    private function parameters($parameters): array
+    {
+        $values = (!is_array($parameters)) ? [$parameters] : $parameters;
+
+        $strings = [];
+
+        foreach ($values as $value) {
+            $strings[] = self::make($value);
+        }
+
+        return $strings;
+    }
+
+    /**
      * Clean up and chunk a string ready for use in casing the string value
      *
      * @param $string
@@ -586,7 +613,7 @@ class Utility
      */
     public function removePunctuation(): Utility
     {
-        $string = preg_replace('/[[:punct:]]/', "", $this->string);
+        $string = preg_replace('/[[:punct:]]/', '', $this->string);
 
         return new static($string, $this->encoding);
     }
@@ -641,13 +668,15 @@ class Utility
      */
     public function replace($find, $with): Utility
     {
-        if (!is_array($find)) {
-            $find = [$find];
+        $replace = [];
+
+        foreach ($this->parameters($find) as $parameter) {
+            $replace[] = $parameter->value();
         }
 
         $withString = new static($with, $this->encoding);
 
-        $string = preg_replace('#(' . implode('|', $find) . ')#', $withString->value(), $this->string);
+        $string = preg_replace('#(' . implode('|', $replace) . ')#', $withString->value(), $this->string);
 
         return new static($string, $this->encoding);
     }
@@ -900,9 +929,9 @@ class Utility
 
         if (preg_match('/[\p{P}]$/', $string)) {
             return new static($string, $this->encoding);
-        } else {
-            return (new static($string, $this->encoding))->ensureEndsWith('.');
         }
+
+        return (new static($string, $this->encoding))->ensureEndsWith('.');
     }
 
     /**
@@ -992,11 +1021,9 @@ class Utility
      */
     public function trim($values = " \t\n\r\0\x0B"): Utility
     {
-        $trim = (!is_array($values)) ? (array)$values : $values;
+        $parameters = $this->parameters($values);
 
-        $charList = implode('', $trim);
-
-        $string = trim($this->string, $charList);
+        $string = trim($this->string, implode('', $parameters));
 
         return new static($string, $this->encoding);
     }
@@ -1010,11 +1037,9 @@ class Utility
      */
     public function trimLeft($values = " \t\n\r\0\x0B"): Utility
     {
-        $trim = (!is_array($values)) ? (array)$values : $values;
+        $parameters = $this->parameters($values);
 
-        $charList = implode('', $trim);
-
-        $string = ltrim($this->string, $charList);
+        $string = ltrim($this->string, implode('', $parameters));
 
         return new static($string, $this->encoding);
     }
@@ -1028,11 +1053,9 @@ class Utility
      */
     public function trimRight($values = " \t\n\r\0\x0B"): Utility
     {
-        $trim = (!is_array($values)) ? (array)$values : $values;
+        $parameters = $this->parameters($values);
 
-        $charList = implode('', $trim);
-
-        $string = rtrim($this->string, $charList);
+        $string = rtrim($this->string, implode('', $parameters));
 
         return new static($string, $this->encoding);
     }
