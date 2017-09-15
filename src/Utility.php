@@ -542,7 +542,7 @@ class Utility
     /**
      * Transform user input into a collection of Utility
      *
-     * @param $parameters
+     * @param string|array $parameters
      *
      * @return Utility[]
      */
@@ -553,7 +553,7 @@ class Utility
         $strings = [];
 
         foreach ($values as $value) {
-            $strings[] = self::make($value);
+            $strings[] = self::make($value, $this->encoding);
         }
 
         return $strings;
@@ -562,7 +562,7 @@ class Utility
     /**
      * Clean up and chunk a string ready for use in casing the string value
      *
-     * @param $string
+     * @param string $string
      *
      * @return array
      */
@@ -585,7 +585,7 @@ class Utility
     /**
      * Prepend the string with a given value
      *
-     * @param $prefix
+     * @param string $prefix
      *
      * @return $this
      */
