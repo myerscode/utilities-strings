@@ -283,6 +283,18 @@ class Utility
     }
 
     /**
+     * Compare with another string and see if they match
+     *
+     * @param $compareTo
+     * @return bool
+     */
+    public function equals(string $compareTo): bool
+    {
+        return ($this->string === $compareTo);
+    }
+
+
+    /**
      * Inserts the given values into the chronological placeholders
      *
      * @param array ...$replacements Collection of items to insert into the string
