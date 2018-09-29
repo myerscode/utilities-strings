@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\StringUtility;
+namespace Tests;
 
 use Myerscode\Utilities\Strings\Utility;
-use Tests\Support\BaseStringSuite;
+
 use Tests\Support\StringConstructorTestCase;
 
 /**

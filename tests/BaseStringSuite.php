@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Support;
+namespace Tests;
 
 use Myerscode\Utilities\Strings\Utility;
 use PHPUnit\Framework\TestCase;

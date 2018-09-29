@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\StringUtility;
+namespace Tests;
 
-use Tests\Support\BaseStringSuite;
+
 
 /**
  * @coversDefaultClass Myerscode\Utilities\Strings\Utility

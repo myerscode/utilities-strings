@@ -174,6 +174,18 @@ echo $str->ensureEndsWith(' World');
 // Foo Bar World
 ```
 
+#### equals `bool`
+Compare the string with another
+```php
+$str = new Utility('Foo Bar')
+
+echo $str->equals('Foo Bar');
+// true
+
+echo $str->ensureEndsWith('foo bar');
+// false
+```
+
 #### format `bool`
 Replace placeholders with the given values in order
 
