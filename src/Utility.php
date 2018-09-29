@@ -944,16 +944,20 @@ class Utility
      */
     public function toSlug(string $separator = '-'): Utility
     {
-        //Make alphanumeric (removes all other characters)
-        $string = preg_replace('/[^A-Za-z0-9_\s-]/', '', $this->string);
-        // translate fancy chars
-        $string = iconv('utf-8', 'ASCII//TRANSLIT', $string);
-        //Lower case everything
+
+        // remove non letter, number, space or $separator characters
+        $string = preg_replace('/[^\s\p{L}0-9-' . $separator . ']/u', '', $this->string);
+        // convert foreign chars to equivalents
+        $string = iconv('utf-8', 'ASCII//TRANSLIT//IGNORE', $string);
+        // make alphanumeric
+        $string = preg_replace('/[^A-Za-z0-9_\s-' . $separator . ']/', '', $string);
+        // clean up multiple dashes or whitespaces
+        $string = preg_replace('/[\s-' . $separator . ']+/', ' ', $string);
+        // convert whitespaces and underscore to dash
+        $string = preg_replace('/[\s_-]/', $separator, $string);
+
+        $string = trim($string, $separator);
         $string = strtolower($string);
-        //Clean up multiple dashes or whitespaces
-        $string = preg_replace('/[\s-]+/', ' ', $string);
-        //Convert whitespaces and underscore to dash
-        $string = preg_replace('/[\s_]/', $separator, $string);
 
         return new static($string, $this->encoding);
     }

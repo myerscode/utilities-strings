@@ -19,6 +19,9 @@ class ToSlugTest extends BaseStringSuite
             ['omg-its-a-fox-d', 'omg!!! its a fox =D'],
             ['', ':"{}~`'],
             ['', '!@£$%^&*()'],
+            ['extra-dashes', 'extra--dashes---'],
+            ['lim-duls-high-guard', 'Lim-Dûl\'s High Guard'],
+            ['aether-vial', 'Æther Vial'],
             ['', ''],
         ];
     }
@@ -34,5 +37,17 @@ class ToSlugTest extends BaseStringSuite
     public function testStringIsTransformedToTheSlugFormat($expected, $string)
     {
         $this->assertEquals($expected, $this->utility($string)->toSlug()->value());
+    }
+
+    /**
+     * Test that the toSlug correctly slugifies with a custom separator
+     */
+    public function testSlugIsMadeWithCustomSeparator()
+    {
+        $this->assertEquals('hello~world', $this->utility('hello world')->toSlug('~')->value());
+        $this->assertEquals('hello~world', $this->utility('hello-world')->toSlug('~')->value());
+        $this->assertEquals('hello_world', $this->utility('hello___world')->toSlug('_')->value());
+        $this->assertEquals('hello-_-world', $this->utility('hello world')->toSlug('-_-')->value());
+        $this->assertEquals('hello-_-world', $this->utility('hello_- world')->toSlug('-_-')->value());
     }
 }
