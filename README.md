@@ -752,3 +752,8 @@ $str = new Utility('Foo Bar')
 echo $str->value();
 // Foo Bar
 ```
+
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE) for more information.
