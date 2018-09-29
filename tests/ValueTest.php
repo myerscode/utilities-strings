@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use Tests\Support\BaseStringSuite;
+
 use Tests\Support\StringConstructorTestCase;
 
 /**
