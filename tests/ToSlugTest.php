@@ -40,6 +40,17 @@ class ToSlugTest extends BaseStringSuite
     }
 
     /**
+     * Test that the string is transformed to the slug format
+     *
+     * @covers ::toSlugUtf8
+     */
+    public function testToSlugUTF8()
+    {
+        $this->assertEquals('lim-dûls-high-guard', $this->utility('Lim-Dûl\'s High Guard')->toSlugUtf8()->value());
+        $this->assertEquals('bills-yall', $this->utility('$$ bill\'s yall')->toSlugUtf8()->value());
+    }
+
+    /**
      * Test that the toSlug correctly slugifies with a custom separator
      */
     public function testSlugIsMadeWithCustomSeparator()

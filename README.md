@@ -648,6 +648,9 @@ echo $str->toSentenceCase();
 // foo-bar-123.
 ```
 
+#### toSlugUtf8 `Utility`
+Convert the string to be in a slug format but preserves utf8 characters
+
 #### toSnakeCase `Utility`
 Convert the string to be in a snake case format
 

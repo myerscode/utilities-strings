@@ -975,6 +975,30 @@ class Utility
     }
 
     /**
+     *  Clean a string to only have alpha numeric characters,
+     *  turn spaces into a separator slug but preserves UTF8 characters
+     *
+     * @param string $separator Value to separate chunks with
+     *
+     * @return $this
+     */
+    public function toSlugUtf8(string $separator = '-'): Utility
+    {
+        // remove non letter, number, space or $separator characters
+        $string = preg_replace('/[^\s\p{L}0-9-' . $separator . ']/u', '', $this->string);
+        // clean up multiple dashes or whitespaces
+        $string = preg_replace('/[\s-' . $separator . ']+/', ' ', $string);
+        // convert whitespaces and underscore to dash
+        $string = preg_replace('/[\s_-]/', $separator, $string);
+
+        $string = trim($string, $separator);
+
+        $string = mb_strtolower($string, 'utf-8');
+
+        return new static($string, $this->encoding);
+    }
+
+    /**
      * Transform the value to snake_case format
      *
      * @return $this
