@@ -16,6 +16,7 @@ class AtTest extends BaseStringSuite
             ['b', 'foo bar', 4],
             ['r', 'foo bar', 6],
             ['', 'foo bar', 7],
+            ['', 'foo bar', -7],
         ];
     }
 

@@ -105,10 +105,14 @@ class Utility
      * Get the character at a specific index
      *
      * @param int $position
-     * @return string
+     * @return : Utility
      */
-    public function at(int $position): string
+    public function at(int $position): Utility
     {
+        if ($position < 0) {
+            return new static('', $this->encoding);
+        }
+
         return $this->substring($position, 1);
     }
 
