@@ -304,6 +304,20 @@ class Utility
         return ($this->string === $compareTo);
     }
 
+    /**
+     * Get the first x characters from the string
+     *
+     * @param int $count
+     * @return Utility
+     */
+    public function first(int $count): Utility
+    {
+        if ($count < 0) {
+            return new static('', $this->encoding);
+        }
+
+        return $this->substring(0, $count);
+    }
 
     /**
      * Inserts the given values into the chronological placeholders

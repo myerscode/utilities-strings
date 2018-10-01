@@ -20,7 +20,7 @@ class AtTest extends BaseStringSuite
     }
 
     /**
-     * @dataProvider dataProvider()
+     * @dataProvider dataProvider
      */
     public function testAtMethod($expected, $string, $position)
     {
