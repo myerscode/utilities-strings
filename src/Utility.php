@@ -102,6 +102,17 @@ class Utility
     }
 
     /**
+     * Get the character at a specific index
+     *
+     * @param int $position
+     * @return string
+     */
+    public function at(int $position): string
+    {
+        return $this->substring($position, 1);
+    }
+
+    /**
      * Does string start with a given value(s).
      * You can pass a single string or an array of strings to look check for.
      *

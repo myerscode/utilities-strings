@@ -50,6 +50,16 @@ echo $str->append('!');
 // Hello World!
 ```
 
+#### at `string`
+Get the character at a specific index
+
+```php
+$str = new Utility('Hello World');
+
+echo $str->at(6);
+// W
+```
+
 #### beginsWith `bool`
 BeginsWith defaults to case insensitive checks.
 
