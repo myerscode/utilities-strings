@@ -50,6 +50,16 @@ echo $str->append('!');
 // Hello World!
 ```
 
+#### at `string`
+Get the character at a specific index
+
+```php
+$str = new Utility('Hello World');
+
+echo $str->at(6);
+// W
+```
+
 #### beginsWith `bool`
 BeginsWith defaults to case insensitive checks.
 
@@ -647,6 +657,9 @@ $str = new Utility('Foo Bar!!! 123')
 echo $str->toSentenceCase();
 // foo-bar-123.
 ```
+
+#### toSlugUtf8 `Utility`
+Convert the string to be in a slug format but preserves utf8 characters
 
 #### toSnakeCase `Utility`
 Convert the string to be in a snake case format

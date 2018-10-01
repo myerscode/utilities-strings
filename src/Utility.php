@@ -102,6 +102,21 @@ class Utility
     }
 
     /**
+     * Get the character at a specific index
+     *
+     * @param int $position
+     * @return : Utility
+     */
+    public function at(int $position): Utility
+    {
+        if ($position < 0) {
+            return new static('', $this->encoding);
+        }
+
+        return $this->substring($position, 1);
+    }
+
+    /**
      * Does string start with a given value(s).
      * You can pass a single string or an array of strings to look check for.
      *
@@ -293,6 +308,20 @@ class Utility
         return ($this->string === $compareTo);
     }
 
+    /**
+     * Get the first x characters from the string
+     *
+     * @param int $count
+     * @return Utility
+     */
+    public function first(int $count): Utility
+    {
+        if ($count < 0) {
+            return new static('', $this->encoding);
+        }
+
+        return $this->substring(0, $count);
+    }
 
     /**
      * Inserts the given values into the chronological placeholders
@@ -970,6 +999,30 @@ class Utility
 
         $string = trim($string, $separator);
         $string = strtolower($string);
+
+        return new static($string, $this->encoding);
+    }
+
+    /**
+     *  Clean a string to only have alpha numeric characters,
+     *  turn spaces into a separator slug but preserves UTF8 characters
+     *
+     * @param string $separator Value to separate chunks with
+     *
+     * @return $this
+     */
+    public function toSlugUtf8(string $separator = '-'): Utility
+    {
+        // remove non letter, number, space or $separator characters
+        $string = preg_replace('/[^\s\p{L}0-9-' . $separator . ']/u', '', $this->string);
+        // clean up multiple dashes or whitespaces
+        $string = preg_replace('/[\s-' . $separator . ']+/', ' ', $string);
+        // convert whitespaces and underscore to dash
+        $string = preg_replace('/[\s_-]/', $separator, $string);
+
+        $string = trim($string, $separator);
+
+        $string = mb_strtolower($string, 'utf-8');
 
         return new static($string, $this->encoding);
     }
