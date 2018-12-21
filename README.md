@@ -196,6 +196,18 @@ echo $str->ensureEndsWith('foo bar');
 // false
 ```
 
+#### explode `array`
+Explode the string by a delimiter, trimming and removing any empty values from the results
+```php
+$str = new Utility('Foo, Bar');
+echo $str->explode(',');
+// ['Foo', 'Bar']
+
+$str = new Utility('Foo,,,,Bar');
+echo $str->explode(',');
+// ['Foo', 'Bar']
+```
+
 #### format `bool`
 Replace placeholders with the given values in order
 
@@ -541,6 +553,16 @@ $str = new Utility('foobar')
 
 echo $str->slice(0,-3);
 // foo
+```
+
+#### surround `Utility`
+Wrap a string with another string
+
+```php
+$str = new Utility('Foo Bar')
+
+echo $str->surround('!!!');
+// !!!Foo Bar!!!
 ```
 
 #### toAlphanumeric `Utility`
