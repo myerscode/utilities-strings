@@ -309,6 +309,19 @@ class Utility
     }
 
     /**
+     * Explode the string on a given
+     *
+     * @param $delimiter
+     * @param $limit
+     *
+     * @return array
+     */
+    public function explode($delimiter, $limit = PHP_INT_MAX): array
+    {
+        return array_slice(array_map('trim', array_filter(explode($delimiter, $this->string, $limit))), 0);
+    }
+
+    /**
      * Get the first x characters from the string
      *
      * @param int $count
