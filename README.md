@@ -555,6 +555,16 @@ echo $str->slice(0,-3);
 // foo
 ```
 
+#### surround `Utility`
+Wrap a string with another string
+
+```php
+$str = new Utility('Foo Bar')
+
+echo $str->surround('!!!');
+// !!!Foo Bar!!!
+```
+
 #### toAlphanumeric `Utility`
 Convert the string to only contain alphanumeric values
 

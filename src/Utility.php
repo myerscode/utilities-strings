@@ -873,6 +873,19 @@ class Utility
     }
 
     /**
+     * Wrap the the string with a value
+     *
+     * @param $with
+     * @return Utility
+     */
+    public function surround($with): Utility
+    {
+        $surrounding = new static($with, $this->encoding);
+
+        return new static(implode('', [$surrounding, $this->string, $surrounding]), $this->encoding);
+    }
+
+    /**
      * Sanitize a string to only contain letters
      *
      * @return $this
