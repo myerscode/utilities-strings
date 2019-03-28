@@ -991,9 +991,9 @@ class Utility
         // convert foreign chars to equivalents
         $string = iconv('utf-8', 'ASCII//TRANSLIT//IGNORE', $string);
         // make alphanumeric
-        $string = preg_replace('/[^A-Za-z0-9_\s-' . $separator . ']/', '', $string);
+        $string = preg_replace('/[^A-Za-z0-9_\s\-' . $separator . ']/', '', $string);
         // clean up multiple dashes or whitespaces
-        $string = preg_replace('/[\s-' . $separator . ']+/', ' ', $string);
+        $string = preg_replace('/[\s\-' . $separator . ']+/', ' ', $string);
         // convert whitespaces and underscore to dash
         $string = preg_replace('/[\s_-]/', $separator, $string);
 
@@ -1016,7 +1016,7 @@ class Utility
         // remove non letter, number, space or $separator characters
         $string = preg_replace('/[^\s\p{L}0-9-' . $separator . ']/u', '', $this->string);
         // clean up multiple dashes or whitespaces
-        $string = preg_replace('/[\s-' . $separator . ']+/', ' ', $string);
+        $string = preg_replace('/[\s\-' . $separator . ']+/', ' ', $string);
         // convert whitespaces and underscore to dash
         $string = preg_replace('/[\s_-]/', $separator, $string);
 
