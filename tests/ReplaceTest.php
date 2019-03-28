@@ -21,6 +21,7 @@ class ReplaceTest extends BaseStringSuite
             ['hellohello', 'foobar', ['foo', 'bar'], 'hello'],
             ['foofoofoofoo', 'foobarfoobar', 'bar', 'foo'],
             ['foofoofoofoo', 'foobarfoobar', ['bar'], 'foo'],
+            ['foodotbar', 'foo.bar', '.', 'dot'],
         ];
     }
 

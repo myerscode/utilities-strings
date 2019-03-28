@@ -712,7 +712,7 @@ class Utility
         $replace = [];
 
         foreach ($this->parameters($find) as $parameter) {
-            $replace[] = $parameter->value();
+            $replace[] = preg_quote($parameter->value());
         }
 
         $withString = new static($with, $this->encoding);
