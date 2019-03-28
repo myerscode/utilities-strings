@@ -11,12 +11,12 @@ abstract class BaseStringSuite extends TestCase
     /**
      * Get the utility being tested
      *
-     * @param $config
+     * @param $string
      * @param $encoding
      * @return Utility
      */
-    public function utility($config, $encoding = null)
+    public function utility($string, $encoding = null)
     {
-        return new Utility($config, $encoding);
+        return new Utility($string, $encoding);
     }
 }
