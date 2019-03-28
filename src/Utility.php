@@ -45,7 +45,7 @@ class Utility
             $this->string = (string)$string;
         }
 
-        $this->setEncoding($encoding ?: \mb_internal_encoding());
+        $this->setEncoding($encoding ?: mb_internal_encoding());
     }
 
     /**
@@ -82,7 +82,7 @@ class Utility
      */
     protected function applyPadding(int $left = 0, int $right = 0, string $padding = ' '): Utility
     {
-        $length = \mb_strlen($padding, $this->encoding);
+        $length = mb_strlen($padding, $this->encoding);
 
         $stringLength = $this->length();
 
@@ -92,9 +92,9 @@ class Utility
             return $this;
         }
 
-        $leftPadding = \mb_substr(str_repeat($padding, ceil($left / $length)), 0, $left, $this->encoding);
+        $leftPadding = mb_substr(str_repeat($padding, ceil($left / $length)), 0, $left, $this->encoding);
 
-        $rightPadding = \mb_substr(str_repeat($padding, ceil($right / $length)), 0, $right, $this->encoding);
+        $rightPadding = mb_substr(str_repeat($padding, ceil($right / $length)), 0, $right, $this->encoding);
 
         $string = $leftPadding . $this->string . $rightPadding;
 
@@ -105,7 +105,7 @@ class Utility
      * Get the character at a specific index
      *
      * @param int $position
-     * @return : Utility
+     * @return Utility
      */
     public function at(int $position): Utility
     {
@@ -306,6 +306,19 @@ class Utility
     public function equals(string $compareTo): bool
     {
         return ($this->string === $compareTo);
+    }
+
+    /**
+     * Explode the string on a given
+     *
+     * @param $delimiter
+     * @param $limit
+     *
+     * @return array
+     */
+    public function explode($delimiter, $limit = PHP_INT_MAX): array
+    {
+        return array_slice(array_map('trim', array_filter(explode($delimiter, $this->string, $limit))), 0);
     }
 
     /**
@@ -860,6 +873,19 @@ class Utility
     }
 
     /**
+     * Wrap the the string with a value
+     *
+     * @param $with
+     * @return Utility
+     */
+    public function surround($with): Utility
+    {
+        $surrounding = new static($with, $this->encoding);
+
+        return new static(implode('', [$surrounding, $this->string, $surrounding]), $this->encoding);
+    }
+
+    /**
      * Sanitize a string to only contain letters
      *
      * @return $this
@@ -985,27 +1011,21 @@ class Utility
      */
     public function toSlug(string $separator = '-'): Utility
     {
-
-        // remove non letter, number, space or $separator characters
-        $string = preg_replace('/[^\s\p{L}0-9-' . $separator . ']/u', '', $this->string);
-        // convert foreign chars to equivalents
+        $string = mb_convert_encoding($this->string, 'UTF-8', $this->encoding);
+        $string = preg_replace('/[^\s\p{L}0-9\-' . $separator . ']/u', '', $string);
+        $string = htmlentities($string, ENT_QUOTES, 'UTF-8');
+        $string = preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', $string);
         $string = iconv('utf-8', 'ASCII//TRANSLIT//IGNORE', $string);
-        // make alphanumeric
-        $string = preg_replace('/[^A-Za-z0-9_\s\-' . $separator . ']/', '', $string);
-        // clean up multiple dashes or whitespaces
-        $string = preg_replace('/[\s\-' . $separator . ']+/', ' ', $string);
-        // convert whitespaces and underscore to dash
-        $string = preg_replace('/[\s_-]/', $separator, $string);
-
+        $string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
+        $string = preg_replace('~[^0-9a-z]+~i', $separator, $string);
         $string = trim($string, $separator);
-        $string = strtolower($string);
+        $string = mb_strtolower($string);
 
         return new static($string, $this->encoding);
     }
 
     /**
-     *  Clean a string to only have alpha numeric characters,
-     *  turn spaces into a separator slug but preserves UTF8 characters
+     *  Same as toSlug but preserves UTF8 characters
      *
      * @param string $separator Value to separate chunks with
      *
@@ -1013,17 +1033,12 @@ class Utility
      */
     public function toSlugUtf8(string $separator = '-'): Utility
     {
-        // remove non letter, number, space or $separator characters
-        $string = preg_replace('/[^\s\p{L}0-9-' . $separator . ']/u', '', $this->string);
-        // clean up multiple dashes or whitespaces
-        $string = preg_replace('/[\s\-' . $separator . ']+/', ' ', $string);
-        // convert whitespaces and underscore to dash
-        $string = preg_replace('/[\s_-]/', $separator, $string);
-
+        $string = mb_convert_encoding($this->string, 'UTF-8', $this->encoding);
+        $string = preg_replace('/[^\s\p{L}0-9\-' . $separator . ']/u', '', $string);
+        $string = preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', $string);
+        $string = preg_replace('/[\s_\-]/', $separator, $string);
         $string = trim($string, $separator);
-
         $string = mb_strtolower($string, 'utf-8');
-
         return new static($string, $this->encoding);
     }
 
