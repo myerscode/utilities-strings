@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Myerscode\Utilities\Strings\Exceptions\InvalidStringException;
 use Myerscode\Utilities\Strings\Utility;
 
 use Tests\Support\StringConstructorTestCase;
@@ -52,11 +53,11 @@ class ConstructTest extends BaseStringSuite
      * @param string $string The value to pass to the utility
      *
      * @dataProvider invalidDataProvider
-     * @expectedException \Myerscode\Utilities\Strings\Exceptions\InvalidStringException
      * @covers ::__construct
      */
     public function testConstructorDoesNotTakeInvalidValues($string)
     {
+        $this->expectException(InvalidStringException::class);
         $this->utility($string);
     }
 }
