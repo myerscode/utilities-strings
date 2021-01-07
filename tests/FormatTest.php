@@ -4,6 +4,8 @@ namespace Tests;
 
 
 
+use Myerscode\Utilities\Strings\Exceptions\InvalidFormatArgumentException;
+
 /**
  * @coversDefaultClass Myerscode\Utilities\Strings\Utility
  */
@@ -81,11 +83,11 @@ class FormatTest extends BaseStringSuite
     /**
      * Verify exception is thrown with invalid value type as replacement value
      *
-     * @expectedException \Myerscode\Utilities\Strings\Exceptions\InvalidFormatArgumentException
      * @covers ::format
      */
     public function testInvalidPlaceholderProperty()
     {
+        $this->expectException(InvalidFormatArgumentException::class);
         $this->utility('test {0} me')->format(new \stdClass());
     }
 }
