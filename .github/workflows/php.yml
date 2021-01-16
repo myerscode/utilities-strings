@@ -8,11 +8,11 @@ on:
 
 jobs:
   run:
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-latest, windows-latest]
     strategy:
       matrix:        
         php-versions: ['7.3', '7.4', '8.0']
-    name: PHP ${{ matrix.php-versions }}
+    name: PHP ${{ matrix.php-versions }} - ${{ matrix.os }}
     steps:
 
     - name: Checkout
@@ -25,7 +25,7 @@ jobs:
         extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
 
     - name: Install dependencies
-      run: composer install --prefer-dist --no-progress --no-suggest
+      run: composer install --prefer-dist --no-progress --no-interaction
 
     - name: Run test suite
       run: composer run-script test
