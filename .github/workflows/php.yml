@@ -10,23 +10,19 @@ jobs:
   run:
     runs-on: ${{ matrix.os }}
     strategy:
-      matrix:   
-        os: [ubuntu-latest, windows-latest] 
+      matrix:
+        os: [ubuntu-latest, windows-latest]
         php-versions: ['7.3', '7.4', '8.0']
+        coverage: xdebug
     name: PHP ${{ matrix.php-versions }} - ${{ matrix.os }}
     steps:
-
     - name: Checkout
       uses: actions/checkout@v2
-
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-versions }}
-        extensions: bcmath, bz2, calendar, Core, ctype, curl, date, dba, dom, exif, FFI, fileinfo, filter, ftp, gd, gettext, gmp, hash, iconv, intl, json, ldap, libxml, mbstring, mysqli, mysqlnd, odbc, openssl, pcntl, pcre, PDO, pdo_dblib, pdo_mysql, PDO_ODBC, pdo_pgsql, pdo_sqlite, pgsql, Phar, phpdbg_webhelper, posix, pspell, readline, Reflection, session, shmop, SimpleXML, soap, sockets, sodium, SPL, sqlite3, standard, sysvmsg, sysvsem, sysvshm, tidy, tokenizer, xdebug, xml, xmlreader, xmlwriter, xsl, zip, zlib
-
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-interaction
-
     - name: Run test suite
       run: composer run-script test
