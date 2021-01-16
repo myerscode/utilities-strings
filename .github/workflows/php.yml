@@ -8,9 +8,10 @@ on:
 
 jobs:
   run:
-    runs-on: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     strategy:
-      matrix:        
+      matrix:   
+        os: [ubuntu-latest, windows-latest] 
         php-versions: ['7.3', '7.4', '8.0']
     name: PHP ${{ matrix.php-versions }} - ${{ matrix.os }}
     steps:
