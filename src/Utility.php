@@ -1015,7 +1015,7 @@ class Utility
         $string = preg_replace('/[^\s\p{L}0-9\-' . $separator . ']/u', '', $string);
         $string = htmlentities($string, ENT_QUOTES, 'UTF-8');
         $string = preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', $string);
-        $string = iconv('utf-8', 'ASCII//TRANSLIT//IGNORE', $string);
+        $string = iconv(mb_detect_encoding($string,'UTF-8, ASCII, ISO-8859-1'), 'ASCII//TRANSLIT//IGNORE', $string);
         $string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
         $string = preg_replace('~[^0-9a-z]+~i', $separator, $string);
         $string = trim($string, $separator);
