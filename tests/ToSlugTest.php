@@ -22,7 +22,7 @@ class ToSlugTest extends BaseStringSuite
             ['extra-dashes', 'extra--dashes---'],
             ['lim-duls-high-guard', 'Lim-Dûl\'s High Guard'],
             ['aether-vial', 'Æther Vial'],
-            ['aaaaaeaaa-eeeeeee', 'ÀÁÂÄÆÃÅĀ èéêëēėę'],
+            ['aaaaaeaa-eeeeeee', 'ÀÁÂÄÆÃÅ èéêëēėę'],
             ['', ''],
         ];
     }
