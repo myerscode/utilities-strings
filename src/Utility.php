@@ -483,6 +483,11 @@ class Utility
         return new static($string, $encoding);
     }
 
+    public function matches($pattern, $matches = []): bool
+    {
+        return (bool)preg_match($pattern, $this->string, $matches);
+    }
+
     /**
      * Minimise string, removing all extra spaces, new lines and any unneeded html content
      *

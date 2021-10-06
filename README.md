@@ -353,6 +353,19 @@ echo $str->limit(5);
 // Hello
 ```
 
+#### match `bool`
+Check if the string matches a regular expression pattern
+
+```php
+$str = new Utility('Hello=World')
+
+echo $str->matches('/(.+)=(.+)/');
+// true
+
+echo $str->matches('/^[a-z\s]*$/i');
+// false
+```
+
 #### minimise `Utility`
 Minimise the string removing all spaces and all unnecessary html attributes 
 
