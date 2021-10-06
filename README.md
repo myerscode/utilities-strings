@@ -4,6 +4,7 @@
 [![Latest Stable Version](https://poser.pugx.org/myerscode/utilities-strings/v/stable)](https://packagist.org/packages/myerscode/utilities-strings)
 [![Total Downloads](https://poser.pugx.org/myerscode/utilities-strings/downloads)](https://packagist.org/packages/myerscode/utilities-strings)
 [![License](https://poser.pugx.org/myerscode/utilities-strings/license)](https://packagist.org/packages/myerscode/utilities-strings)
+![Tests](https://github.com/myerscode/utilities-strings/workflows/Tests/badge.svg?branch=master)
 
 ## Install
 
@@ -294,6 +295,26 @@ echo $str->isJson();
 $str = new Utility('"foo":"bar", "hello":"world"')
 
 echo $str->isJson();
+// false
+```
+
+#### isNumeric `bool`
+Check if the string contains no spaces or separators and only numeric characters
+
+```php
+$str = new Utility('123')
+
+echo $str->isNumeric();
+// true
+
+$str = new Utility('77 49')
+
+echo $str->isNumeric();
+// false
+
+$str = new Utility('77.49')
+
+echo $str->isNumeric();
 // false
 ```
 

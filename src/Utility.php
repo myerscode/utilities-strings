@@ -418,6 +418,16 @@ class Utility
     }
 
     /**
+     * Does the string only contain letters and numbers
+     *
+     * @return bool
+     */
+    public function isNumeric(): bool
+    {
+        return (!empty($this->string) && preg_match('/^[0-9]*$/i', $this->string));
+    }
+
+    /**
      * Check if a given value can be perceived as true
      * Will on return true if the value "looks true-y"
      * "true", "1", "yes", "on", "ok"
