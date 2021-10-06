@@ -25,8 +25,21 @@ class MatchesTest extends BaseStringSuite
      * @dataProvider dataProvider
      * @covers ::matches
      */
-    public function testStringIsTransformedToTheTitleCaseFormat(string $string, $pattern, bool $expected)
+    public function testStringCanBeMatchedWithRegex(string $string, $pattern, bool $expected)
     {
         $this->assertEquals($expected, $this->utility($string)->matches($pattern));
+    }
+
+    /**
+     * Test that the string can update a matches array
+
+     * @covers ::matches
+     */
+    public function testMatchesArrayGetsUpdated()
+    {
+        $matches = [];
+        $this->utility('Hello=World')->matches( '/(.+)=(.+)/', $matches);
+        $this->assertEquals( ['Hello=World', 'Hello', 'World'], $matches);
+
     }
 }
