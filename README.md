@@ -477,6 +477,26 @@ echo $str->remove('o');
 // F Bar Hell Wrld
 ```
 
+#### removeFromStart `Utility`
+Remove word from the start of the string
+
+```php
+$str = new Utility('thethe quick brown fox')
+
+echo $str->removeFromStart('the');
+// the quick brown fox
+```
+
+#### removeFromEnd `Utility`
+Remove word from the end of the string
+
+```php
+$str = new Utility('the quick brown foxfox')
+
+echo $str->removeFromStart('fox');
+// the quick brown fox
+```
+
 #### repeat `Utility`
 Repeat the string the amount of times specified
 
