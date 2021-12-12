@@ -676,6 +676,45 @@ class Utility
     }
 
     /**
+     * Remove words from the end of a string
+     *
+     * @param string $remove Word to remove
+     *
+     * @return $this
+     */
+    public function removeFromEnd(string $remove): Utility
+    {
+        if ($this->endsWith($remove)) {
+            $length = strlen( $remove );
+            if( !$length ) {
+                return $this;
+            }
+            return new static(substr($this->string, 0, -strlen($remove)), $this->encoding);
+        }
+
+        return $this;
+    }
+    /**
+     * Remove words from the end of a string
+     *
+     * @param string $remove Word to remove
+     *
+     * @return $this
+     */
+    public function removeFromStart(string $remove): Utility
+    {
+        if ($this->beginsWith($remove)) {
+            $length = strlen( $remove );
+            if( !$length ) {
+                return $this;
+            }
+            return new static(substr($this->string, strlen($remove)), $this->encoding);
+        }
+
+        return $this;
+    }
+
+    /**
      * Remove punctuation from the string
      *
      * @return $this
