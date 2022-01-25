@@ -3,55 +3,49 @@
 namespace Myerscode\Utilities\Strings;
 
 use Myerscode\Utilities\Strings\Exceptions\InvalidFormatArgumentException;
-use Myerscode\Utilities\Strings\Exceptions\InvalidStringException;
+use Stringable;
+
+use function mb_strlen;
+use function mb_substr;
 
 /**
  * Class Utility
  *
  * @package Myerscode\Utilities\Strings
  */
-class Utility
+class Utility implements Stringable
 {
-
-    /**
-     * The string to be modified
-     *
-     * @var string
-     */
-    private $string;
-
     /**
      * The string encoding
-     *
-     * @var string
      */
-    private $encoding;
+    private string $encoding;
 
     /**
      * Utility constructor.
      *
-     * @param mixed $string
-     * @param null|string $encoding
+     * @param  string|Stringable|Utility  $string
+     * @param  null|string  $encoding
      */
-    public function __construct($string = '', string $encoding = null)
+    public function __construct(protected readonly string|Stringable|Utility $string = '', string $encoding = null)
     {
-        if (is_array($string)) {
-            throw new InvalidStringException('Arrays cannot be converted to string');
-        } elseif (is_object($string) && !method_exists($string, '__toString')) {
-            throw new InvalidStringException('Passed object must have a __toString method');
-        } elseif (is_bool($string)) {
-            $this->string = ($string) ? '1' : '0';
-        } else {
-            $this->string = (string)$string;
-        }
-
         $this->setEncoding($encoding ?: mb_internal_encoding());
     }
 
     /**
-     * Return the value when casting to string
+     * Create a new instance of the string utility
      *
-     * @return string
+     * @param  string|Stringable|Utility  $string
+     * @param  null|string  $encoding
+     *
+     * @return Utility
+     */
+    public static function make(string|Stringable|Utility $string, string $encoding = null): Utility
+    {
+        return new Utility($string, $encoding);
+    }
+
+    /**
+     * Return the value when casting to string
      */
     public function __toString(): string
     {
@@ -60,57 +54,19 @@ class Utility
 
     /**
      * Append the string with a given value
-     *
-     * @param string $postfix Value to append to the string
-     *
-     * @return $this
      */
     public function append(string $postfix): Utility
     {
-        return new static($this->string . new static($postfix, $this->encoding), $this->encoding);
-    }
-
-    /**
-     * Adds the specified amount of left and right padding to the given string.
-     * The default character used is a space.
-     *
-     * @param int $left Length of left padding
-     * @param int $right Length of right padding
-     * @param string $padding String used to pad the value
-     *
-     * @return $this
-     */
-    protected function applyPadding(int $left = 0, int $right = 0, string $padding = ' '): Utility
-    {
-        $length = mb_strlen($padding, $this->encoding);
-
-        $stringLength = $this->length();
-
-        $paddedLength = $stringLength + $left + $right;
-
-        if (!$length || $paddedLength <= $stringLength) {
-            return $this;
-        }
-
-        $leftPadding = mb_substr(str_repeat($padding, ceil($left / $length)), 0, $left, $this->encoding);
-
-        $rightPadding = mb_substr(str_repeat($padding, ceil($right / $length)), 0, $right, $this->encoding);
-
-        $string = $leftPadding . $this->string . $rightPadding;
-
-        return new static($string, $this->encoding);
+        return static::make($this->string . static::make($postfix, $this->encoding), $this->encoding);
     }
 
     /**
      * Get the character at a specific index
-     *
-     * @param int $position
-     * @return Utility
      */
     public function at(int $position): Utility
     {
         if ($position < 0) {
-            return new static('', $this->encoding);
+            return static::make('', $this->encoding);
         }
 
         return $this->substring($position, 1);
@@ -119,13 +75,8 @@ class Utility
     /**
      * Does string start with a given value(s).
      * You can pass a single string or an array of strings to look check for.
-     *
-     * @param string|array $begins String(s) to look at the beginning for
-     * @param bool $strict [optional] Should do a case sensitive check
-     *
-     * @return bool
      */
-    public function beginsWith($begins, bool $strict = false): bool
+    public function beginsWith(array|string|Utility $begins, bool $caseSensitive = false): bool
     {
         if (empty($begins)) {
             return false;
@@ -133,16 +84,14 @@ class Utility
 
         $parameters = $this->parameters($begins);
 
-        foreach ($parameters as $needle) {
-            $beginning = $this->substring(0, strlen($needle));
-            if ($strict) {
-                if (strcmp($beginning, $needle) === 0) {
+        foreach ($parameters as $parameter) {
+            $beginning = $this->substring(0, strlen((string) $parameter));
+            if ($caseSensitive) {
+                if (strcmp($beginning, $parameter) === 0) {
                     return true;
                 }
-            } else {
-                if (strcasecmp($beginning, $needle) === 0) {
-                    return true;
-                }
+            } elseif (strcasecmp($beginning, $parameter) === 0) {
+                return true;
             }
         }
 
@@ -151,27 +100,18 @@ class Utility
 
     /**
      * Remove tags and trim the string
-     *
-     * @param null|string $allowedTags [optional] Tags to keep when passing through strip_tags
-     *
-     * @return $this
      */
     public function clean(string $allowedTags = null): Utility
     {
         $string = strip_tags(trim($this->string), $allowedTags);
 
-        return new static($string, $this->encoding);
+        return static::make($string, $this->encoding);
     }
 
     /**
-     * Check if a string contains all of the given values
-     *
-     * @param string|array $contains Values to look for in the string
-     * @param int $offset [optional] Search will start this number of characters from the beginning of the string.
-     *
-     * @return bool
+     * Check if a string contains all the given values
      */
-    public function containsAll($contains, int $offset = 0): bool
+    public function containsAll(array|string|Utility $contains, int $offset = 0): bool
     {
         if (empty($contains)) {
             return false;
@@ -195,13 +135,8 @@ class Utility
 
     /**
      * Check if a string contains any of the given values
-     *
-     * @param string|array $contains Values to look for in the string
-     * @param int $offset [optional] Search will start this number of characters from the beginning of the string.
-     *
-     * @return bool
      */
-    public function containsAny($contains, int $offset = 0): bool
+    public function containsAny(array|string|Utility $contains, int $offset = 0): bool
     {
         if (empty($contains)) {
             return false;
@@ -224,8 +159,6 @@ class Utility
 
     /**
      * Get the strings encoding
-     *
-     * @return string
      */
     public function encoding(): string
     {
@@ -235,13 +168,8 @@ class Utility
     /**
      * Does string end with a given value(s).
      * You can pass a single string or an array of strings to look check for.
-     *
-     * @param string|array $ends String(s) to look at the beginning for
-     * @param bool $strict [optional] Should do a case sensitive check
-     *
-     * @return bool
      */
-    public function endsWith($ends, bool $strict = false): bool
+    public function endsWith(array|string|Utility $ends, bool $caseSensitive = false): bool
     {
         if (empty($ends)) {
             return false;
@@ -249,16 +177,14 @@ class Utility
 
         $parameters = $this->parameters($ends);
 
-        foreach ($parameters as $needle) {
-            $ending = $this->substring(strlen($this->string) - strlen($needle));
-            if ($strict) {
-                if (strcmp($ending, $needle->value()) === 0) {
+        foreach ($parameters as $parameter) {
+            $ending = $this->substring(strlen((string) $this->string) - strlen((string) $parameter));
+            if ($caseSensitive) {
+                if (strcmp($ending, $parameter->value()) === 0) {
                     return true;
                 }
-            } else {
-                if (strcasecmp($ending, $needle->value()) === 0) {
-                    return true;
-                }
+            } elseif (strcasecmp($ending, $parameter->value()) === 0) {
+                return true;
             }
         }
 
@@ -267,12 +193,8 @@ class Utility
 
     /**
      * Ensure the string starts with a given value
-     *
-     * @param string $ensure Value to ensure the string begins with
-     *
-     * @return $this
      */
-    public function ensureBeginsWith(string $ensure): Utility
+    public function ensureBeginsWith(string|Utility $ensure): static
     {
         if (!$this->beginsWith($ensure)) {
             return $this->prepend($ensure);
@@ -283,12 +205,8 @@ class Utility
 
     /**
      * Ensure the string starts with a given value
-     *
-     * @param string $ensure Value to ensure the string ends with
-     *
-     * @return $this
      */
-    public function ensureEndsWith(string $ensure): Utility
+    public function ensureEndsWith(string|Utility $ensure): static
     {
         if (!$this->endsWith($ensure)) {
             return $this->append($ensure);
@@ -299,38 +217,27 @@ class Utility
 
     /**
      * Compare with another string and see if they match
-     *
-     * @param $compareTo
-     * @return bool
      */
-    public function equals(string $compareTo): bool
+    public function equals(string|Stringable|Utility $compareTo): bool
     {
         return ($this->string === $compareTo);
     }
 
     /**
      * Explode the string on a given
-     *
-     * @param $delimiter
-     * @param $limit
-     *
-     * @return array
      */
-    public function explode($delimiter, $limit = PHP_INT_MAX): array
+    public function explode(string $delimiter, int $limit = PHP_INT_MAX): array
     {
-        return array_slice(array_map('trim', array_filter(explode($delimiter, $this->string, $limit))), 0);
+        return array_slice(array_map('trim', array_filter(explode($delimiter, (string) $this->string, $limit))), 0);
     }
 
     /**
      * Get the first x characters from the string
-     *
-     * @param int $count
-     * @return Utility
      */
     public function first(int $count): Utility
     {
         if ($count < 0) {
-            return new static('', $this->encoding);
+            return static::make('', $this->encoding);
         }
 
         return $this->substring(0, $count);
@@ -338,18 +245,14 @@ class Utility
 
     /**
      * Inserts the given values into the chronological placeholders
-     *
-     * @param array ...$replacements Collection of items to insert into the string
-     *
-     * @return $this
      */
-    public function format(...$replacements): Utility
+    public function format(array $replacements = []): Utility
     {
         $string = $this->string;
 
         foreach ($replacements as $index => $value) {
-            if (!is_scalar($value) || (is_object($value) && !method_exists($value, '__toString'))) {
-                $type = is_object($value) ? get_class($value) : gettype($value);
+            if (!is_string($value) && !($value instanceof Stringable)) {
+                $type = get_debug_type($value);
                 throw new InvalidFormatArgumentException(
                     sprintf('Placeholder %s could not convert type %s to a string', $index, $type)
                 );
@@ -358,33 +261,27 @@ class Utility
             $string = str_replace('{' . $index . '}', $value, $string);
         }
 
-        return new static($string, $this->encoding);
+        return static::make($string, $this->encoding);
     }
 
     /**
      * Does a string to only contain letters
-     *
-     * @return bool
      */
     public function isAlpha(): bool
     {
-        return (bool)preg_match('/^[a-z\s]*$/i', $this->string);
+        return (bool)preg_match('#^[a-z\s]*$#i', (string) $this->string);
     }
 
     /**
      * Does the string only contain letters and numbers
-     *
-     * @return bool
      */
     public function isAlphaNumeric(): bool
     {
-        return (bool)preg_match('/^[a-z0-9\s]*$/i', $this->string);
+        return (bool)preg_match('#^[a-z0-9\s]*$#i', (string) $this->string);
     }
 
     /**
      * Is the string in a valid email format
-     *
-     * @return bool
      */
     public function isEmail(): bool
     {
@@ -394,21 +291,17 @@ class Utility
     /**
      * Check if a given value can be perceived as false.
      * Will only return false if the value "looks false-y" by being a value of "false", "0", "no", "off", ""
-     *
-     * @return bool
      */
     public function isFalse(): bool
     {
         return (
-            in_array($this->string, ['']) ||
-            (false === filter_var($this->string, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE))
+            $this->string == ''
+            || (false === filter_var($this->string, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE))
         );
     }
 
     /**
      * Is the string valid json
-     *
-     * @return bool
      */
     public function isJson(): bool
     {
@@ -419,47 +312,37 @@ class Utility
 
     /**
      * Does the string only contain letters and numbers
-     *
-     * @return bool
      */
     public function isNumeric(): bool
     {
-        return (!empty($this->string) && preg_match('/^[0-9]*$/i', $this->string));
+        return (!empty($this->string) && preg_match('#^\d*$#i', (string) $this->string));
     }
 
     /**
      * Check if a given value can be perceived as true
      * Will on return true if the value "looks true-y"
      * "true", "1", "yes", "on", "ok"
-     *
-     * @return bool
      */
     public function isTrue(): bool
     {
         return (
-            in_array($this->string, ['ok']) ||
-            (true === filter_var($this->string, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE))
+            $this->string == 'ok'
+            || (true === filter_var($this->string, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE))
         );
     }
 
     /**
      * The length of the string.
-     *
-     * @return int
      */
     public function length(): int
     {
-        return \mb_strlen($this->string, $this->encoding());
+        return mb_strlen($this->string, $this->encoding());
     }
 
     /**
      * Limit the length of the string to a given value
-     *
-     * @param int $length Desired length the string should be
-     *
-     * @return $this
      */
-    public function limit(int $length)
+    public function limit(int $length): Utility
     {
         $string = $this->string;
 
@@ -467,31 +350,19 @@ class Utility
             $string = substr($string, 0, $length);
         }
 
-        return new static($string, $this->encoding);
+        return static::make($string, $this->encoding);
     }
 
     /**
-     * Create a new instance of the string utility
-     *
-     * @param $string
-     * @param null|string $encoding
-     *
-     * @return $this
+     * Does the string match a given RegEx pattern
      */
-    public static function make($string, string $encoding = null): Utility
+    public function matches(string $pattern, array &$matches = []): bool
     {
-        return new static($string, $encoding);
-    }
-
-    public function matches($pattern, &$matches = []): bool
-    {
-        return (bool)preg_match($pattern, $this->string, $matches);
+        return (bool)preg_match($pattern, (string) $this->string, $matches);
     }
 
     /**
      * Minimise string, removing all extra spaces, new lines and any unneeded html content
-     *
-     * @return $this
      */
     public function minimise(): Utility
     {
@@ -542,17 +413,13 @@ class Utility
         // remove carriage returns
         $string = str_replace("\r", ' ', $string);
 
-        $string = trim(preg_replace('/[\s\t\n\r\s]+/', ' ', $string));
+        $string = trim(preg_replace('#[\s\t\n\r]+#', ' ', $string));
 
-        return new static($string, $this->encoding);
+        return static::make($string, $this->encoding);
     }
 
     /**
      * Find all the positions of occurrences of the given needle in the string
-     *
-     * @param string $needle The value to find in the string
-     *
-     * @return array
      */
     public function occurrences(string $needle): array
     {
@@ -569,11 +436,6 @@ class Utility
 
     /**
      * Pad the string with a value until it is the given length
-     *
-     * @param int $length Desired string length after padding
-     * @param string $padding Value to pad the string with
-     *
-     * @return $this
      */
     public function pad(int $length, string $padding = ' '): Utility
     {
@@ -584,131 +446,65 @@ class Utility
 
     /**
      * Pad the left the string with a value until it is the given length
-     *
-     * @param int $length Desired string length after padding
-     * @param string $padding Value to pad the string with
-     *
-     * @return $this
      */
-    public function padLeft($length, $padding = ' '): Utility
+    public function padLeft(int $length, string $padding = ' '): Utility
     {
         return $this->applyPadding($length - $this->length(), 0, $padding);
     }
 
     /**
      * Pad the right the string with a value until it is the given length
-     *
-     * @param int $length Desired string length after padding
-     * @param string $padding Value to pad the string with
-     *
-     * @return $this
      */
-    public function padRight($length, $padding = ' '): Utility
+    public function padRight(int $length, string $padding = ' '): Utility
     {
         return $this->applyPadding(0, $length - $this->length(), $padding);
     }
 
     /**
-     * Transform user input into a collection of Utility
-     *
-     * @param string|array $parameters
-     *
-     * @return Utility[]
-     */
-    private function parameters($parameters): array
-    {
-        $values = (!is_array($parameters)) ? [$parameters] : $parameters;
-
-        $strings = [];
-
-        foreach ($values as $value) {
-            $strings[] = self::make($value, $this->encoding);
-        }
-
-        return $strings;
-    }
-
-    /**
-     * Clean up and chunk a string ready for use in casing the string value
-     *
-     * @param string $string
-     *
-     * @return array
-     */
-    private function prepareForCasing($string): array
-    {
-        $string = str_replace(['.', '_', '-'], ' ', $string);
-
-        // split on capital letters
-        $string = implode(' ', preg_split('/(?<=\\w)(?=[A-Z])/', $string));
-
-        // explode on numbers
-        $parts = preg_split('/(,?\s+)|((?<=[a-z])(?=\d))|((?<=\d)(?=[a-z]))/i', $string);
-
-        // return only words
-        return array_values(array_filter($parts, function ($value) {
-            return !empty($value);
-        }));
-    }
-
-    /**
      * Prepend the string with a given value
-     *
-     * @param string $prefix
-     *
-     * @return $this
      */
-    public function prepend($prefix): Utility
+    public function prepend(string|Utility $prefix): Utility
     {
-        return new static(new static($prefix, $this->encoding) . $this->string, $this->encoding);
+        return static::make(static::make($prefix, $this->encoding) . $this->string, $this->encoding);
     }
 
     /**
      * Remove part of the string
-     *
-     * @param string|array $remove Value(s) to remove
-     *
-     * @return $this
      */
-    public function remove($remove): Utility
+    public function remove(array|string $remove): Utility
     {
-        return $this->replace($remove, null);
+        return $this->replace($remove, '');
     }
 
     /**
      * Remove words from the end of a string
-     *
-     * @param string $remove Word to remove
-     *
-     * @return $this
      */
-    public function removeFromEnd(string $remove): Utility
+    public function removeFromEnd(string|Utility $remove): static
     {
         if ($this->endsWith($remove)) {
-            $length = strlen( $remove );
-            if( !$length ) {
+            $length = strlen((string) $remove);
+            if ($length === 0) {
                 return $this;
             }
-            return new static(substr($this->string, 0, -strlen($remove)), $this->encoding);
+
+            return static::make(substr($this->string, 0, -strlen((string) $remove)), $this->encoding);
         }
 
         return $this;
     }
+
     /**
      * Remove words from the end of a string
-     *
-     * @param string $remove Word to remove
-     *
-     * @return $this
      */
-    public function removeFromStart(string $remove): Utility
+    public function removeFromStart(string $remove): static
     {
         if ($this->beginsWith($remove)) {
-            $length = strlen( $remove );
-            if( !$length ) {
+            $length = strlen($remove);
+            if ($length === 0) {
                 return $this;
             }
-            return new static(substr($this->string, strlen($remove)), $this->encoding);
+
+            return static::make(substr($this->string, strlen($remove)), $this->encoding);
         }
 
         return $this;
@@ -716,166 +512,118 @@ class Utility
 
     /**
      * Remove punctuation from the string
-     *
-     * @return $this
      */
     public function removePunctuation(): Utility
     {
-        $string = preg_replace('/[[:punct:]]/', '', $this->string);
+        $string = preg_replace('#[[:punct:]]#', '', $this->string);
 
-        return new static($string, $this->encoding);
+        return static::make($string, $this->encoding);
     }
 
     /**
      * Remove repeating characters from the value
-     *
-     * @param string $repeatingValue Value to remove
-     *
-     * @return $this
      */
     public function removeRepeating(string $repeatingValue = ' '): Utility
     {
         $string = preg_replace('{(' . preg_quote($repeatingValue) . ')\1+}', $repeatingValue, $this->string);
 
-        return new static($string, $this->encoding);
+        return static::make($string, $this->encoding);
     }
 
     /**
      * Remove all spaces and white space from the string
-     *
-     * @return $this
      */
     public function removeSpace(): Utility
     {
-        $string = preg_replace('~[[:cntrl:][:space:]]~', '', trim($this->string));
+        $string = preg_replace('#[[:cntrl:][:space:]]#', '', trim($this->string));
 
-        return new static($string, $this->encoding);
+        return static::make($string, $this->encoding);
     }
 
     /**
      * Repeat the string by the amount of the multiplier
-     *
-     * @param int $multiplier The number of times to repeat the string
-     *
-     * @return $this
      */
     public function repeat(int $multiplier): Utility
     {
         $string = str_repeat($this->string, $multiplier);
 
-        return new static($string, $this->encoding);
+        return static::make($string, $this->encoding);
     }
 
     /**
      * Replace occurrences in the string with a given value
-     *
-     * @param string|array $find Value(s) in the string to replace
-     * @param string $with Value to replace occurrences with
-     *
-     * @return $this
      */
-    public function replace($find, $with): Utility
+    public function replace(array|string $find, string $with): Utility
     {
         $replace = [];
 
-        foreach ($this->parameters($find) as $parameter) {
-            $replace[] = preg_quote($parameter->value());
+        foreach ($this->parameters($find) as $utility) {
+            $replace[] = preg_quote($utility->value());
         }
 
-        $withString = new static($with, $this->encoding);
+        $static = static::make($with, $this->encoding);
 
-        $string = preg_replace('#(' . implode('|', $replace) . ')#', $withString->value(), $this->string);
+        $string = preg_replace('#(' . implode('|', $replace) . ')#', $static->value(), $this->string);
 
-        return new static($string, $this->encoding);
+        return static::make($string, $this->encoding);
     }
 
     /**
      * Replace none alpha characters in the string with the given value
-     *
-     * @param string $replacement Value to replace none alpha characters with
-     * @param boolean $strict Should spaces be preserved
-     *
-     * @return $this
      */
     public function replaceNonAlpha(string $replacement = '', bool $strict = false): Utility
     {
-        if ($strict) {
-            $pattern = '/[^a-zA-Z]/';
-        } else {
-            $pattern = '/[^a-zA-Z ]/';
-        }
+        $pattern = $strict ? '/[^a-zA-Z]/' : '/[^a-zA-Z ]/';
 
         $string = preg_replace($pattern, $replacement, trim($this->string));
 
-        return new static($string, $this->encoding);
+        return static::make($string, $this->encoding);
     }
 
     /**
      * Replace none alphanumeric characters in the string with the given value
-     *
-     * @param string $replacement Value to replace none alphanumeric characters with
-     * @param boolean $strict Should spaces be preserved
-     *
-     * @return $this
      */
     public function replaceNonAlphanumeric(string $replacement = '', bool $strict = false): Utility
     {
-        if ($strict) {
-            $pattern = '/[^a-zA-Z0-9]/';
-        } else {
-            $pattern = '/[^a-zA-Z0-9 ]/';
-        }
+        $pattern = $strict ? '/[^a-zA-Z0-9]/' : '/[^a-zA-Z0-9 ]/';
 
         $string = preg_replace($pattern, $replacement, trim($this->string));
 
-        return new static($string, $this->encoding);
+        return static::make($string, $this->encoding);
     }
 
     /**
      * Remove none letters and numbers with a given value
-     *
-     * @param string $replacement Value to replace none alphanumeric characters with
-     * @param boolean $strict Should spaces be preserved
-     *
-     * @return $this
      */
     public function replaceNonNumeric(string $replacement = '', bool $strict = false): Utility
     {
-        if ($strict) {
-            $pattern = '/[^0-9]/';
-        } else {
-            $pattern = '/[^0-9 ]/';
-        }
+        $pattern = $strict ? '/[^0-9]/' : '/[^0-9 ]/';
 
         $string = preg_replace($pattern, $replacement, trim($this->string));
 
-        return new static($string, $this->encoding);
+        return static::make($string, $this->encoding);
     }
 
     /**
      * Reverse the string
-     *
-     * @return $this
      */
     public function reverse(): Utility
     {
         $string = '';
 
-        for ($i = $this->length() - 1; $i >= 0; $i--) {
-            $string .= \mb_substr($this->string, $i, 1, $this->encoding);
+        for ($i = $this->length() - 1; $i >= 0; --$i) {
+            $string .= mb_substr($this->string, $i, 1, $this->encoding);
         }
 
-        return new static($string, $this->encoding);
+        return static::make($string, $this->encoding);
     }
 
     /**
      * Set the strings encoding
      *
-     * @param string $encoding
      *
-     * @return $this
      */
-    public function setEncoding(string $encoding): Utility
+    public function setEncoding(string $encoding): static
     {
         $this->encoding = trim($encoding);
 
@@ -886,18 +634,13 @@ class Utility
      * Create the substring from index specified by $start up to, but not including the index specified by $end.
      * If $end value is omitted, the rest of the string is used.
      * If $end is negative, it is computed from the end of the string.
-     *
-     * @param int $start Index position to start slice from
-     * @param null|integer $end Optional index position to end slice on
-     *
-     * @return $this
      */
     public function slice(int $start, int $end = null): Utility
     {
         if ($end === null) {
             $length = $this->length();
         } elseif ($end >= 0 && $end <= $start) {
-            return new static('', $this->encoding);
+            return static::make('', $this->encoding);
         } elseif ($end < 0) {
             $length = $this->length() + $end - $start;
         } else {
@@ -911,38 +654,28 @@ class Utility
      * Create substring from the string beginning at $start with a length of $end.
      * If $end value is omitted, the rest of the string is used.
      * If $end is negative, it is computed from the end of the string.
-     *
-     * @param int $start Index position to start substring from
-     * @param null|integer $end [optional] index for length of substring
-     *
-     * @return $this
      */
     public function substring(int $start, int $end = null): Utility
     {
-        $length = ($end === null) ? $this->length() : $end;
+        $length = $end ?? $this->length();
 
         $string = mb_substr($this->string, $start, $length, $this->encoding);
 
-        return new static($string, $this->encoding);
+        return static::make($string, $this->encoding);
     }
 
     /**
-     * Wrap the the string with a value
-     *
-     * @param $with
-     * @return Utility
+     * Wrap the  string with a value
      */
-    public function surround($with): Utility
+    public function surround(string|Stringable|Utility $with): Utility
     {
-        $surrounding = new static($with, $this->encoding);
+        $static = static::make($with, $this->encoding);
 
-        return new static(implode('', [$surrounding, $this->string, $surrounding]), $this->encoding);
+        return static::make(implode('', [$static, $this->string, $static]), $this->encoding);
     }
 
     /**
      * Sanitize a string to only contain letters
-     *
-     * @return $this
      */
     public function toAlpha(): Utility
     {
@@ -951,8 +684,6 @@ class Utility
 
     /**
      * Transform the string to only contain letters and numbers
-     *
-     * @return $this
      */
     public function toAlphanumeric(): Utility
     {
@@ -961,51 +692,41 @@ class Utility
 
     /**
      *  Transform the value to into camelCase format
-     *
-     * @return $this
      */
     public function toCamelCase(): Utility
     {
         // separate existing joined words
-        $string = preg_replace('/([a-z0-9])(?=[A-Z])/', '$1 ', $this->string);
+        $string = preg_replace('#([a-z0-9])(?=[A-Z])#', '$1 ', $this->string);
 
-        $words = preg_split('/[\W_]/', $string);
+        $words = preg_split('#[\W_]#', (string) $string);
 
-        $words = array_map(function ($word) {
-            return ucfirst(strtolower($word));
-        }, $words);
+        $words = array_map(fn($word): string => ucfirst(strtolower($word)), $words);
 
         $string = lcfirst(implode('', $words));
 
-        return new static($string, $this->encoding);
+        return static::make($string, $this->encoding);
     }
 
     /**
      * Transform the value to kebab-case format
-     *
-     * @return $this
      */
     public function toKebabCase(): Utility
     {
-        $string = $this->toSlug('-');
+        $utility = $this->toSlug();
 
-        return new static(strtolower($string), $this->encoding);
+        return static::make(strtolower($utility), $this->encoding);
     }
 
     /**
      * Transform the value to be all lowercase
-     *
-     * @return Utility
      */
     public function toLowercase(): Utility
     {
-        return new static(strtolower($this->string), $this->encoding);
+        return static::make(strtolower($this->string), $this->encoding);
     }
 
     /**
      * Sanitize a string to only contain letters and numbers
-     *
-     * @return $this
      */
     public function toNumeric(): Utility
     {
@@ -1014,92 +735,80 @@ class Utility
 
     /**
      *  Transform the value to into PascalCase format
-     *
-     * @return $this
      */
     public function toPascalCase(): Utility
     {
         $string = ucfirst($this->toCamelCase()->value());
 
-        return new static($string, $this->encoding);
+        return static::make($string, $this->encoding);
     }
 
     /**
      * Turn the string into a sentence.
-     *
-     * @return $this
      */
     public function toSentence(): Utility
     {
         $sentences = preg_split(
-            '/([^\.\!\?;]+[\.\!\?;"]+)/',
-            $this->string,
+            '#([^.!?;]+[.!?;"]+)#',
+            (string) $this->string,
             -1,
             PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE
         );
 
-        $sentences = array_map(function ($sentence) {
+        $sentences = array_map(function ($sentence): string {
             $sentence = trim($sentence);
             if (!ctype_upper($sentence[0])) {
                 $sentence = ucfirst($sentence);
             }
+
             return $sentence;
         }, $sentences);
 
         $string = implode(' ', $sentences);
 
-        if (preg_match('/[\p{P}]$/', $string)) {
-            return new static($string, $this->encoding);
+        if (preg_match('#[\p{P}]$#', $string)) {
+            return static::make($string, $this->encoding);
         }
 
-        return (new static($string, $this->encoding))->ensureEndsWith('.');
+        return (static::make($string, $this->encoding))->ensureEndsWith('.');
     }
 
     /**
      *  Clean a string to only have alpha numeric characters,
      *  turn spaces into a separator slug
-     *
-     * @param string $separator Value to separate chunks with
-     *
-     * @return $this
      */
     public function toSlug(string $separator = '-'): Utility
     {
         $string = mb_convert_encoding($this->string, 'UTF-8', $this->encoding);
         $string = preg_replace('/[^\s\p{L}0-9\-' . $separator . ']/u', '', $string);
         $string = htmlentities($string, ENT_QUOTES, 'UTF-8');
-        $string = preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', $string);
-        $string = iconv(mb_detect_encoding($string,'UTF-8, ASCII, ISO-8859-1'), 'ASCII//TRANSLIT//IGNORE', $string);
+        $string = preg_replace('#&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);#i', '$1', $string);
+        $string = iconv(mb_detect_encoding($string, 'UTF-8, ASCII, ISO-8859-1'), 'ASCII//TRANSLIT//IGNORE', $string);
         $string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
-        $string = preg_replace('~[^0-9a-z]+~i', $separator, $string);
+        $string = preg_replace('#[^0-9a-z]+#i', $separator, $string);
         $string = trim($string, $separator);
         $string = mb_strtolower($string);
 
-        return new static($string, $this->encoding);
+        return static::make($string, $this->encoding);
     }
 
     /**
      *  Same as toSlug but preserves UTF8 characters
-     *
-     * @param string $separator Value to separate chunks with
-     *
-     * @return $this
      */
     public function toSlugUtf8(string $separator = '-'): Utility
     {
         $string = mb_convert_encoding($this->string, 'UTF-8', $this->encoding);
         $string = preg_replace('/[^\s\p{L}0-9\-' . $separator . ']/u', '', $string);
-        $string = preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', $string);
-        $string = preg_replace('/[\s_\-]/', $separator, $string);
+        $string = preg_replace('#&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);#i', '$1', $string);
+        $string = preg_replace('#[\s_\-]#', $separator, $string);
         $string = trim($string, $separator);
         $string = mb_strtolower($string, 'utf-8');
-        return new static($string, $this->encoding);
+
+        return static::make($string, $this->encoding);
     }
 
     /**
      * Transform the value to snake_case format
-     *
-     * @return $this
      */
     public function toSnakeCase(): Utility
     {
@@ -1109,13 +818,11 @@ class Utility
 
         $string = mb_ereg_replace('[-_\s]+', '_', $string);
 
-        return new static($string, $this->encoding);
+        return static::make($string, $this->encoding);
     }
 
     /**
      * Transform the value to StudlyCase format
-     *
-     * @return $this
      */
     public function toStudlyCase(): Utility
     {
@@ -1123,88 +830,131 @@ class Utility
 
         $string = str_replace(' ', '', ucwords($string));
 
-        return new static($string, $this->encoding);
+        return static::make($string, $this->encoding);
     }
 
     /**
      * Transform the value to into Title Case format
-     *
-     * @return $this
      */
     public function toTitleCase(): Utility
     {
-        $words = explode(' ', $this->string);
+        $words = explode(' ', (string) $this->string);
 
         $string = mb_convert_case(implode(' ', $words), MB_CASE_TITLE, $this->encoding());
 
-        return new static($string, $this->encoding);
+        return static::make($string, $this->encoding);
     }
 
     /**
      * Transform the value to be all uppercase
-     *
-     * @return Utility
      */
     public function toUppercase(): Utility
     {
-        return new static(strtoupper($this->string), $this->encoding);
+        return static::make(strtoupper($this->string), $this->encoding);
     }
 
     /**
      * Trim a collection of values from the string using trim
-     *
-     * @param mixed $values Values to be trimmed from the string
-     *
-     * @return $this
      */
-    public function trim($values = " \t\n\r\0\x0B"): Utility
+    public function trim(array|string $values = " \t\n\r\0\x0B"): Utility
     {
         $parameters = $this->parameters($values);
 
         $string = trim($this->string, implode('', $parameters));
 
-        return new static($string, $this->encoding);
+        return static::make($string, $this->encoding);
     }
 
     /**
      * Trim a collection of values from the string using rtrim
-     *
-     * @param mixed $values Values to be trimmed from the string
-     *
-     * @return $this
      */
-    public function trimLeft($values = " \t\n\r\0\x0B"): Utility
+    public function trimLeft(array|string $values = " \t\n\r\0\x0B"): Utility
     {
         $parameters = $this->parameters($values);
 
         $string = ltrim($this->string, implode('', $parameters));
 
-        return new static($string, $this->encoding);
+        return static::make($string, $this->encoding);
     }
 
     /**
      * Trim a collection of values from the string using ltrim
-     *
-     * @param mixed $values Values to be trimmed from the string
-     *
-     * @return $this
      */
-    public function trimRight($values = " \t\n\r\0\x0B"): Utility
+    public function trimRight(array|string $values = " \t\n\r\0\x0B"): Utility
     {
         $parameters = $this->parameters($values);
 
         $string = rtrim($this->string, implode('', $parameters));
 
-        return new static($string, $this->encoding);
+        return static::make($string, $this->encoding);
     }
 
     /**
      * Return the value when casting to string
-     *
-     * @return string
      */
-    public function value(): string
+    public function value(): string|\Stringable
     {
         return $this->string;
+    }
+
+    /**
+     * Adds the specified amount of left and right padding to the given string.
+     * The default character used is a space.
+     */
+    protected function applyPadding(int $left = 0, int $right = 0, string $padding = ' '): Utility
+    {
+        $length = mb_strlen($padding, $this->encoding);
+
+        $stringLength = $this->length();
+
+        $paddedLength = $stringLength + $left + $right;
+        if ($length === 0) {
+            return $this;
+        }
+
+        if ($paddedLength <= $stringLength) {
+            return $this;
+        }
+
+        $leftPadding = mb_substr(str_repeat($padding, ceil($left / $length)), 0, $left, $this->encoding);
+
+        $rightPadding = mb_substr(str_repeat($padding, ceil($right / $length)), 0, $right, $this->encoding);
+
+        $string = $leftPadding . $this->string . $rightPadding;
+
+        return static::make($string, $this->encoding);
+    }
+
+    /**
+     * Transform user input into a collection of Utility
+     */
+    private function parameters(array|string|Utility $parameters): array
+    {
+        $values = (is_array($parameters)) ? $parameters : [(string)$parameters];
+
+        $strings = [];
+
+        foreach ($values as $value) {
+            $strings[] = self::make($value, $this->encoding);
+        }
+
+        return $strings;
+    }
+
+    /**
+     * Clean up and chunk a string ready for use in casing the string value
+     */
+    private function prepareForCasing(string $string): array
+    {
+        $string = str_replace(['.', '_', '-'], ' ', $string);
+
+        // split on capital letters
+        $string = implode(' ', preg_split('#(?<=\w)(?=[A-Z])#', $string));
+
+        // explode on numbers
+        $parts = preg_split('#(,?\s+)|((?<=[a-z])(?=\d))|((?<=\d)(?=[a-z]))#i', $string);
+
+        // return only words
+        return array_values(array_filter($parts, fn($value): bool => !empty($value)));
     }
 }

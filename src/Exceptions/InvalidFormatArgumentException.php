@@ -2,7 +2,8 @@
 
 namespace Myerscode\Utilities\Strings\Exceptions;
 
-class InvalidFormatArgumentException extends \InvalidArgumentException
-{
+use InvalidArgumentException;
 
+class InvalidFormatArgumentException extends InvalidArgumentException
+{
 }
