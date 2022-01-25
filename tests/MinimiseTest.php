@@ -2,18 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class MinimiseTest extends BaseStringSuite
 {
-    /**
-     * Check a value is cleaned
-     * @covers ::minimise
-     */
-    public function testTextGetsMinimised()
+    public function testTextGetsMinimised(): void
     {
         $original = 'hello world.     quick
         

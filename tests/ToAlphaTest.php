@@ -2,21 +2,15 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class ToAlphaTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['quickbrownfoobar', 'quick brown foo bar'],
             ['foobar', 'foobar123'],
             ['', '1234567890'],
-            ['omgitsafoxD', 'omg!!! it\'s a fox =D'],
+            ['omgitsafoxD', "omg!!! it's a fox =D"],
             ['', ':"{}~`'],
             ['', '!@£$%^&*()'],
             ['', ''],
@@ -24,14 +18,9 @@ class ToAlphaTest extends BaseStringSuite
     }
 
     /**
-     * Check that a string is transformed to a lowercase slug with only alphanumeric values
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $string The string to strip values from
-     * @dataProvider dataProvider
-     * @covers ::toAlpha
+     * @dataProvider __validData
      */
-    public function testStringIsStrippedOfNoneAlphanumericValues($expected, $string)
+    public function testStringIsStrippedOfNoneAlphanumericValues($expected, $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->toAlpha()->value());
     }

@@ -2,25 +2,16 @@
 
 namespace Tests;
 
+use ReflectionClass;
 
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class ParametersTest extends BaseStringSuite
 {
-
-    /**
-     * Check that the parameters methods creates a collection of Utility objects
-     *
-     * @covers ::parameters
-     */
-    public function testExpectedResults()
+    public function testExpectedResults(): void
     {
         $class = $this->utility('hello world');
-        $reflection = new \ReflectionClass(get_class($class));
-        $method = $reflection->getMethod('parameters');
-        $method->setAccessible(true);
+        $reflectionClass = new ReflectionClass($class::class);
+        $reflectionMethod = $reflectionClass->getMethod('parameters');
+        $reflectionMethod->setAccessible(true);
 
         $expected = [
             $this->utility('hello world'),
@@ -32,8 +23,8 @@ class ParametersTest extends BaseStringSuite
             'foo bar',
         ];
 
-        $this->assertEquals($expected, $method->invokeArgs($class, [$parameters]));
-        $this->assertEquals([$this->utility('hello world')], $method->invokeArgs($class, ['hello world']));
-        $this->assertEquals([], $method->invokeArgs($class, [[]]));
+        $this->assertEquals($expected, $reflectionMethod->invokeArgs($class, [$parameters]));
+        $this->assertEquals([$this->utility('hello world')], $reflectionMethod->invokeArgs($class, ['hello world']));
+        $this->assertEquals([], $reflectionMethod->invokeArgs($class, [[]]));
     }
 }

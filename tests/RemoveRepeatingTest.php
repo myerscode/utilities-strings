@@ -2,15 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class RemoveRepeatingTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['hello world. foo bar', 'hello          world. foo        bar', ' '],
@@ -22,15 +16,9 @@ class RemoveRepeatingTest extends BaseStringSuite
     }
 
     /**
-     * Test that the string has repeating values removed
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $string The string to strip values from
-     * @param string $repeatingValue The value to stop repeating
-     * @dataProvider dataProvider
-     * @covers ::removeRepeating
+     * @dataProvider __validData
      */
-    public function testStringHasRepeatingValuesRemoved($expected, $string, $repeatingValue)
+    public function testStringHasRepeatingValuesRemoved($expected, $string, $repeatingValue): void
     {
         $this->assertEquals($expected, $this->utility($string)->removeRepeating($repeatingValue)->value());
     }

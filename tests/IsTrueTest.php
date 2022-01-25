@@ -2,15 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class IsTrueTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             [true, 'true'],
@@ -26,14 +20,9 @@ class IsTrueTest extends BaseStringSuite
     }
 
     /**
-     * Test to see if the string represents a true value
-     *
-     * @param number $expected
-     * @param number $string
-     * @dataProvider dataProvider
-     * @covers ::isTrue
+     * @dataProvider __validData
      */
-    public function testIsTrueReturnsTrue($expected, $string)
+    public function testIsTrueReturnsTrue($expected, $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->isTrue());
     }

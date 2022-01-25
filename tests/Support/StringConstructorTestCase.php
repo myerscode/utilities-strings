@@ -2,10 +2,11 @@
 
 namespace Tests\Support;
 
-class StringConstructorTestCase
-{
+use Stringable;
 
-    public function __toString()
+class StringConstructorTestCase implements Stringable
+{
+    public function __toString(): string
     {
         return 'StringConstructorTestCase::class';
     }

@@ -2,15 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class LimitTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['Hello', 'Hello World', 5],
@@ -20,15 +14,9 @@ class LimitTest extends BaseStringSuite
     }
 
     /**
-     * Test that the string is transformed to the Title Case format
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $string The string to strip values from
-     * @param int $length Length the string should be
-     * @dataProvider dataProvider
-     * @covers ::limit
+     * @dataProvider __validData
      */
-    public function testStringIsTransformedToTheTitleCaseFormat($expected, $string, $length)
+    public function testStringIsTransformedToTheTitleCaseFormat($expected, $string, $length): void
     {
         $this->assertEquals($expected, $this->utility($string)->limit($length)->value());
     }

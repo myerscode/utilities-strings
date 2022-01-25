@@ -2,19 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class RemoveSpaceTest extends BaseStringSuite
 {
-    /**
-     * Check a value has spaces removed
-     *
-     * @covers ::removeSpace
-     */
-    public function testTextHasSpacesRemoved()
+    public function testTextHasSpacesRemoved(): void
     {
         $original = 'hello world.     quick
         

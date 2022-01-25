@@ -2,15 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class ToSnakeCaseTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['foo_bar', 'fooBar'],
@@ -35,14 +29,9 @@ class ToSnakeCaseTest extends BaseStringSuite
     }
 
     /**
-     * Test that the string is transformed to the snake_case format
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $string The string to strip values from
-     * @dataProvider dataProvider
-     * @covers ::toSnakeCase
+     * @dataProvider __validData
      */
-    public function testStringIsTransformedToTheSnakeCaseFormat($expected, $string)
+    public function testStringIsTransformedToTheSnakeCaseFormat($expected, $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->toSnakeCase()->value());
     }

@@ -2,14 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class IsNumericTest extends BaseStringSuite
 {
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             [false, ''],
@@ -21,14 +16,9 @@ class IsNumericTest extends BaseStringSuite
     }
 
     /**
-     * Test that a string contains only numeric characters, including no spaces or separators
-     *
-     * @param number $expected The value expected to be returned
-     * @param number $string The value to pass to the utility
-     * @dataProvider dataProvider
-     * @covers ::isNumeric
+     * @dataProvider __validData
      */
-    public function testStringOnlyNumericCharacters($expected, $string)
+    public function testStringOnlyNumericCharacters($expected, $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->isNumeric());
     }

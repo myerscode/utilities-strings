@@ -2,61 +2,33 @@
 
 namespace Tests;
 
-use Myerscode\Utilities\Strings\Exceptions\InvalidStringException;
 use Myerscode\Utilities\Strings\Utility;
-
 use Tests\Support\StringConstructorTestCase;
 
 /**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
+ * @coversDefaultClass Utility
  */
 class MakeTest extends BaseStringSuite
 {
-    public function validDataProvider()
+    public function __validData(): array
     {
         return [
-            ['hello world', 'hello world'],
-            ['123', 123],
-            ['1', true],
-            ['0', false],
-            ['', null],
-            ['StringConstructorTestCase::class', new StringConstructorTestCase()],
-        ];
-    }
-
-    public function invalidDataProvider()
-    {
-        return [
-            [new \stdClass()],
-            [[]],
+            'string' => ['hello world', 'hello world'],
+            'number' => ['123', 123],
+            'true' => ['1', true],
+            'false' => ['', false],
+            'class with __toString()' => ['StringConstructorTestCase::class', new StringConstructorTestCase()],
+            'Utility' => ['Hello World', new Utility('Hello World')],
         ];
     }
 
     /**
-     * Test the value assigned to the utility via make static constructor
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $string The value to pass to the utility
-     *
-     * @dataProvider validDataProvider
-     * @covers ::make
+     * @dataProvider __validData
      */
-    public function testValueSetViaMake($expected, $string)
-    {
+    public function testValueSetViaMake(
+        string $expected,
+        bool|int|Utility|string|StringConstructorTestCase $string
+    ): void {
         $this->assertEquals($expected, Utility::make($string)->value());
-    }
-
-    /**
-     * Test that the constructor does not accept invalid values
-     *
-     * @param string $string The value to pass to the utility
-     *
-     * @dataProvider invalidDataProvider
-     * @covers ::make
-     */
-    public function testMakeDoesNotTakeInvalidValues($string)
-    {
-        $this->expectException(InvalidStringException::class);
-        Utility::make($string);
     }
 }

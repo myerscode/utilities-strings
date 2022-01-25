@@ -2,15 +2,11 @@
 
 namespace Tests;
 
+use ReflectionClass;
 
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class ApplyPaddingTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['foo bar', 'foo bar', 0],
@@ -21,22 +17,14 @@ class ApplyPaddingTest extends BaseStringSuite
     }
 
     /**
-     * Test that the string is padded on both sides until it is the given length
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $string The value to pass to the utility
-     * @param int $left The value to ensure value begins with
-     * @param int $right The value to ensure value begins with
-     * @param string $padding The value to ensure value begins with
-     * @dataProvider dataProvider
-     * @covers ::applyPadding
+     * @dataProvider __validData
      */
-    public function testStringIsPaddedOnBothSides($expected, $string, $left = 0, $right = 0, $padding = ' ')
+    public function testStringIsPaddedOnBothSides($expected, $string, $left = 0, $right = 0, $padding = ' '): void
     {
-        $class = $this->utility($string);
-        $reflection = new \ReflectionClass(get_class($class));
-        $method = $reflection->getMethod('applyPadding');
-        $method->setAccessible(true);
-        $this->assertEquals($expected, $method->invokeArgs($class, [$left, $right, $padding])->value());
+        $utility = $this->utility($string);
+        $reflectionClass = new ReflectionClass($utility::class);
+        $reflectionMethod = $reflectionClass->getMethod('applyPadding');
+        $reflectionMethod->setAccessible(true);
+        $this->assertEquals($expected, $reflectionMethod->invokeArgs($utility, [$left, $right, $padding])->value());
     }
 }

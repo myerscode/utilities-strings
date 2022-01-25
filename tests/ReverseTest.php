@@ -2,15 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class ReverseTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['raboof', 'foobar'],
@@ -19,14 +13,9 @@ class ReverseTest extends BaseStringSuite
     }
 
     /**
-     * Test that the string is reversed
-     *
-     * @param $expected
-     * @param $string
-     * @dataProvider dataProvider
-     * @covers ::reverse
+     * @dataProvider __validData
      */
-    public function testStringIsRevered($expected, $string)
+    public function testStringIsRevered($expected, $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->reverse()->value());
     }

@@ -2,15 +2,11 @@
 
 namespace Tests;
 
+use ReflectionClass;
 
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class PrepareForCasingTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['fooBar', ['foo', 'Bar'],],
@@ -25,20 +21,14 @@ class PrepareForCasingTest extends BaseStringSuite
     }
 
     /**
-     * Check that the number is rounded correctly
-     *
-     * @param string $string
-     * @param string $expected The value expected to be returned
-     * @dataProvider dataProvider
-     * @covers ::prepareForCasing
+     * @dataProvider __validData
      */
-    public function testExpectedResults($string, $expected)
+    public function testExpectedResults($string, $expected): void
     {
-        $class = $this->utility($string);
-        $reflection = new \ReflectionClass(get_class($class));
-        $method = $reflection->getMethod('prepareForCasing');
-        $method->setAccessible(true);
-        ;
-        $this->assertEquals($expected, $method->invokeArgs($class, [$string]));
+        $utility = $this->utility($string);
+        $reflectionClass = new ReflectionClass($utility::class);
+        $reflectionMethod = $reflectionClass->getMethod('prepareForCasing');
+        $reflectionMethod->setAccessible(true);
+        $this->assertEquals($expected, $reflectionMethod->invokeArgs($utility, [$string]));
     }
 }

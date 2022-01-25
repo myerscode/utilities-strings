@@ -2,15 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class ContainsAllTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             [true, 'quick brown foo bar', 'foo'],
@@ -26,16 +20,9 @@ class ContainsAllTest extends BaseStringSuite
     }
 
     /**
-     * Check that a string contains all of the given values
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $string The string to strip values from
-     * @param string $charList The value to pass to the utility
-     * @param int $offset The offset value for strpos
-     * @dataProvider dataProvider
-     * @covers ::containsAll
+     * @dataProvider __validData
      */
-    public function testStringContainsAllOfTheGivenValues($expected, $string, $charList, int $offset = 0)
+    public function testStringContainsAllOfTheGivenValues($expected, $string, $charList, int $offset = 0): void
     {
         $this->assertEquals($expected, $this->utility($string)->containsAll($charList, $offset));
     }

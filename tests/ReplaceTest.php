@@ -2,21 +2,15 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class ReplaceTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['', '', '', ''],
             ['foofoo', 'foobar', 'bar', 'foo'],
             ['foo', 'foobar', 'bar', ''],
-            ['foo', 'foobar', 'bar', null],
+            ['foo', 'foobar', 'bar', ''],
             ['foofoo', 'foobar', ['bar'], 'foo'],
             ['hellohello', 'foobar', ['foo', 'bar'], 'hello'],
             ['foofoofoofoo', 'foobarfoobar', 'bar', 'foo'],
@@ -26,16 +20,9 @@ class ReplaceTest extends BaseStringSuite
     }
 
     /**
-     * Test that given occurrences in a string are replaced with the given value
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $value The string to strip values from
-     * @param string $replace The value to replace
-     * @param string $with The value to replace with
-     * @dataProvider dataProvider
-     * @covers ::replace
+     * @dataProvider __validData
      */
-    public function testValuesAreReplaced($expected, $value, $replace, $with)
+    public function testValuesAreReplaced($expected, $value, $replace, $with): void
     {
         $this->assertEquals($expected, $this->utility($value)->replace($replace, $with)->value());
     }

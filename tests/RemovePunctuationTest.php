@@ -2,22 +2,16 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class RemovePunctuationTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['hello          world foo        bar', 'hello          world. foo        bar'],
             ['hello world foo bar', 'hello world. foo bar'],
             ['foo bar 123', 'foo. bar. 123.'],
-            ['Hello Its a great day today', 'Hello. It\'s a great day today.'],
-            ['omg its a fox D', 'omg!!! it\'s a fox =D'],
+            ['Hello Its a great day today', "Hello. It's a great day today."],
+            ['omg its a fox D', "omg!!! it's a fox =D"],
             ['', ':"{}~`'],
             ['£', '!@£$%^&*()'],
             ['', ''],
@@ -25,14 +19,9 @@ class RemovePunctuationTest extends BaseStringSuite
     }
 
     /**
-     * Test that the string value has punctuation removed
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $string The string to strip values from
-     * @dataProvider dataProvider
-     * @covers ::removePunctuation
+     * @dataProvider __validData
      */
-    public function testStringHasPunctuationRemoved($expected, $string)
+    public function testStringHasPunctuationRemoved($expected, $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->removePunctuation()->value());
     }
