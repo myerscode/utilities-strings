@@ -7,15 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 abstract class BaseStringSuite extends TestCase
 {
-
-    /**
-     * Get the utility being tested
-     *
-     * @param $string
-     * @param $encoding
-     * @return Utility
-     */
-    public function utility($string, $encoding = null)
+    public function utility($string, $encoding = null): Utility
     {
         return new Utility($string, $encoding);
     }

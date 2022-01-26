@@ -7,8 +7,7 @@ namespace Tests;
  */
 class AtTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['f', 'foo bar', 0],
@@ -21,11 +20,10 @@ class AtTest extends BaseStringSuite
     }
 
     /**
-     * @dataProvider dataProvider
+     * @dataProvider __validData
      */
-    public function testAtMethod($expected, $string, $position)
+    public function testAtMethod($expected, $string, $position): void
     {
         $this->assertEquals($expected, $this->utility($string)->at($position));
     }
-
 }

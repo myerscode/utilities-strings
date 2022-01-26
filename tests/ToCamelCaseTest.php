@@ -2,15 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class ToCamelCaseTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['fooBar', 'foo bar'],
@@ -27,14 +21,9 @@ class ToCamelCaseTest extends BaseStringSuite
     }
 
     /**
-     * Test that a string is transformed to the camelCase format
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $string The string to strip values from
-     * @dataProvider dataProvider
-     * @covers ::toCamelCase
+     * @dataProvider __validData
      */
-    public function testStringIsTransformedToTheCamelCaseFormat($expected, $string)
+    public function testStringIsTransformedToTheCamelCaseFormat($expected, $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->toCamelCase()->value());
     }

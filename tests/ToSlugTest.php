@@ -2,15 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class ToSlugTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['quick-brown-foo-bar', 'quick brown foo bar'],
@@ -20,46 +14,34 @@ class ToSlugTest extends BaseStringSuite
             ['', ':"{}~`'],
             ['', '!@£$%^&*()'],
             ['extra-dashes', 'extra--dashes---'],
-            ['lim-duls-high-guard', 'Lim-Dûl\'s High Guard'],
+            ['lim-duls-high-guard', "Lim-Dûl's High Guard"],
             ['aether-vial', 'Æther Vial'],
             ['aaaaaeaa-eeee', 'ÀÁÂÄÆÃÅ èéêë'],
             ['', ''],
         ];
     }
 
-    /**
-     * Test that the string is transformed to the slug format
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $string The string to strip values from
-     * @dataProvider dataProvider
-     * @covers ::toSlug
-     */
-    public function testStringIsTransformedToTheSlugFormat($expected, $string)
-    {
-        $this->assertEquals($expected, $this->utility($string)->toSlug()->value());
-    }
 
-    /**
-     * Test that the string is transformed to the slug format
-     *
-     * @covers ::toSlugUtf8
-     */
-    public function testToSlugUTF8()
-    {
-        $this->assertEquals('lim-dûls-high-guard', $this->utility('Lim-Dûl\'s High Guard')->toSlugUtf8()->value());
-        $this->assertEquals('bills-yall', $this->utility('$$ bill\'s yall')->toSlugUtf8()->value());
-    }
-
-    /**
-     * Test that the toSlug correctly slugifies with a custom separator
-     */
-    public function testSlugIsMadeWithCustomSeparator()
+    public function testSlugIsMadeWithCustomSeparator(): void
     {
         $this->assertEquals('hello~world', $this->utility('hello world')->toSlug('~')->value());
         $this->assertEquals('hello~world', $this->utility('hello-world')->toSlug('~')->value());
         $this->assertEquals('hello_world', $this->utility('hello___world')->toSlug('_')->value());
         $this->assertEquals('hello-_-world', $this->utility('hello world')->toSlug('-_-')->value());
         $this->assertEquals('hello-_-world', $this->utility('hello_- world')->toSlug('-_-')->value());
+    }
+
+    /**
+     * @dataProvider __validData
+     */
+    public function testStringIsTransformedToTheSlugFormat($expected, $string): void
+    {
+        $this->assertEquals($expected, $this->utility($string)->toSlug()->value());
+    }
+
+    public function testToSlugUTF8(): void
+    {
+        $this->assertEquals('lim-dûls-high-guard', $this->utility("Lim-Dûl's High Guard")->toSlugUtf8()->value());
+        $this->assertEquals('bills-yall', $this->utility('$$ bill\'s yall')->toSlugUtf8()->value());
     }
 }

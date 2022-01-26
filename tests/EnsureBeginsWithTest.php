@@ -2,15 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class EnsureBeginsWithTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['foobar', 'bar', 'foo'],
@@ -21,15 +15,9 @@ class EnsureBeginsWithTest extends BaseStringSuite
     }
 
     /**
-     * Test that the string is made to begin with a given value
-     *
-     * @param number $expected
-     * @param number $string
-     * @param number $ensure
-     * @dataProvider dataProvider
-     * @covers ::ensureBeginsWith
+     * @dataProvider __validData
      */
-    public function testStringIsMadeToBeginWithValue($expected, $string, $ensure)
+    public function testStringIsMadeToBeginWithValue($expected, $string, $ensure): void
     {
         $this->assertEquals($expected, $this->utility($string)->ensureBeginsWith($ensure));
     }

@@ -2,15 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class AppendTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['bar', '', 'bar'],
@@ -20,15 +14,9 @@ class AppendTest extends BaseStringSuite
     }
 
     /**
-     * Test a value is appended to the string
-     *
-     * @param number $expected
-     * @param number $string
-     * @param number $ensure
-     * @dataProvider dataProvider
-     * @covers ::append
+     * @dataProvider __validData
      */
-    public function testStringIsAppendedWithValue($expected, $string, $ensure)
+    public function testStringIsAppendedWithValue($expected, $string, $ensure): void
     {
         $this->assertEquals($expected, $this->utility($string)->append($ensure));
     }

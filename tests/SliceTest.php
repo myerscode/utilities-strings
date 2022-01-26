@@ -2,15 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class SliceTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['foo bar', 'foo bar', 0],
@@ -26,17 +20,9 @@ class SliceTest extends BaseStringSuite
     }
 
     /**
-     * Test that a slice of the value is created
-     *
-     * @param $expected
-     * @param $string
-     * @param $start
-     * @param null $length
-     *
-     * @dataProvider dataProvider
-     * @covers ::slice
+     * @dataProvider __validData
      */
-    public function testSliceOfValueIsReturned($expected, $string, $start, $length = null)
+    public function testSliceOfValueIsReturned($expected, $string, $start, $length = null): void
     {
         $this->assertEquals($expected, $this->utility($string)->slice($start, $length)->value());
     }

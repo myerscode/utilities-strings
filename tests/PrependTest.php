@@ -2,15 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class PrependTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['foo', '', 'foo'],
@@ -20,15 +14,9 @@ class PrependTest extends BaseStringSuite
     }
 
     /**
-     * Test a value is prepend to the string
-     *
-     * @param number $expected The value expected to be returned
-     * @param number $string The value to pass to the utility
-     * @param number $ensure The value to ensure value begins with
-     * @dataProvider dataProvider
-     * @covers ::prepend
+     * @dataProvider __validData
      */
-    public function testStringIsPrependedWithValue($expected, $string, $ensure)
+    public function testStringIsPrependedWithValue($expected, $string, $ensure): void
     {
         $this->assertEquals($expected, $this->utility($string)->prepend($ensure));
     }

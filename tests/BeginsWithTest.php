@@ -2,16 +2,11 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class BeginsWithTest extends BaseStringSuite
 {
-    protected $string = 'hello world. this is a unit test.';
+    protected string $string = 'hello world. this is a unit test.';
 
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             [true, 'hello'],
@@ -26,9 +21,6 @@ class BeginsWithTest extends BaseStringSuite
             [false, ''],
             [false, '', true],
             [false, '', false],
-            [false, null],
-            [false, null, true],
-            [false, null, false],
             [true, ['quick', 'brown', 'HELLO']],
             [false, ['quick', 'brown', 'HELLO'], true],
             [true, ['quick', 'brown', 'HELLO'], false],
@@ -43,15 +35,9 @@ class BeginsWithTest extends BaseStringSuite
 
 
     /**
-     * Test to see if the string begins with a given value
-     *
-     * @param $expected
-     * @param $beginsWith
-     * @param bool $strict
-     * @dataProvider dataProvider
-     * @covers ::beginsWith
+     * @dataProvider __validData
      */
-    public function testStringBeingsWithValue($expected, $beginsWith, $strict = false)
+    public function testStringBeingsWithValue($expected, $beginsWith, $strict = false): void
     {
         $this->assertEquals($expected, $this->utility($this->string)->beginsWith($beginsWith, $strict));
     }

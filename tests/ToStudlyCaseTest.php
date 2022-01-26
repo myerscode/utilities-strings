@@ -2,15 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class ToStudlyCaseTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
 
@@ -36,14 +30,9 @@ class ToStudlyCaseTest extends BaseStringSuite
     }
 
     /**
-     * Test that the string is transformed to the StudlyCase format
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $string The string to strip values from
-     * @dataProvider dataProvider
-     * @covers ::toStudlyCase
+     * @dataProvider __validData
      */
-    public function testStringIsTransformedToTheStudlyCaseFormat($expected, $string)
+    public function testStringIsTransformedToTheStudlyCaseFormat($expected, $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->toStudlyCase()->value());
     }

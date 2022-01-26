@@ -2,15 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class EncodingTest extends BaseStringSuite
 {
-
-    public function encodingProvider()
+    public function __validData(): array
     {
         return [
             ['UTF-8'],
@@ -19,25 +13,17 @@ class EncodingTest extends BaseStringSuite
     }
 
     /**
-     * Check that the strings encoding is set correctly
-     *
-     * @param string $encoding
-     * @dataProvider encodingProvider
-     * @covers ::encoding
+     * @dataProvider __validData
      */
-    public function testStringsEncodingIsSetViaConstructor($encoding)
+    public function testStringsEncodingIsSetViaConstructor($encoding): void
     {
         $this->assertEquals($encoding, $this->utility('hello world', $encoding)->encoding());
     }
 
     /**
-     * Check that the strings encoding is set correctly
-     *
-     * @param string $encoding
-     * @dataProvider encodingProvider
-     * @covers ::setEncoding
+     * @dataProvider __validData
      */
-    public function testStringsEncodingIsSetViaMethod($encoding)
+    public function testStringsEncodingIsSetViaMethod($encoding): void
     {
         $this->assertEquals($encoding, $this->utility('hello world')->setEncoding($encoding)->encoding());
     }

@@ -2,32 +2,26 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class ReplaceNonAlphaTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['quick brown foo bar', 'quick brown foo bar', '', false],
             ['foo bar ', 'foo bar 123', '', false],
-            ['omg its a fox D', 'omg!!! it\'s a fox =D', '', false],
+            ['omg its a fox D', "omg!!! it's a fox =D", '', false],
             ['', ':"{}~`', '', false],
             ['', '!@£$%^&*()', '', false],
             ['', '', '', false],
             ['quick.brown.foo.bar', 'quick brown foo bar', '.', true],
             ['foo.bar....', 'foo bar 123', '.', true],
-            ['omg....it.s.a.fox..D', 'omg!!! it\'s a fox =D', '.', true],
+            ['omg....it.s.a.fox..D', "omg!!! it's a fox =D", '.', true],
             ['quick brown foo bar', 'quick brown foo bar', '.', false],
             ['foo bar ...', 'foo bar 123', '.', false],
-            ['omg... it.s a fox .D', 'omg!!! it\'s a fox =D', '.', false],
+            ['omg... it.s a fox .D', "omg!!! it's a fox =D", '.', false],
             ['quickbrownfoobar', 'quick brown foo bar', '', true],
             ['foobar', 'foo bar 123', '', true],
-            ['omgitsafoxD', 'omg!!! it\'s a fox =D', '', true],
+            ['omgitsafoxD', "omg!!! it's a fox =D", '', true],
             ['', ':"{}~`', '', true],
             ['', '!@£$%^&*()', '', true],
             ['', '', '', true],
@@ -35,16 +29,9 @@ class ReplaceNonAlphaTest extends BaseStringSuite
     }
 
     /**
-     * Test string has none alpha values removed
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $string The string to strip values from
-     * @param string $turnTo Value to change to
-     * @param boolean $strict Should strip spaces
-     * @dataProvider dataProvider
-     * @covers ::replaceNonAlpha
+     * @dataProvider __validData
      */
-    public function testStringIsStrippedOfNoneAlphaValues($expected, $string, $turnTo, $strict)
+    public function testStringIsStrippedOfNoneAlphaValues($expected, $string, $turnTo, $strict): void
     {
         $this->assertEquals($expected, $this->utility($string)->replaceNonAlpha($turnTo, $strict)->value());
     }

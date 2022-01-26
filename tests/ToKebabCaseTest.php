@@ -2,15 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class ToKebabCaseTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['quick-brown-foo-bar', 'quick brown foo bar'],
@@ -24,14 +18,9 @@ class ToKebabCaseTest extends BaseStringSuite
     }
 
     /**
-     * Test that a string is transformed to the kebab-case format
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $string The string to strip values from
-     * @dataProvider dataProvider
-     * @covers ::toKebabCase
+     * @dataProvider __validData
      */
-    public function testStringIsTransformedToTheKebabCaseFormat($expected, $string)
+    public function testStringIsTransformedToTheKebabCaseFormat($expected, $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->toKebabCase()->value());
     }
