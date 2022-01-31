@@ -2,15 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class TrimLeftTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['fobar', '!!!!!fobar', '!'],
@@ -19,27 +13,15 @@ class TrimLeftTest extends BaseStringSuite
         ];
     }
 
-
-    /**
-     * Test that a string is trimmed of default values from the left
-     *
-     * @covers ::trimLeft
-     */
-    public function testStringIsStrippedOfDefaultValues()
+    public function testStringIsStrippedOfDefaultValues(): void
     {
         $this->assertEquals('forbar', $this->utility('          forbar')->trimLeft()->value());
     }
 
     /**
-     * Test that a string is trimmed of given values from the left
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $string The string to strip values from
-     * @param string $charList The value to pass to the utility
-     * @dataProvider dataProvider
-     * @covers ::trimLeft
+     * @dataProvider __validData
      */
-    public function testStringIsStrippedOfGivenValues($expected, $string, $charList)
+    public function testStringIsStrippedOfGivenValues($expected, $string, $charList): void
     {
         $this->assertEquals($expected, $this->utility($string)->trimLeft($charList)->value());
     }

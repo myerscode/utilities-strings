@@ -2,36 +2,24 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class RemoveFromEndTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['', '', ''],
             ['foo', 'foobar', 'bar'],
-            ['foobar', 'foobarbar',  'bar'],
-            ['foo', 'foo.bar',  '.bar'],
-            ['foo.', 'foo..bar',  '.bar'],
+            ['foobar', 'foobarbar', 'bar'],
+            ['foo', 'foo.bar', '.bar'],
+            ['foo.', 'foo..bar', '.bar'],
             ['foobar', 'foobar', 'foo'],
         ];
     }
 
     /**
-     * Test that given occurrences in the string are removed
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $value The string to strip values from
-     * @param string $remove The value to remove
-     * @dataProvider dataProvider
-     * @covers ::removeFromEnd
+     * @dataProvider __validData
      */
-    public function testStringHasValuesRemoved($expected, $value, $remove)
+    public function testStringHasValuesRemoved($expected, $value, $remove): void
     {
         $this->assertEquals($expected, $this->utility($value)->removeFromEnd($remove)->value());
     }

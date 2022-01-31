@@ -2,21 +2,23 @@
 
 namespace Tests;
 
-
-
 use Myerscode\Utilities\Strings\Exceptions\InvalidFormatArgumentException;
+use stdClass;
 
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class FormatTest extends BaseStringSuite
 {
-    /**
-     * Verify placeholder keys can be repeated
-     *
-     * @covers ::format
-     */
-    public function testPlaceholderAreReplaced()
+    public function testInvalidPlaceholderProperty(): void
+    {
+        $this->expectException(InvalidFormatArgumentException::class);
+        $this->utility('test {0} me')->format([new stdClass()]);
+    }
+
+    public function testNoValuesToFormat(): void
+    {
+        $this->assertEquals('test no placeholders', $this->utility('test no placeholders')->format()->value());
+    }
+
+    public function testPlaceholderAreReplaced(): void
     {
         $this->assertEquals(
             'Hello World! This is a test!',
@@ -24,55 +26,17 @@ class FormatTest extends BaseStringSuite
         );
     }
 
-    /**
-     * Verify placeholder keys can be repeated
-     *
-     * @covers ::format
-     */
-    public function testPlaceholderCanBeRepeated()
+    public function testPlaceholderCanBeRepeated(): void
     {
         $this->assertEquals('AAAA', $this->utility('{0}{0}{0}{0}')->format('A')->value());
     }
 
-    /**
-     * Verify placeholder keys can be in any order
-     *
-     * @covers ::format
-     */
-    public function testPlaceholderOrderIsIrrelevant()
+    public function testPlaceholderOrderIsIrrelevant(): void
     {
         $this->assertEquals('TEST', $this->utility('{1}{0}{3}{2}')->format('E', 'T', 'T', 'S')->value());
     }
 
-    /**
-     * Verify passing no values
-     *
-     * @covers ::format
-     */
-    public function testNoValuesToFormat()
-    {
-        $this->assertEquals('test no placeholders', $this->utility('test no placeholders')->format()->value());
-    }
-
-    /**
-     * Verify passing values but no placeholders
-     *
-     * @covers ::format
-     */
-    public function testValuesButNoPlaceholders()
-    {
-        $this->assertEquals(
-            'test no placeholders',
-            $this->utility('test no placeholders')->format('T', 'E', 'S', 'T')->value()
-        );
-    }
-
-    /**
-     * Verify passing values but no placeholders
-     *
-     * @covers ::format
-     */
-    public function testValuesButNoMatchingPlaceholders()
+    public function testValuesButNoMatchingPlaceholders(): void
     {
         $this->assertEquals(
             'tes{4} n{5} placeholder{6}',
@@ -80,14 +44,11 @@ class FormatTest extends BaseStringSuite
         );
     }
 
-    /**
-     * Verify exception is thrown with invalid value type as replacement value
-     *
-     * @covers ::format
-     */
-    public function testInvalidPlaceholderProperty()
+    public function testValuesButNoPlaceholders(): void
     {
-        $this->expectException(InvalidFormatArgumentException::class);
-        $this->utility('test {0} me')->format(new \stdClass());
+        $this->assertEquals(
+            'test no placeholders',
+            $this->utility('test no placeholders')->format('T', 'E', 'S', 'T')->value()
+        );
     }
 }

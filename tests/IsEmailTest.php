@@ -2,14 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class IsEmailTest extends BaseStringSuite
 {
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             [true, 'hello@world.com'],
@@ -19,14 +14,9 @@ class IsEmailTest extends BaseStringSuite
     }
 
     /**
-     * Test to see if the string is in a valid email format
-     *
-     * @param number $expected The value expected to be returned
-     * @param number $string The value to pass to the utility
-     * @dataProvider dataProvider
-     * @covers ::isEmail
+     * @dataProvider __validData
      */
-    public function testStringIsInAValidEmailFormat($expected, $string)
+    public function testStringIsInAValidEmailFormat($expected, $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->isEmail());
     }

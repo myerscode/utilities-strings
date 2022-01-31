@@ -2,15 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class ToTitleCaseTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['Quickbrown Foobar', 'QuickBrown fooBar'],
@@ -20,14 +14,9 @@ class ToTitleCaseTest extends BaseStringSuite
     }
 
     /**
-     * Test that the string is transformed to the Title Case format
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $string The string to strip values from
-     * @dataProvider dataProvider
-     * @covers ::toTitleCase
+     * @dataProvider __validData
      */
-    public function testStringIsTransformedToTheTitleCaseFormat($expected, $string)
+    public function testStringIsTransformedToTheTitleCaseFormat($expected, $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->toTitleCase()->value());
     }

@@ -2,13 +2,9 @@
 
 namespace Tests;
 
-/**
- * @coversDefaultClass \Myerscode\Utilities\Strings\Utility
- */
 class FirstTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['', 'foo bar', 0],
@@ -20,9 +16,9 @@ class FirstTest extends BaseStringSuite
     }
 
     /**
-     * @dataProvider dataProvider
+     * @dataProvider __validData
      */
-    public function testFirstMethod($expected, $string, $length = null)
+    public function testFirstMethod($expected, $string, $length = null): void
     {
         $this->assertEquals($expected, $this->utility($string)->first($length)->value());
     }

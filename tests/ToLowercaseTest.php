@@ -2,15 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class ToLowercaseTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['helloworld foo bar', 'HelloWorld Foo Bar'],
@@ -19,14 +13,9 @@ class ToLowercaseTest extends BaseStringSuite
     }
 
     /**
-     * Test that the string is transformed to be all lowercase
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $string The string to strip values from
-     * @dataProvider dataProvider
-     * @covers ::toLowercase
+     * @dataProvider __validData
      */
-    public function testStringIsTransformedBeAllLowercase($expected, $string)
+    public function testStringIsTransformedBeAllLowercase($expected, $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->toLowercase()->value());
     }

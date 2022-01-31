@@ -2,15 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class PadTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['foo bar', 'foo bar', 0],
@@ -25,16 +19,9 @@ class PadTest extends BaseStringSuite
     }
 
     /**
-     * Test that the string is padded on both sides until it is the given length
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $string The value to pass to the utility
-     * @param int $length The value to ensure value begins with
-     * @param string $padding The value to ensure value begins with
-     * @dataProvider dataProvider
-     * @covers ::pad
+     * @dataProvider __validData
      */
-    public function testStringIsPaddedOnBothSides($expected, $string, $length, $padding = ' ')
+    public function testStringIsPaddedOnBothSides($expected, $string, $length, $padding = ' '): void
     {
         $this->assertEquals($expected, $this->utility($string)->pad($length, $padding)->value());
     }

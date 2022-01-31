@@ -2,15 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class SubstringTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['foo bar', 'foo bar', 0],
@@ -24,17 +18,9 @@ class SubstringTest extends BaseStringSuite
     }
 
     /**
-     * Test that a substring of the value is created
-     *
-     * @param $expected
-     * @param $string
-     * @param $start
-     * @param null $length
-     *
-     * @dataProvider dataProvider
-     * @covers ::substring
+     * @dataProvider __validData
      */
-    public function testSubstringOfValueIsReturned($expected, $string, $start, $length = null)
+    public function testSubstringOfValueIsReturned($expected, $string, $start, $length = null): void
     {
         $this->assertEquals($expected, $this->utility($string)->substring($start, $length)->value());
     }

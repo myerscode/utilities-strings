@@ -4,8 +4,7 @@ namespace Tests;
 
 class MatchesTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['Hello World', '/Hello World/', true],
@@ -16,30 +15,20 @@ class MatchesTest extends BaseStringSuite
     }
 
     /**
-     * Test that the string can be matched to regular expressions
-     *
-     * @param  string  $string  The string to check
-     * @param  string  $pattern  Regex pattern to check for
-     * @param  bool  $expected  The value expected to be returned
-     *
-     * @dataProvider dataProvider
-     * @covers ::matches
+     * @dataProvider __validData
      */
-    public function testStringCanBeMatchedWithRegex(string $string, $pattern, bool $expected)
+    public function testMatchesArrayGetsUpdated(): void
     {
-        $this->assertEquals($expected, $this->utility($string)->matches($pattern));
+        $matches = [];
+        $this->utility('Hello=World')->matches('/(.+)=(.+)/', $matches);
+        $this->assertEquals(['Hello=World', 'Hello', 'World'], $matches);
     }
 
     /**
-     * Test that the string can update a matches array
-
-     * @covers ::matches
+     * @dataProvider __validData
      */
-    public function testMatchesArrayGetsUpdated()
+    public function testStringCanBeMatchedWithRegex(string $string, $pattern, bool $expected): void
     {
-        $matches = [];
-        $this->utility('Hello=World')->matches( '/(.+)=(.+)/', $matches);
-        $this->assertEquals( ['Hello=World', 'Hello', 'World'], $matches);
-
+        $this->assertEquals($expected, $this->utility($string)->matches($pattern));
     }
 }

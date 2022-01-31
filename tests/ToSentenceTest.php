@@ -2,21 +2,15 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class ToSentenceTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['Quick brown foo bar.', 'Quick brown foo bar.'],
             ['Quick brown foo bar.', 'Quick brown foo bar'],
             ['Quick Brown foo bar.', 'Quick Brown foo bar'],
-            ['Hello I\'m called Fred!', 'Hello I\'m called Fred!'],
+            ["Hello I'm called Fred!", "Hello I'm called Fred!"],
             ['Quick brown foo bar.', 'quick brown foo bar.'],
             ['Quick brown foo bar.', 'quick brown foo bar'],
             ['Quick brown. Foo bar.', 'quick brown. foo bar.'],
@@ -26,14 +20,9 @@ class ToSentenceTest extends BaseStringSuite
     }
 
     /**
-     * Test that the string is transformed to the sentence format
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $string The string to strip values from
-     * @dataProvider dataProvider
-     * @covers ::toSentence
+     * @dataProvider __validData
      */
-    public function testStringIsTransformedToTheSentenceFormat($expected, $string)
+    public function testStringIsTransformedToTheSentenceFormat($expected, $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->toSentence()->value());
     }

@@ -2,50 +2,36 @@
 
 namespace Tests;
 
-
+use Myerscode\Utilities\Strings\Utility;
 use Tests\Support\StringConstructorTestCase;
 
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class ValueTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
-            ['hello world', 'hello world'],
-            ['123', 123],
-            ['1', true],
-            ['0', false],
-            ['', null],
-            ['StringConstructorTestCase::class', new StringConstructorTestCase()],
+            'string' => ['hello world', 'hello world'],
+            'number' => ['123', 123],
+            'true' => ['1', true],
+            'false' => ['0', false],
+            'class with __toString()' => ['StringConstructorTestCase::class', new StringConstructorTestCase()],
+            'Utility' => ['Hello World', new Utility('Hello World')],
         ];
     }
 
     /**
-     * Check the value is converted to a string correctly
-     *
-     * @param string $expected
-     * @param string $string
-     * @dataProvider dataProvider
-     * @covers ::__toString
+     * @dataProvider __validData
      */
-    public function testToString($expected, $string)
+    public function testGetValue($expected, $string): void
     {
-        $this->assertEquals($expected, $this->utility($string)->__toString());
+        $this->assertEquals($expected, $this->utility($string)->value());
     }
 
     /**
-     * Check the value is converted back to an string correctly
-     *
-     * @param string $expected
-     * @param string $string
-     * @dataProvider dataProvider
-     * @covers ::value
+     * @dataProvider __validData
      */
-    public function testGetValue($expected, $string)
+    public function testToString($expected, $string): void
     {
-        $this->assertEquals($expected, (string)$this->utility($string)->value());
+        $this->assertEquals($expected, $this->utility($string)->__toString());
     }
 }

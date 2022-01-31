@@ -2,14 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class IsAlphaTest extends BaseStringSuite
 {
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             [true, 'hello world'],
@@ -20,14 +15,9 @@ class IsAlphaTest extends BaseStringSuite
     }
 
     /**
-     * Test that the string contains only alpha characters
-     *
-     * @param number $expected The value expected to be returned
-     * @param number $string The value to pass to the utility
-     * @dataProvider dataProvider
-     * @covers ::isAlpha
+     * @dataProvider __validData
      */
-    public function testStringOnlyContainsAlphaCharacters($expected, $string)
+    public function testStringOnlyContainsAlphaCharacters($expected, $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->isAlpha());
     }

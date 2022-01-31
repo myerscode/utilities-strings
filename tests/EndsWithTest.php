@@ -2,16 +2,11 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class EndsWithTest extends BaseStringSuite
 {
     protected $string = 'hello world. this is a unit test.';
 
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             [true, 'test.'],
@@ -26,9 +21,6 @@ class EndsWithTest extends BaseStringSuite
             [false, ''],
             [false, '', true],
             [false, '', false],
-            [false, null],
-            [false, null, true],
-            [false, null, false],
             [true, ['quick', 'brown', 'TEST.']],
             [false, ['quick', 'brown', 'TEST.'], true],
             [true, ['quick', 'brown', 'TEST.'], false],
@@ -43,15 +35,9 @@ class EndsWithTest extends BaseStringSuite
 
 
     /**
-     * Test to see if the string ends with a given value
-     *
-     * @param $expected
-     * @param $endsWith
-     * @param bool $strict
-     * @dataProvider dataProvider
-     * @covers ::endsWith
+     * @dataProvider __validData
      */
-    public function testStringEndsWithValue($expected, $endsWith, $strict = false)
+    public function testStringEndsWithValue($expected, $endsWith, $strict = false): void
     {
         $this->assertEquals($expected, $this->utility($this->string)->endsWith($endsWith, $strict));
     }

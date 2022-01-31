@@ -2,15 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class ToUppercaseTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['HELLOWORLD FOO BAR', 'HelloWorld Foo Bar'],
@@ -19,14 +13,9 @@ class ToUppercaseTest extends BaseStringSuite
     }
 
     /**
-     * Test that the string is transformed to be all uppercase
-     *
-     * @param string $expected The value expected to be returned
-     * @param string $string The string to strip values from
-     * @dataProvider dataProvider
-     * @covers ::toUppercase
+     * @dataProvider __validData
      */
-    public function testStringIsTransformedBeAllUppercase($expected, $string)
+    public function testStringIsTransformedBeAllUppercase($expected, $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->toUppercase()->value());
     }

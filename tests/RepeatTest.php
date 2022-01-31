@@ -2,15 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class RepeatTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['', 'foo bar', 0],
@@ -20,16 +14,9 @@ class RepeatTest extends BaseStringSuite
     }
 
     /**
-     * Test the string is repeated amount of times multiplier specifies
-     *
-     * @param $expected
-     * @param $string
-     * @param $multiplier
-     *
-     * @dataProvider dataProvider
-     * @covers ::repeat
+     * @dataProvider __validData
      */
-    public function testStringIsRepeated($expected, $string, $multiplier)
+    public function testStringIsRepeated($expected, $string, $multiplier): void
     {
         $this->assertEquals($expected, $this->utility($string)->repeat($multiplier)->value());
     }

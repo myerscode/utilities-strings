@@ -2,15 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class LengthTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             [6, 'foobar'],
@@ -20,14 +14,9 @@ class LengthTest extends BaseStringSuite
     }
 
     /**
-     * Test that the utility returns the correct string length
-     *
-     * @param number $expected The value expected to be returned
-     * @param string $string The value to pass to the utility
-     * @dataProvider dataProvider
-     * @covers ::length
+     * @dataProvider __validData
      */
-    public function testGetCorrectStringLength($expected, $string)
+    public function testGetCorrectStringLength($expected, $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->length());
     }

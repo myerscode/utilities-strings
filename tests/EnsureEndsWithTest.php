@@ -2,15 +2,9 @@
 
 namespace Tests;
 
-
-
-/**
- * @coversDefaultClass Myerscode\Utilities\Strings\Utility
- */
 class EnsureEndsWithTest extends BaseStringSuite
 {
-
-    public function dataProvider()
+    public function __validData(): array
     {
         return [
             ['foobar', 'foo', 'bar'],
@@ -21,15 +15,9 @@ class EnsureEndsWithTest extends BaseStringSuite
     }
 
     /**
-     * Test that the string is made to end with a given value
-     *
-     * @param number $expected
-     * @param number $string
-     * @param number $ensure
-     * @dataProvider dataProvider
-     * @covers ::ensureEndsWith
+     * @dataProvider __validData
      */
-    public function testStringIsMadeToEndWithValue($expected, $string, $ensure)
+    public function testStringIsMadeToEndWithValue($expected, $string, $ensure): void
     {
         $this->assertEquals($expected, $this->utility($string)->ensureEndsWith($ensure));
     }
