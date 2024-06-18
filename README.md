@@ -4,7 +4,8 @@
 [![Latest Stable Version](https://poser.pugx.org/myerscode/utilities-strings/v/stable)](https://packagist.org/packages/myerscode/utilities-strings)
 [![Total Downloads](https://poser.pugx.org/myerscode/utilities-strings/downloads)](https://packagist.org/packages/myerscode/utilities-strings)
 [![License](https://poser.pugx.org/myerscode/utilities-strings/license)](https://packagist.org/packages/myerscode/utilities-strings)
-![Tests](https://github.com/myerscode/utilities-strings/workflows/tests/badge.svg?branch=main)
+![Tests](https://github.com/myerscode/utilities-strings/actions/workflows/tests.yml/badge.svg?branch=main)
+[![codecov](https://codecov.io/gh/myerscode/utilities-strings/graph/badge.svg?token=YR0YHVERNV)](https://codecov.io/gh/myerscode/utilities-strings)
 
 ## Install
 
