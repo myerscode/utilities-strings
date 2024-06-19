@@ -2,10 +2,9 @@
 
 namespace Tests;
 
-use PHPUnit\Framework\Attributes\CoversFunction;
 use Iterator;
 use PHPUnit\Framework\Attributes\DataProvider;
-#[CoversFunction('toPascalCase')]
+
 class ToPascalCaseTest extends BaseStringSuite
 {
     public static function __validData(): Iterator
@@ -31,6 +30,6 @@ class ToPascalCaseTest extends BaseStringSuite
     #[DataProvider('__validData')]
     public function testStringIsTransformedToThePascalCaseFormat(string $expected, string $string): void
     {
-        $this->assertSame($expected, $this->utility($string)->toPascalCase()->value());
+        $this->assertSame($expected, (string)$this->utility($string)->toPascalCase());
     }
 }

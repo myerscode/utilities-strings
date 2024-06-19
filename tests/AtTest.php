@@ -2,11 +2,9 @@
 
 namespace Tests;
 
-use Myerscode\Utilities\Strings\Utility;
-use PHPUnit\Framework\Attributes\CoversClass;
 use Iterator;
 use PHPUnit\Framework\Attributes\DataProvider;
-#[CoversClass(Utility::class)]
+
 class AtTest extends BaseStringSuite
 {
     public static function __validData(): Iterator

@@ -2,13 +2,11 @@
 
 namespace Tests;
 
-use PHPUnit\Framework\Attributes\CoversClass;
 use Iterator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Myerscode\Utilities\Strings\Utility;
 use Tests\Support\StringConstructorTestCase;
 
-#[CoversClass(Utility::class)]
 class MakeTest extends BaseStringSuite
 {
     public static function __validData(): Iterator
