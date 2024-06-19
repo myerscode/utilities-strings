@@ -18,6 +18,6 @@ class MinimiseTest extends BaseStringSuite
 
         $expected = 'hello world. quick brown fox. <select><option>foobar</select>';
 
-        $this->assertEquals($expected, $this->utility($original)->minimise()->value());
+        $this->assertSame($expected, $this->utility($original)->minimise()->value());
     }
 }

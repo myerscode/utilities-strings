@@ -2,21 +2,19 @@
 
 namespace Tests;
 
+use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 class ToUppercaseTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            ['HELLOWORLD FOO BAR', 'HelloWorld Foo Bar'],
-            ['HELLOWORLD FOO BAR', 'helloworld foo bar'],
-        ];
+        yield ['HELLOWORLD FOO BAR', 'HelloWorld Foo Bar'];
+        yield ['HELLOWORLD FOO BAR', 'helloworld foo bar'];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsTransformedBeAllUppercase($expected, $string): void
+    #[DataProvider('__validData')]
+    public function testStringIsTransformedBeAllUppercase(string $expected, string $string): void
     {
-        $this->assertEquals($expected, $this->utility($string)->toUppercase()->value());
+        $this->assertSame($expected, $this->utility($string)->toUppercase()->value());
     }
 }

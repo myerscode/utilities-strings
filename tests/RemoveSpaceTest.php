@@ -20,6 +20,6 @@ class RemoveSpaceTest extends BaseStringSuite
 
         $expected = 'helloworld.quickbrownfox.foobar';
 
-        $this->assertEquals($expected, $this->utility($original)->removeSpace()->value());
+        $this->assertSame($expected, $this->utility($original)->removeSpace()->value());
     }
 }

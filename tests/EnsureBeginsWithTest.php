@@ -2,23 +2,21 @@
 
 namespace Tests;
 
+use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 class EnsureBeginsWithTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            ['foobar', 'bar', 'foo'],
-            ['foobar', 'foobar', 'foo'],
-            ['foofobar', 'fobar', 'foo'],
-            ['foooobar', 'foooobar', 'foo'],
-        ];
+        yield ['foobar', 'bar', 'foo'];
+        yield ['foobar', 'foobar', 'foo'];
+        yield ['foofobar', 'fobar', 'foo'];
+        yield ['foooobar', 'foooobar', 'foo'];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsMadeToBeginWithValue($expected, $string, $ensure): void
+    #[DataProvider('__validData')]
+    public function testStringIsMadeToBeginWithValue(string $expected, string $string, string $ensure): void
     {
-        $this->assertEquals($expected, $this->utility($string)->ensureBeginsWith($ensure));
+        $this->assertSame($expected, (string)$this->utility($string)->ensureBeginsWith($ensure));
     }
 }

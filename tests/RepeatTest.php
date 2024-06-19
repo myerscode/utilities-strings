@@ -2,22 +2,20 @@
 
 namespace Tests;
 
+use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 class RepeatTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            ['', 'foo bar', 0],
-            ['foo bar', 'foo bar', 1],
-            ['foo barfoo bar', 'foo bar', 2],
-        ];
+        yield ['', 'foo bar', 0];
+        yield ['foo bar', 'foo bar', 1];
+        yield ['foo barfoo bar', 'foo bar', 2];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsRepeated($expected, $string, $multiplier): void
+    #[DataProvider('__validData')]
+    public function testStringIsRepeated(string $expected, string $string, int $multiplier): void
     {
-        $this->assertEquals($expected, $this->utility($string)->repeat($multiplier)->value());
+        $this->assertSame($expected, $this->utility($string)->repeat($multiplier)->value());
     }
 }

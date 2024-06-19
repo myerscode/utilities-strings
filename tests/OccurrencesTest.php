@@ -2,19 +2,17 @@
 
 namespace Tests;
 
+use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 class OccurrencesTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            ['hello world. foo bar. food. foo bar. hello world.', 'foo', [13, 22, 28]],
-        ];
+        yield ['hello world. foo bar. food. foo bar. hello world.', 'foo', [13, 22, 28]];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testCorrectLocationsOfOccurrencesAreFound($string, $find, $occurrences): void
+    #[DataProvider('__validData')]
+    public function testCorrectLocationsOfOccurrencesAreFound(string $string, string $find, array $occurrences): void
     {
         $this->assertEquals($occurrences, $this->utility($string)->occurrences($find));
     }

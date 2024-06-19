@@ -2,40 +2,35 @@
 
 namespace Tests;
 
+use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 class ReplaceNonAlphanumericTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            ['quick brown foo bar', 'quick brown foo bar', '', false],
-            ['foo bar 123', 'foo bar 123', '', false],
-            ['omg its a fox D', "omg!!! it's a fox =D", '', false],
-            ['', ':"{}~`', '', false],
-            ['', '!@£$%^&*()', '', false],
-            ['', '', '', false],
-
-            ['quick.brown.foo.bar', 'quick brown foo bar', '.', true],
-            ['foo.bar.123', 'foo bar 123', '.', true],
-            ['omg....it.s.a.fox..D', "omg!!! it's a fox =D", '.', true],
-
-            ['quick brown foo bar', 'quick brown foo bar', '.', false],
-            ['foo bar 123', 'foo bar 123', '.', false],
-            ['omg... it.s a fox .D', "omg!!! it's a fox =D", '.', false],
-
-            ['quickbrownfoobar', 'quick brown foo bar', '', true],
-            ['foobar123', 'foo bar 123', '', true],
-            ['omgitsafoxD', "omg!!! it's a fox =D", '', true],
-            ['', ':"{}~`', '', true],
-            ['', '!@£$%^&*()', '', true],
-            ['', '', '', true],
-        ];
+        yield ['quick brown foo bar', 'quick brown foo bar', '', false];
+        yield ['foo bar 123', 'foo bar 123', '', false];
+        yield ['omg its a fox D', "omg!!! it's a fox =D", '', false];
+        yield ['', ':"{}~`', '', false];
+        yield ['', '!@£$%^&*()', '', false];
+        yield ['', '', '', false];
+        yield ['quick.brown.foo.bar', 'quick brown foo bar', '.', true];
+        yield ['foo.bar.123', 'foo bar 123', '.', true];
+        yield ['omg....it.s.a.fox..D', "omg!!! it's a fox =D", '.', true];
+        yield ['quick brown foo bar', 'quick brown foo bar', '.', false];
+        yield ['foo bar 123', 'foo bar 123', '.', false];
+        yield ['omg... it.s a fox .D', "omg!!! it's a fox =D", '.', false];
+        yield ['quickbrownfoobar', 'quick brown foo bar', '', true];
+        yield ['foobar123', 'foo bar 123', '', true];
+        yield ['omgitsafoxD', "omg!!! it's a fox =D", '', true];
+        yield ['', ':"{}~`', '', true];
+        yield ['', '!@£$%^&*()', '', true];
+        yield ['', '', '', true];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsStrippedOfNoneAlphanumericValues($expected, $string, $turnTo, $strict): void
+    #[DataProvider('__validData')]
+    public function testStringIsStrippedOfNoneAlphanumericValues(string $expected, string $string, string $turnTo, bool $strict): void
     {
-        $this->assertEquals($expected, $this->utility($string)->replaceNonAlphanumeric($turnTo, $strict)->value());
+        $this->assertSame($expected, $this->utility($string)->replaceNonAlphanumeric($turnTo, $strict)->value());
     }
 }

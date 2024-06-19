@@ -2,22 +2,20 @@
 
 namespace Tests;
 
+use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 class AppendTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            ['bar', '', 'bar'],
-            ['foobar', 'foo', 'bar'],
-            ['foobarbar', 'foobar', 'bar'],
-        ];
+        yield ['bar', '', 'bar'];
+        yield ['foobar', 'foo', 'bar'];
+        yield ['foobarbar', 'foobar', 'bar'];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsAppendedWithValue($expected, $string, $ensure): void
+    #[DataProvider('__validData')]
+    public function testStringIsAppendedWithValue(string $expected, string $string, string $ensure): void
     {
-        $this->assertEquals($expected, $this->utility($string)->append($ensure));
+        $this->assertSame($expected, (string)$this->utility($string)->append($ensure));
     }
 }

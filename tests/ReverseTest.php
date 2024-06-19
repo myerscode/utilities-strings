@@ -2,21 +2,19 @@
 
 namespace Tests;
 
+use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 class ReverseTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            ['raboof', 'foobar'],
-            ['rab oof', 'foo bar'],
-        ];
+        yield ['raboof', 'foobar'];
+        yield ['rab oof', 'foo bar'];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsRevered($expected, $string): void
+    #[DataProvider('__validData')]
+    public function testStringIsRevered(string $expected, string $string): void
     {
-        $this->assertEquals($expected, $this->utility($string)->reverse()->value());
+        $this->assertSame($expected, $this->utility($string)->reverse()->value());
     }
 }

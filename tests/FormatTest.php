@@ -15,12 +15,12 @@ class FormatTest extends BaseStringSuite
 
     public function testNoValuesToFormat(): void
     {
-        $this->assertEquals('test no placeholders', $this->utility('test no placeholders')->format()->value());
+        $this->assertSame('test no placeholders', $this->utility('test no placeholders')->format()->value());
     }
 
     public function testPlaceholderAreReplaced(): void
     {
-        $this->assertEquals(
+        $this->assertSame(
             'Hello World! This is a test!',
             $this->utility('Hello {0}! This is a {1}!')->format(['World', 'test'])->value()
         );
@@ -28,17 +28,17 @@ class FormatTest extends BaseStringSuite
 
     public function testPlaceholderCanBeRepeated(): void
     {
-        $this->assertEquals('AAAA', $this->utility('{0}{0}{0}{0}')->format(['A'])->value());
+        $this->assertSame('AAAA', $this->utility('{0}{0}{0}{0}')->format(['A'])->value());
     }
 
     public function testPlaceholderOrderIsIrrelevant(): void
     {
-        $this->assertEquals('TEST', $this->utility('{1}{0}{3}{2}')->format(['E', 'T', 'T', 'S'])->value());
+        $this->assertSame('TEST', $this->utility('{1}{0}{3}{2}')->format(['E', 'T', 'T', 'S'])->value());
     }
 
     public function testValuesButNoMatchingPlaceholders(): void
     {
-        $this->assertEquals(
+        $this->assertSame(
             'tes{4} n{5} placeholder{6}',
             $this->utility('tes{4} n{5} placeholder{6}')->format(['T', 'E', 'S', 'T'])->value()
         );
@@ -46,7 +46,7 @@ class FormatTest extends BaseStringSuite
 
     public function testValuesButNoPlaceholders(): void
     {
-        $this->assertEquals(
+        $this->assertSame(
             'test no placeholders',
             $this->utility('test no placeholders')->format(['T', 'E', 'S', 'T'])->value()
         );

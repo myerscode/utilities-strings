@@ -2,23 +2,21 @@
 
 namespace Tests;
 
+use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 class EnsureEndsWithTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            ['foobar', 'foo', 'bar'],
-            ['foobar', 'foobar', 'bar'],
-            ['fobarrrrbar', 'fobarrrr', 'bar'],
-            ['foobbar', 'foobbar', 'bar'],
-        ];
+        yield ['foobar', 'foo', 'bar'];
+        yield ['foobar', 'foobar', 'bar'];
+        yield ['fobarrrrbar', 'fobarrrr', 'bar'];
+        yield ['foobbar', 'foobbar', 'bar'];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsMadeToEndWithValue($expected, $string, $ensure): void
+    #[DataProvider('__validData')]
+    public function testStringIsMadeToEndWithValue(string $expected, string $string, string $ensure): void
     {
-        $this->assertEquals($expected, $this->utility($string)->ensureEndsWith($ensure));
+        $this->assertSame($expected, (string)$this->utility($string)->ensureEndsWith($ensure));
     }
 }

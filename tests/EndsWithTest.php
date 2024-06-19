@@ -2,42 +2,40 @@
 
 namespace Tests;
 
+use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 class EndsWithTest extends BaseStringSuite
 {
     protected string $string = 'hello world. this is a unit test.';
 
-    public function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            [true, 'test.'],
-            [true, 'test.', true],
-            [true, 'test.', false],
-            [false, 'TEST.', true],
-            [true, 'TEST.', false],
-            [false, 'foo'],
-            [false, []],
-            [false, [], true],
-            [false, [], false],
-            [false, ''],
-            [false, '', true],
-            [false, '', false],
-            [true, ['quick', 'brown', 'TEST.']],
-            [false, ['quick', 'brown', 'TEST.'], true],
-            [true, ['quick', 'brown', 'TEST.'], false],
-            [true, ['quick', 'brown', 'test.']],
-            [true, ['quick', 'brown', 'test.'], true],
-            [true, ['quick', 'brown', 'test.'], false],
-            [false, ['quick', 'brown']],
-            [false, ['quick', 'brown'], true],
-            [false, ['quick', 'brown'], false],
-        ];
+        yield [true, 'test.'];
+        yield [true, 'test.', true];
+        yield [true, 'test.', false];
+        yield [false, 'TEST.', true];
+        yield [true, 'TEST.', false];
+        yield [false, 'foo'];
+        yield [false, []];
+        yield [false, [], true];
+        yield [false, [], false];
+        yield [false, ''];
+        yield [false, '', true];
+        yield [false, '', false];
+        yield [true, ['quick', 'brown', 'TEST.']];
+        yield [false, ['quick', 'brown', 'TEST.'], true];
+        yield [true, ['quick', 'brown', 'TEST.'], false];
+        yield [true, ['quick', 'brown', 'test.']];
+        yield [true, ['quick', 'brown', 'test.'], true];
+        yield [true, ['quick', 'brown', 'test.'], false];
+        yield [false, ['quick', 'brown']];
+        yield [false, ['quick', 'brown'], true];
+        yield [false, ['quick', 'brown'], false];
     }
 
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringEndsWithValue($expected, $endsWith, $strict = false): void
+    #[DataProvider('__validData')]
+    public function testStringEndsWithValue(bool $expected, string|array $endsWith, bool $strict = false): void
     {
         $this->assertEquals($expected, $this->utility($this->string)->endsWith($endsWith, $strict));
     }

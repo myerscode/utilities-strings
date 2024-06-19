@@ -2,27 +2,25 @@
 
 namespace Tests;
 
+use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 class TrimLeftTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            ['fobar', '!!!!!fobar', '!'],
-            ['fobar!!!!!', 'fobar!!!!!', '!'],
-            ['o World!', 'Hello World!', ['H', 'el']],
-        ];
+        yield ['fobar', '!!!!!fobar', '!'];
+        yield ['fobar!!!!!', 'fobar!!!!!', '!'];
+        yield ['o World!', 'Hello World!', ['H', 'el']];
     }
 
     public function testStringIsStrippedOfDefaultValues(): void
     {
-        $this->assertEquals('forbar', $this->utility('          forbar')->trimLeft()->value());
+        $this->assertSame('forbar', $this->utility('          forbar')->trimLeft()->value());
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsStrippedOfGivenValues($expected, $string, $charList): void
+    #[DataProvider('__validData')]
+    public function testStringIsStrippedOfGivenValues(string $expected, string $string, string|array $charList): void
     {
-        $this->assertEquals($expected, $this->utility($string)->trimLeft($charList)->value());
+        $this->assertSame($expected, $this->utility($string)->trimLeft($charList)->value());
     }
 }

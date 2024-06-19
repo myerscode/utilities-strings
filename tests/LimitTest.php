@@ -2,22 +2,20 @@
 
 namespace Tests;
 
+use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 class LimitTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            ['Hello', 'Hello World', 5],
-            ['Hello World', 'Hello World', 50],
-            ['', 'Hello World', 0],
-        ];
+        yield ['Hello', 'Hello World', 5];
+        yield ['Hello World', 'Hello World', 50];
+        yield ['', 'Hello World', 0];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsTransformedToTheTitleCaseFormat($expected, $string, $length): void
+    #[DataProvider('__validData')]
+    public function testStringIsTransformedToTheTitleCaseFormat(string $expected, string $string, int $length): void
     {
-        $this->assertEquals($expected, $this->utility($string)->limit($length)->value());
+        $this->assertSame($expected, $this->utility($string)->limit($length)->value());
     }
 }

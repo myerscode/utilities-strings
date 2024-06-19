@@ -2,22 +2,20 @@
 
 namespace Tests;
 
+use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 class PrependTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            ['foo', '', 'foo'],
-            ['foobar', 'bar', 'foo'],
-            ['foofoobar', 'foobar', 'foo'],
-        ];
+        yield ['foo', '', 'foo'];
+        yield ['foobar', 'bar', 'foo'];
+        yield ['foofoobar', 'foobar', 'foo'];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsPrependedWithValue($expected, $string, $ensure): void
+    #[DataProvider('__validData')]
+    public function testStringIsPrependedWithValue(string $expected, string $string, string $ensure): void
     {
-        $this->assertEquals($expected, $this->utility($string)->prepend($ensure));
+        $this->assertSame($expected, (string)$this->utility($string)->prepend($ensure));
     }
 }

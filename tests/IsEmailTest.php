@@ -2,21 +2,19 @@
 
 namespace Tests;
 
+use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 class IsEmailTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            [true, 'hello@world.com'],
-            [true, 'test@hello.world.com'],
-            [false, 'not@valid'],
-        ];
+        yield [true, 'hello@world.com'];
+        yield [true, 'test@hello.world.com'];
+        yield [false, 'not@valid'];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsInAValidEmailFormat($expected, $string): void
+    #[DataProvider('__validData')]
+    public function testStringIsInAValidEmailFormat(bool $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->isEmail());
     }

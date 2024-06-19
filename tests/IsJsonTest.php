@@ -2,20 +2,18 @@
 
 namespace Tests;
 
+use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 class IsJsonTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            [true, json_encode(['foo' => 'bar'])],
-            [false, 'foobar'],
-        ];
+        yield [true, json_encode(['foo' => 'bar'])];
+        yield [false, 'foobar'];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testIsTheStringValidJson($expected, $string): void
+    #[DataProvider('__validData')]
+    public function testIsTheStringValidJson(bool $expected, bool|string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->isJson());
     }

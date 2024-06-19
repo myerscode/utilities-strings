@@ -2,28 +2,26 @@
 
 namespace Tests;
 
+use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 class SliceTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            ['foo bar', 'foo bar', 0],
-            ['foo bar', 'foo bar', 0, 7],
-            ['foo', 'foo bar', 0, 3],
-            ['bar', 'foo bar', 4],
-            ['', 'foo bar', 3, 0],
-            ['', 'foo bar', 3, 2],
-            ['bar', 'foo bar', 4, 7],
-            ['foo ba', 'foo bar', 0, -1],
-            ['ba', 'foo bar', 4, -1],
-        ];
+        yield ['foo bar', 'foo bar', 0];
+        yield ['foo bar', 'foo bar', 0, 7];
+        yield ['foo', 'foo bar', 0, 3];
+        yield ['bar', 'foo bar', 4];
+        yield ['', 'foo bar', 3, 0];
+        yield ['', 'foo bar', 3, 2];
+        yield ['bar', 'foo bar', 4, 7];
+        yield ['foo ba', 'foo bar', 0, -1];
+        yield ['ba', 'foo bar', 4, -1];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testSliceOfValueIsReturned($expected, $string, $start, $length = null): void
+    #[DataProvider('__validData')]
+    public function testSliceOfValueIsReturned(string $expected, string $string, int $start, int $length = null): void
     {
-        $this->assertEquals($expected, $this->utility($string)->slice($start, $length)->value());
+        $this->assertSame($expected, $this->utility($string)->slice($start, $length)->value());
     }
 }

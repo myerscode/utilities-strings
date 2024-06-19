@@ -2,27 +2,25 @@
 
 namespace Tests;
 
+use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 class IsTrueTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            [true, 'true'],
-            [true, '1'],
-            [true, 'on'],
-            [true, 'yes'],
-            [true, 'ok'],
-            [false, 'tr'],
-            [false, 'tick'],
-            [false, 'foobar'],
-            [false, ''],
-        ];
+        yield [true, 'true'];
+        yield [true, '1'];
+        yield [true, 'on'];
+        yield [true, 'yes'];
+        yield [true, 'ok'];
+        yield [false, 'tr'];
+        yield [false, 'tick'];
+        yield [false, 'foobar'];
+        yield [false, ''];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testIsTrueReturnsTrue($expected, $string): void
+    #[DataProvider('__validData')]
+    public function testIsTrueReturnsTrue(bool $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->isTrue());
     }

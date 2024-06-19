@@ -2,26 +2,24 @@
 
 namespace Tests;
 
+use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 class ToKebabCaseTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            ['quick-brown-foo-bar', 'quick brown foo bar'],
-            ['hello-world', 'HELLO WORLD'],
-            ['foo-bar-123', 'foo bar 123'],
-            ['omg-its-a-fox-d', 'omg!!! its a fox =D'],
-            ['', ':"{}~`'],
-            ['', '!@£$%^&*()'],
-            ['', ''],
-        ];
+        yield ['quick-brown-foo-bar', 'quick brown foo bar'];
+        yield ['hello-world', 'HELLO WORLD'];
+        yield ['foo-bar-123', 'foo bar 123'];
+        yield ['omg-its-a-fox-d', 'omg!!! its a fox =D'];
+        yield ['', ':"{}~`'];
+        yield ['', '!@£$%^&*()'];
+        yield ['', ''];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsTransformedToTheKebabCaseFormat($expected, $string): void
+    #[DataProvider('__validData')]
+    public function testStringIsTransformedToTheKebabCaseFormat(string $expected, string $string): void
     {
-        $this->assertEquals($expected, $this->utility($string)->toKebabCase()->value());
+        $this->assertSame($expected, $this->utility($string)->toKebabCase()->value());
     }
 }

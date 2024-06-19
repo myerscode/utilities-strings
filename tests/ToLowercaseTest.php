@@ -2,21 +2,19 @@
 
 namespace Tests;
 
+use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 class ToLowercaseTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            ['helloworld foo bar', 'HelloWorld Foo Bar'],
-            ['helloworld foo bar', 'HELLOWORLD FOO BAR'],
-        ];
+        yield ['helloworld foo bar', 'HelloWorld Foo Bar'];
+        yield ['helloworld foo bar', 'HELLOWORLD FOO BAR'];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsTransformedBeAllLowercase($expected, $string): void
+    #[DataProvider('__validData')]
+    public function testStringIsTransformedBeAllLowercase(string $expected, string $string): void
     {
-        $this->assertEquals($expected, $this->utility($string)->toLowercase()->value());
+        $this->assertSame($expected, $this->utility($string)->toLowercase()->value());
     }
 }

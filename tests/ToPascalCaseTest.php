@@ -2,22 +2,24 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\CoversFunction;
+use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
+#[CoversFunction('toPascalCase')]
 class ToPascalCaseTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            ['FooBar', 'foo bar'],
-            ['QuickBrownFox', 'Quick brown fox'],
-            ['HelloWorld', 'HELLO WORLD'],
-            ['ASimpleSentence', 'A simple sentence.'],
-            ['KebabCase', 'kebab-case'],
-            ['SnakeCaseWord', 'snake_case_word'],
-            ['FooBar', 'FooBar'],
-            ['FooBar', 'fooBar'],
-            ['Foobar', 'foobar'],
-            ['FooBar', 'FOo BAr'],
-        ];
+        yield ['FooBar', 'foo bar'];
+        yield ['QuickBrownFox', 'Quick brown fox'];
+        yield ['HelloWorld', 'HELLO WORLD'];
+        yield ['ASimpleSentence', 'A simple sentence.'];
+        yield ['KebabCase', 'kebab-case'];
+        yield ['SnakeCaseWord', 'snake_case_word'];
+        yield ['FooBar', 'FooBar'];
+        yield ['FooBar', 'fooBar'];
+        yield ['Foobar', 'foobar'];
+        yield ['FooBar', 'FOo BAr'];
     }
 
     /**
@@ -25,12 +27,10 @@ class ToPascalCaseTest extends BaseStringSuite
      *
      * @param  string  $expected  The value expected to be returned
      * @param  string  $string  The string to strip values from
-     *
-     * @dataProvider __validData
-     * @covers ::toPascalCase
      */
-    public function testStringIsTransformedToThePascalCaseFormat($expected, $string): void
+    #[DataProvider('__validData')]
+    public function testStringIsTransformedToThePascalCaseFormat(string $expected, string $string): void
     {
-        $this->assertEquals($expected, $this->utility($string)->toPascalCase()->value());
+        $this->assertSame($expected, $this->utility($string)->toPascalCase()->value());
     }
 }

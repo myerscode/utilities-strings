@@ -2,22 +2,20 @@
 
 namespace Tests;
 
+use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 class IsAlphaTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            [true, 'hello world'],
-            [false, 'hello world!!'],
-            [false, '123'],
-            [false, 123],
-        ];
+        yield [true, 'hello world'];
+        yield [false, 'hello world!!'];
+        yield [false, '123'];
+        yield [false, 123];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringOnlyContainsAlphaCharacters($expected, $string): void
+    #[DataProvider('__validData')]
+    public function testStringOnlyContainsAlphaCharacters(bool $expected, string|int $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->isAlpha());
     }

@@ -2,24 +2,22 @@
 
 namespace Tests;
 
+use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 class FirstTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            ['', 'foo bar', 0],
-            ['foo', 'foo bar', 3],
-            ['f', 'foo bar', 1],
-            ['', 'foo bar', -4],
-            ['foo', 'foo', 8],
-        ];
+        yield ['', 'foo bar', 0];
+        yield ['foo', 'foo bar', 3];
+        yield ['f', 'foo bar', 1];
+        yield ['', 'foo bar', -4];
+        yield ['foo', 'foo', 8];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testFirstMethod($expected, $string, $length = null): void
+    #[DataProvider('__validData')]
+    public function testFirstMethod(string $expected, string $string, int $length = null): void
     {
-        $this->assertEquals($expected, $this->utility($string)->first($length)->value());
+        $this->assertSame($expected, $this->utility($string)->first($length)->value());
     }
 }
