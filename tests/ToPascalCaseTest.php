@@ -2,7 +2,8 @@
 
 namespace Tests;
 
-#[\PHPUnit\Framework\Attributes\CoversFunction('toPascalCase')]
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class ToPascalCaseTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -27,7 +28,7 @@ class ToPascalCaseTest extends BaseStringSuite
      * @param  string  $expected  The value expected to be returned
      * @param  string  $string  The string to strip values from
      */
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testStringIsTransformedToThePascalCaseFormat(string $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->toPascalCase()->value());
