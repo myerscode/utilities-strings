@@ -2,27 +2,27 @@
 
 namespace Tests;
 
-use Iterator;
-use PHPUnit\Framework\Attributes\DataProvider;
 class ToCamelCaseTest extends BaseStringSuite
 {
-    public static function __validData(): Iterator
+    public static function __validData(): array
     {
-        yield ['fooBar', 'foo bar'];
-        yield ['quickBrownFox', 'Quick brown fox'];
-        yield ['helloWorld', 'HELLO WORLD'];
-        yield ['aSimpleSentence', 'A simple sentence.'];
-        yield ['kebabCase', 'kebab-case'];
-        yield ['snakeCaseWord', 'snake_case_word'];
-        yield ['fooBar', 'FooBar'];
-        yield ['fooBar', 'fooBar'];
-        yield ['foobar', 'foobar'];
-        yield ['fooBar', 'FOo BAr'];
+        return [
+            ['fooBar', 'foo bar'],
+            ['quickBrownFox', 'Quick brown fox'],
+            ['helloWorld', 'HELLO WORLD'],
+            ['aSimpleSentence', 'A simple sentence.'],
+            ['kebabCase', 'kebab-case'],
+            ['snakeCaseWord', 'snake_case_word'],
+            ['fooBar', 'FooBar'],
+            ['fooBar', 'fooBar'],
+            ['foobar', 'foobar'],
+            ['fooBar', 'FOo BAr'],
+        ];
     }
 
-    #[DataProvider('__validData')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
     public function testStringIsTransformedToTheCamelCaseFormat(string $expected, string $string): void
     {
-        $this->assertSame($expected, $this->utility($string)->toCamelCase()->value());
+        $this->assertEquals($expected, $this->utility($string)->toCamelCase()->value());
     }
 }

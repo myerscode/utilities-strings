@@ -2,24 +2,24 @@
 
 namespace Tests;
 
-use Iterator;
-use PHPUnit\Framework\Attributes\DataProvider;
 class RemoveFromStartTest extends BaseStringSuite
 {
-    public static function __validData(): Iterator
+    public static function __validData(): array
     {
-        yield ['', '', ''];
-        yield ['bar', 'foobar', 'foo'];
-        yield ['foobar', 'foofoobar', 'foo'];
-        yield ['foofoobar', 'foofoobar', 'bar'];
-        yield ['bar', 'foo.bar', 'foo.'];
-        yield ['.bar', 'foo..bar', 'foo.'];
-        yield ['foobar', 'foobar', 'bar'];
+        return [
+            ['', '', ''],
+            ['bar', 'foobar', 'foo'],
+            ['foobar', 'foofoobar', 'foo'],
+            ['foofoobar', 'foofoobar', 'bar'],
+            ['bar', 'foo.bar', 'foo.'],
+            ['.bar', 'foo..bar', 'foo.'],
+            ['foobar', 'foobar', 'bar'],
+        ];
     }
 
-    #[DataProvider('__validData')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
     public function testStringHasValuesRemoved(string $expected, string $value, string $remove): void
     {
-        $this->assertSame($expected, $this->utility($value)->removeFromStart($remove)->value());
+        $this->assertEquals($expected, $this->utility($value)->removeFromStart($remove)->value());
     }
 }

@@ -2,22 +2,22 @@
 
 namespace Tests;
 
-use Iterator;
-use PHPUnit\Framework\Attributes\DataProvider;
 class RemoveRepeatingTest extends BaseStringSuite
 {
-    public static function __validData(): Iterator
+    public static function __validData(): array
     {
-        yield ['hello world. foo bar', 'hello          world. foo        bar', ' '];
-        yield ['hello          world. foo        bar', 'hello          world. foo        bar', '.'];
-        yield ['hello          world. foo        bar', 'hello          world..... foo        bar', '.'];
-        yield ['foobar!', 'foobar!!!!!!!', '!'];
-        yield ['foobar!!!!!!!', 'foobar!!!!!!!', ' '];
+        return [
+            ['hello world. foo bar', 'hello          world. foo        bar', ' '],
+            ['hello          world. foo        bar', 'hello          world. foo        bar', '.'],
+            ['hello          world. foo        bar', 'hello          world..... foo        bar', '.'],
+            ['foobar!', 'foobar!!!!!!!', '!'],
+            ['foobar!!!!!!!', 'foobar!!!!!!!', ' '],
+        ];
     }
 
-    #[DataProvider('__validData')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
     public function testStringHasRepeatingValuesRemoved(string $expected, string $string, string $repeatingValue): void
     {
-        $this->assertSame($expected, $this->utility($string)->removeRepeating($repeatingValue)->value());
+        $this->assertEquals($expected, $this->utility($string)->removeRepeating($repeatingValue)->value());
     }
 }

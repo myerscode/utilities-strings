@@ -2,28 +2,29 @@
 
 namespace Tests;
 
-use Iterator;
-use PHPUnit\Framework\Attributes\DataProvider;
 use Myerscode\Utilities\Strings\Utility;
 use Tests\Support\StringConstructorTestCase;
 
+#[\PHPUnit\Framework\Attributes\CoversClass(Utility::class)]
 class MakeTest extends BaseStringSuite
 {
-    public static function __validData(): Iterator
+    public static function __validData(): array
     {
-        yield 'string' => ['hello world', 'hello world'];
-        yield 'number' => ['123', 123];
-        yield 'true' => ['1', true];
-        yield 'false' => ['', false];
-        yield 'class with __toString()' => ['StringConstructorTestCase::class', new StringConstructorTestCase()];
-        yield 'Utility' => ['Hello World', new Utility('Hello World')];
+        return [
+            'string' => ['hello world', 'hello world'],
+            'number' => ['123', 123],
+            'true' => ['1', true],
+            'false' => ['', false],
+            'class with __toString()' => ['StringConstructorTestCase::class', new StringConstructorTestCase()],
+            'Utility' => ['Hello World', new Utility('Hello World')],
+        ];
     }
 
-    #[DataProvider('__validData')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
     public function testValueSetViaMake(
         string $expected,
         bool|int|Utility|string|StringConstructorTestCase $string
     ): void {
-        $this->assertSame($expected, (string)Utility::make($string)->value());
+        $this->assertEquals($expected, Utility::make($string)->value());
     }
 }

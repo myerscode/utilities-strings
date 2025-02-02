@@ -2,24 +2,24 @@
 
 namespace Tests;
 
-use Iterator;
-use PHPUnit\Framework\Attributes\DataProvider;
-
+#[\PHPUnit\Framework\Attributes\CoversClass(\Myerscode\Utilities\Strings\Utility::class)]
 class AtTest extends BaseStringSuite
 {
-    public static function __validData(): Iterator
+    public static function __validData(): array
     {
-        yield ['f', 'foo bar', 0];
-        yield ['o', 'foo bar', 1];
-        yield ['b', 'foo bar', 4];
-        yield ['r', 'foo bar', 6];
-        yield ['', 'foo bar', 7];
-        yield ['', 'foo bar', -7];
+        return [
+            ['f', 'foo bar', 0],
+            ['o', 'foo bar', 1],
+            ['b', 'foo bar', 4],
+            ['r', 'foo bar', 6],
+            ['', 'foo bar', 7],
+            ['', 'foo bar', -7],
+        ];
     }
 
-    #[DataProvider('__validData')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
     public function testAtMethod(string $expected, string $string, int $position): void
     {
-        $this->assertSame($expected, (string)$this->utility($string)->at($position));
+        $this->assertEquals($expected, $this->utility($string)->at($position));
     }
 }
