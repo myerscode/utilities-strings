@@ -4,7 +4,7 @@ namespace Tests;
 
 class FirstTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             ['', 'foo bar', 0],
@@ -15,10 +15,8 @@ class FirstTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testFirstMethod($expected, $string, $length = null): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testFirstMethod(string $expected, string $string, ?int $length = null): void
     {
         $this->assertEquals($expected, $this->utility($string)->first($length)->value());
     }

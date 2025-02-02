@@ -4,7 +4,7 @@ namespace Tests;
 
 class ReplaceTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             ['', '', '', ''],
@@ -19,10 +19,8 @@ class ReplaceTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testValuesAreReplaced($expected, $value, $replace, $with): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testValuesAreReplaced(string $expected, string $value, string|array $replace, string $with): void
     {
         $this->assertEquals($expected, $this->utility($value)->replace($replace, $with)->value());
     }

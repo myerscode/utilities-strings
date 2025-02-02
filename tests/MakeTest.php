@@ -5,12 +5,10 @@ namespace Tests;
 use Myerscode\Utilities\Strings\Utility;
 use Tests\Support\StringConstructorTestCase;
 
-/**
- * @coversDefaultClass Utility
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(Utility::class)]
 class MakeTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             'string' => ['hello world', 'hello world'],
@@ -22,9 +20,7 @@ class MakeTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
     public function testValueSetViaMake(
         string $expected,
         bool|int|Utility|string|StringConstructorTestCase $string

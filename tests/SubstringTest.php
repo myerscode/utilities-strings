@@ -4,7 +4,7 @@ namespace Tests;
 
 class SubstringTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             ['foo bar', 'foo bar', 0],
@@ -17,10 +17,8 @@ class SubstringTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testSubstringOfValueIsReturned($expected, $string, $start, $length = null): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testSubstringOfValueIsReturned(string $expected, string $string, int $start, ?int $length = null): void
     {
         $this->assertEquals($expected, $this->utility($string)->substring($start, $length)->value());
     }

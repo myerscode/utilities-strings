@@ -6,7 +6,7 @@ class BeginsWithTest extends BaseStringSuite
 {
     protected string $string = 'hello world. this is a unit test.';
 
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             [true, 'hello'],
@@ -34,10 +34,8 @@ class BeginsWithTest extends BaseStringSuite
     }
 
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringBeingsWithValue($expected, $beginsWith, $strict = false): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringBeingsWithValue(bool $expected, string|array $beginsWith, bool $strict = false): void
     {
         $this->assertEquals($expected, $this->utility($this->string)->beginsWith($beginsWith, $strict));
     }

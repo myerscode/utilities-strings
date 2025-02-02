@@ -4,7 +4,7 @@ namespace Tests;
 
 class IsTrueTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             [true, 'true'],
@@ -19,10 +19,8 @@ class IsTrueTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testIsTrueReturnsTrue($expected, $string): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testIsTrueReturnsTrue(bool $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->isTrue());
     }

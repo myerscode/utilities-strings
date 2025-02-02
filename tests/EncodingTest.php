@@ -4,7 +4,7 @@ namespace Tests;
 
 class EncodingTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             ['UTF-8'],
@@ -12,18 +12,14 @@ class EncodingTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringsEncodingIsSetViaConstructor($encoding): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringsEncodingIsSetViaConstructor(string $encoding): void
     {
         $this->assertEquals($encoding, $this->utility('hello world', $encoding)->encoding());
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringsEncodingIsSetViaMethod($encoding): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringsEncodingIsSetViaMethod(string $encoding): void
     {
         $this->assertEquals($encoding, $this->utility('hello world')->setEncoding($encoding)->encoding());
     }

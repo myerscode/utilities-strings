@@ -2,9 +2,10 @@
 
 namespace Tests;
 
+#[\PHPUnit\Framework\Attributes\CoversFunction('toPascalCase')]
 class ToPascalCaseTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             ['FooBar', 'foo bar'],
@@ -25,11 +26,9 @@ class ToPascalCaseTest extends BaseStringSuite
      *
      * @param  string  $expected  The value expected to be returned
      * @param  string  $string  The string to strip values from
-     *
-     * @dataProvider __validData
-     * @covers ::toPascalCase
      */
-    public function testStringIsTransformedToThePascalCaseFormat($expected, $string): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringIsTransformedToThePascalCaseFormat(string $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->toPascalCase()->value());
     }

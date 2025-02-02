@@ -4,7 +4,7 @@ namespace Tests;
 
 class ToStudlyCaseTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
 
@@ -29,10 +29,8 @@ class ToStudlyCaseTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsTransformedToTheStudlyCaseFormat($expected, $string): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringIsTransformedToTheStudlyCaseFormat(string $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->toStudlyCase()->value());
     }

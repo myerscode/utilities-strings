@@ -4,7 +4,7 @@ namespace Tests;
 
 class ToSlugTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             ['quick-brown-foo-bar', 'quick brown foo bar'],
@@ -31,10 +31,8 @@ class ToSlugTest extends BaseStringSuite
         $this->assertEquals('hello-_-world', $this->utility('hello_- world')->toSlug('-_-')->value());
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsTransformedToTheSlugFormat($expected, $string): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringIsTransformedToTheSlugFormat(string $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->toSlug()->value());
     }

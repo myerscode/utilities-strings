@@ -4,7 +4,7 @@ namespace Tests;
 
 class RemoveFromEndTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             ['', '', ''],
@@ -16,10 +16,8 @@ class RemoveFromEndTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringHasValuesRemoved($expected, $value, $remove): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringHasValuesRemoved(string $expected, string $value, string $remove): void
     {
         $this->assertEquals($expected, $this->utility($value)->removeFromEnd($remove)->value());
     }

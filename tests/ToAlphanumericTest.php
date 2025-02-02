@@ -4,7 +4,7 @@ namespace Tests;
 
 class ToAlphanumericTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             ['quickbrownfoobar', 'quick brown foo bar'],
@@ -17,10 +17,8 @@ class ToAlphanumericTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsTransformedToContainOnlyAlphanumericValues($expected, $string): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringIsTransformedToContainOnlyAlphanumericValues(string $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->toAlphanumeric()->value());
     }

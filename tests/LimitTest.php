@@ -4,7 +4,7 @@ namespace Tests;
 
 class LimitTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             ['Hello', 'Hello World', 5],
@@ -13,10 +13,8 @@ class LimitTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsTransformedToTheTitleCaseFormat($expected, $string, $length): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringIsTransformedToTheTitleCaseFormat(string $expected, string $string, int $length): void
     {
         $this->assertEquals($expected, $this->utility($string)->limit($length)->value());
     }

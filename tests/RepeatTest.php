@@ -4,7 +4,7 @@ namespace Tests;
 
 class RepeatTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             ['', 'foo bar', 0],
@@ -13,10 +13,8 @@ class RepeatTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsRepeated($expected, $string, $multiplier): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringIsRepeated(string $expected, string $string, int $multiplier): void
     {
         $this->assertEquals($expected, $this->utility($string)->repeat($multiplier)->value());
     }

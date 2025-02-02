@@ -4,7 +4,7 @@ namespace Tests;
 
 class RemovePunctuationTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             ['hello          world foo        bar', 'hello          world. foo        bar'],
@@ -18,10 +18,8 @@ class RemovePunctuationTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringHasPunctuationRemoved($expected, $string): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringHasPunctuationRemoved(string $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->removePunctuation()->value());
     }

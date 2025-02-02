@@ -4,7 +4,7 @@ namespace Tests;
 
 class IsAlphaTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             [true, 'hello world'],
@@ -14,10 +14,8 @@ class IsAlphaTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringOnlyContainsAlphaCharacters($expected, $string): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringOnlyContainsAlphaCharacters(bool $expected, string|int $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->isAlpha());
     }

@@ -6,7 +6,7 @@ use ReflectionClass;
 
 class ApplyPaddingTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             ['foo bar', 'foo bar', 0],
@@ -16,10 +16,8 @@ class ApplyPaddingTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsPaddedOnBothSides($expected, $string, $left = 0, $right = 0, $padding = ' '): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringIsPaddedOnBothSides(string $expected, string $string, int $left = 0, int $right = 0, $padding = ' '): void
     {
         $utility = $this->utility($string);
         $reflectionClass = new ReflectionClass($utility::class);

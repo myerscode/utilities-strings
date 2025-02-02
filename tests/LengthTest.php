@@ -4,7 +4,7 @@ namespace Tests;
 
 class LengthTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             [6, 'foobar'],
@@ -13,10 +13,8 @@ class LengthTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testGetCorrectStringLength($expected, $string): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testGetCorrectStringLength(int $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->length());
     }

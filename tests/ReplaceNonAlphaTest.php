@@ -4,7 +4,7 @@ namespace Tests;
 
 class ReplaceNonAlphaTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             ['quick brown foo bar', 'quick brown foo bar', '', false],
@@ -28,10 +28,8 @@ class ReplaceNonAlphaTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsStrippedOfNoneAlphaValues($expected, $string, $turnTo, $strict): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringIsStrippedOfNoneAlphaValues(string $expected, string $string, string $turnTo, bool $strict): void
     {
         $this->assertEquals($expected, $this->utility($string)->replaceNonAlpha($turnTo, $strict)->value());
     }

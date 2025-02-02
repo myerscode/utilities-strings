@@ -4,7 +4,7 @@ namespace Tests;
 
 class ToLowercaseTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             ['helloworld foo bar', 'HelloWorld Foo Bar'],
@@ -12,10 +12,8 @@ class ToLowercaseTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsTransformedBeAllLowercase($expected, $string): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringIsTransformedBeAllLowercase(string $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->toLowercase()->value());
     }

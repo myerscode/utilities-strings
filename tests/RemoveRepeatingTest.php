@@ -4,7 +4,7 @@ namespace Tests;
 
 class RemoveRepeatingTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             ['hello world. foo bar', 'hello          world. foo        bar', ' '],
@@ -15,10 +15,8 @@ class RemoveRepeatingTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringHasRepeatingValuesRemoved($expected, $string, $repeatingValue): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringHasRepeatingValuesRemoved(string $expected, string $string, string $repeatingValue): void
     {
         $this->assertEquals($expected, $this->utility($string)->removeRepeating($repeatingValue)->value());
     }

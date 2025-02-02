@@ -4,7 +4,7 @@ namespace Tests;
 
 class ToKebabCaseTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             ['quick-brown-foo-bar', 'quick brown foo bar'],
@@ -17,10 +17,8 @@ class ToKebabCaseTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsTransformedToTheKebabCaseFormat($expected, $string): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringIsTransformedToTheKebabCaseFormat(string $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->toKebabCase()->value());
     }

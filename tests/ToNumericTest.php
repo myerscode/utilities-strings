@@ -4,7 +4,7 @@ namespace Tests;
 
 class ToNumericTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             ['', 'quick brown foo bar'],
@@ -17,10 +17,8 @@ class ToNumericTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsTransformedToContainOnlyNumericValues($expected, $string): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringIsTransformedToContainOnlyNumericValues(string $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->toNumeric()->value());
     }

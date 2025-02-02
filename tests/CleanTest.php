@@ -4,7 +4,7 @@ namespace Tests;
 
 class CleanTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             ['hello world.', ' hello world. '],
@@ -25,10 +25,8 @@ class CleanTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsTrimmedAndCleaned($expected, $string, $allowable_tags = null): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringIsTrimmedAndCleaned(string $expected, string $string, ?string $allowable_tags = null): void
     {
         $this->assertEquals($expected, $this->utility($string)->clean($allowable_tags)->value());
     }

@@ -6,7 +6,7 @@ class EndsWithTest extends BaseStringSuite
 {
     protected string $string = 'hello world. this is a unit test.';
 
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             [true, 'test.'],
@@ -34,10 +34,8 @@ class EndsWithTest extends BaseStringSuite
     }
 
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringEndsWithValue($expected, $endsWith, $strict = false): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringEndsWithValue(bool $expected, string|array $endsWith, bool $strict = false): void
     {
         $this->assertEquals($expected, $this->utility($this->string)->endsWith($endsWith, $strict));
     }

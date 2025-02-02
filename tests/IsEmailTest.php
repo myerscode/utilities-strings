@@ -4,7 +4,7 @@ namespace Tests;
 
 class IsEmailTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             [true, 'hello@world.com'],
@@ -13,10 +13,8 @@ class IsEmailTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsInAValidEmailFormat($expected, $string): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringIsInAValidEmailFormat(bool $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->isEmail());
     }

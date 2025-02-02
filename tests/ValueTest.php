@@ -7,7 +7,7 @@ use Tests\Support\StringConstructorTestCase;
 
 class ValueTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             'string' => ['hello world', 'hello world'],
@@ -19,18 +19,14 @@ class ValueTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testGetValue($expected, $string): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testGetValue(string $expected, string|int|bool|\Tests\Support\StringConstructorTestCase|\Myerscode\Utilities\Strings\Utility $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->value());
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testToString($expected, $string): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testToString(string $expected, string|int|bool|\Tests\Support\StringConstructorTestCase|\Myerscode\Utilities\Strings\Utility $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->__toString());
     }

@@ -4,7 +4,7 @@ namespace Tests;
 
 class ToCamelCaseTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             ['fooBar', 'foo bar'],
@@ -20,10 +20,8 @@ class ToCamelCaseTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsTransformedToTheCamelCaseFormat($expected, $string): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringIsTransformedToTheCamelCaseFormat(string $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->toCamelCase()->value());
     }

@@ -6,7 +6,7 @@ use ReflectionClass;
 
 class PrepareForCasingTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             ['fooBar', ['foo', 'Bar'],],
@@ -20,10 +20,8 @@ class PrepareForCasingTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testExpectedResults($string, $expected): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testExpectedResults(string $string, array $expected): void
     {
         $utility = $this->utility($string);
         $reflectionClass = new ReflectionClass($utility::class);

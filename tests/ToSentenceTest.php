@@ -4,7 +4,7 @@ namespace Tests;
 
 class ToSentenceTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             ['Quick brown foo bar.', 'Quick brown foo bar.'],
@@ -19,10 +19,8 @@ class ToSentenceTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsTransformedToTheSentenceFormat($expected, $string): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringIsTransformedToTheSentenceFormat(string $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->toSentence()->value());
     }

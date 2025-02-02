@@ -4,7 +4,7 @@ namespace Tests;
 
 class ReverseTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             ['raboof', 'foobar'],
@@ -12,10 +12,8 @@ class ReverseTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsRevered($expected, $string): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringIsRevered(string $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->reverse()->value());
     }

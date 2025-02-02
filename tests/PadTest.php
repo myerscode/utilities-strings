@@ -4,7 +4,7 @@ namespace Tests;
 
 class PadTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             ['foo bar', 'foo bar', 0],
@@ -18,10 +18,8 @@ class PadTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsPaddedOnBothSides($expected, $string, $length, $padding = ' '): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringIsPaddedOnBothSides(string $expected, string $string, int $length, string $padding = ' '): void
     {
         $this->assertEquals($expected, $this->utility($string)->pad($length, $padding)->value());
     }

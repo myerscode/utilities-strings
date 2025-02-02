@@ -4,7 +4,7 @@ namespace Tests;
 
 class ToTitleCaseTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             ['Quickbrown Foobar', 'QuickBrown fooBar'],
@@ -13,10 +13,8 @@ class ToTitleCaseTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsTransformedToTheTitleCaseFormat($expected, $string): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringIsTransformedToTheTitleCaseFormat(string $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->toTitleCase()->value());
     }

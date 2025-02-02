@@ -4,7 +4,7 @@ namespace Tests;
 
 class ContainsAllTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             [true, 'quick brown foo bar', 'foo'],
@@ -19,10 +19,8 @@ class ContainsAllTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringContainsAllOfTheGivenValues($expected, $string, $charList, int $offset = 0): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringContainsAllOfTheGivenValues(bool $expected, string $string, string|array $charList, int $offset = 0): void
     {
         $this->assertEquals($expected, $this->utility($string)->containsAll($charList, $offset));
     }

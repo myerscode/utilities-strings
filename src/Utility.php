@@ -22,24 +22,16 @@ class Utility implements Stringable
 
     /**
      * Utility constructor.
-     *
-     * @param  string|Stringable|Utility  $string
-     * @param  null|string  $encoding
      */
-    public function __construct(protected readonly string|Stringable|Utility $string = '', string $encoding = null)
+    public function __construct(protected readonly string|Stringable|Utility $string = '', ?string $encoding = null)
     {
         $this->setEncoding($encoding ?: mb_internal_encoding());
     }
 
     /**
      * Create a new instance of the string utility
-     *
-     * @param  string|Stringable|Utility  $string
-     * @param  null|string  $encoding
-     *
-     * @return Utility
      */
-    public static function make(string|Stringable|Utility $string, string $encoding = null): Utility
+    public static function make(string|Stringable|Utility $string, ?string $encoding = null): Utility
     {
         return new Utility($string, $encoding);
     }
@@ -49,7 +41,7 @@ class Utility implements Stringable
      */
     public function __toString(): string
     {
-        return $this->value();
+        return (string) $this->value();
     }
 
     /**
@@ -87,10 +79,10 @@ class Utility implements Stringable
         foreach ($parameters as $parameter) {
             $beginning = $this->substring(0, strlen((string) $parameter));
             if ($caseSensitive) {
-                if (strcmp($beginning, $parameter) === 0) {
+                if (strcmp($beginning, (string) $parameter) === 0) {
                     return true;
                 }
-            } elseif (strcasecmp($beginning, $parameter) === 0) {
+            } elseif (strcasecmp($beginning, (string) $parameter) === 0) {
                 return true;
             }
         }
@@ -101,7 +93,7 @@ class Utility implements Stringable
     /**
      * Remove tags and trim the string
      */
-    public function clean(string $allowedTags = null): Utility
+    public function clean(?string $allowedTags = null): Utility
     {
         $string = strip_tags(trim($this->string), $allowedTags);
 
@@ -125,7 +117,7 @@ class Utility implements Stringable
         }
 
         foreach ($parameters as $needle) {
-            if (strpos($this->string, $needle->value(), $offset) === false) {
+            if (!str_contains(substr($this->string, $offset), (string) $needle->value())) {
                 return false;
             }
         }
@@ -149,7 +141,7 @@ class Utility implements Stringable
         }
 
         foreach ($parameters as $needle) {
-            if (strpos($this->string, $needle->value(), $offset) !== false) {
+            if (str_contains(substr($this->string, $offset), (string) $needle->value())) {
                 return true;
             }
         }
@@ -180,10 +172,10 @@ class Utility implements Stringable
         foreach ($parameters as $parameter) {
             $ending = $this->substring(strlen((string) $this->string) - strlen((string) $parameter));
             if ($caseSensitive) {
-                if (strcmp($ending, $parameter->value()) === 0) {
+                if (strcmp($ending, (string) $parameter->value()) === 0) {
                     return true;
                 }
-            } elseif (strcasecmp($ending, $parameter->value()) === 0) {
+            } elseif (strcasecmp($ending, (string) $parameter->value()) === 0) {
                 return true;
             }
         }
@@ -413,7 +405,7 @@ class Utility implements Stringable
         // remove carriage returns
         $string = str_replace("\r", ' ', $string);
 
-        $string = trim(preg_replace('#[\s\t\n\r]+#', ' ', $string));
+        $string = trim((string) preg_replace('#[\s\t\n\r]+#', ' ', $string));
 
         return static::make($string, $this->encoding);
     }
@@ -558,7 +550,7 @@ class Utility implements Stringable
         $replace = [];
 
         foreach ($this->parameters($find) as $utility) {
-            $replace[] = preg_quote($utility->value());
+            $replace[] = preg_quote((string) $utility->value());
         }
 
         $static = static::make($with, $this->encoding);
@@ -635,7 +627,7 @@ class Utility implements Stringable
      * If $end value is omitted, the rest of the string is used.
      * If $end is negative, it is computed from the end of the string.
      */
-    public function slice(int $start, int $end = null): Utility
+    public function slice(int $start, ?int $end = null): Utility
     {
         if ($end === null) {
             $length = $this->length();
@@ -655,7 +647,7 @@ class Utility implements Stringable
      * If $end value is omitted, the rest of the string is used.
      * If $end is negative, it is computed from the end of the string.
      */
-    public function substring(int $start, int $end = null): Utility
+    public function substring(int $start, ?int $end = null): Utility
     {
         $length = $end ?? $this->length();
 
@@ -758,7 +750,7 @@ class Utility implements Stringable
         $sentences = array_map(function ($sentence): string {
             $sentence = trim($sentence);
             if (!ctype_upper($sentence[0])) {
-                $sentence = ucfirst($sentence);
+                return ucfirst($sentence);
             }
 
             return $sentence;
@@ -781,12 +773,12 @@ class Utility implements Stringable
     {
         $string = mb_convert_encoding($this->string, 'UTF-8', $this->encoding);
         $string = preg_replace('/[^\s\p{L}0-9\-' . $separator . ']/u', '', $string);
-        $string = htmlentities($string, ENT_QUOTES, 'UTF-8');
+        $string = htmlentities((string) $string, ENT_QUOTES, 'UTF-8');
         $string = preg_replace('#&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);#i', '$1', $string);
-        $string = iconv(mb_detect_encoding($string, 'UTF-8, ASCII, ISO-8859-1'), 'ASCII//TRANSLIT//IGNORE', $string);
+        $string = iconv(mb_detect_encoding((string) $string, 'UTF-8, ASCII, ISO-8859-1'), 'ASCII//TRANSLIT//IGNORE', (string) $string);
         $string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
         $string = preg_replace('#[^0-9a-z]+#i', $separator, $string);
-        $string = trim($string, $separator);
+        $string = trim((string) $string, $separator);
         $string = mb_strtolower($string);
 
         return static::make($string, $this->encoding);
@@ -799,9 +791,9 @@ class Utility implements Stringable
     {
         $string = mb_convert_encoding($this->string, 'UTF-8', $this->encoding);
         $string = preg_replace('/[^\s\p{L}0-9\-' . $separator . ']/u', '', $string);
-        $string = preg_replace('#&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);#i', '$1', $string);
-        $string = preg_replace('#[\s_\-]#', $separator, $string);
-        $string = trim($string, $separator);
+        $string = preg_replace('#&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);#i', '$1', (string) $string);
+        $string = preg_replace('#[\s_\-]#', $separator, (string) $string);
+        $string = trim((string) $string, $separator);
         $string = mb_strtolower($string, 'utf-8');
 
         return static::make($string, $this->encoding);
@@ -955,6 +947,6 @@ class Utility implements Stringable
         $parts = preg_split('#(,?\s+)|((?<=[a-z])(?=\d))|((?<=\d)(?=[a-z]))#i', $string);
 
         // return only words
-        return array_values(array_filter($parts, fn($value): bool => !empty($value)));
+        return array_values(array_filter($parts, fn($value): bool => $value !== '' && $value !== '0'));
     }
 }

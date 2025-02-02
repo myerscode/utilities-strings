@@ -4,7 +4,7 @@ namespace Tests;
 
 class IsJsonTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             [true, json_encode(['foo' => 'bar'])],
@@ -12,10 +12,8 @@ class IsJsonTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testIsTheStringValidJson($expected, $string): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testIsTheStringValidJson(bool $expected, bool|string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->isJson());
     }

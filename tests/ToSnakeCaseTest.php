@@ -4,7 +4,7 @@ namespace Tests;
 
 class ToSnakeCaseTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             ['foo_bar', 'fooBar'],
@@ -28,10 +28,8 @@ class ToSnakeCaseTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsTransformedToTheSnakeCaseFormat($expected, $string): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringIsTransformedToTheSnakeCaseFormat(string $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->toSnakeCase()->value());
     }

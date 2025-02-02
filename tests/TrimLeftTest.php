@@ -4,7 +4,7 @@ namespace Tests;
 
 class TrimLeftTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             ['fobar', '!!!!!fobar', '!'],
@@ -18,10 +18,8 @@ class TrimLeftTest extends BaseStringSuite
         $this->assertEquals('forbar', $this->utility('          forbar')->trimLeft()->value());
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsStrippedOfGivenValues($expected, $string, $charList): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringIsStrippedOfGivenValues(string $expected, string $string, string|array $charList): void
     {
         $this->assertEquals($expected, $this->utility($string)->trimLeft($charList)->value());
     }

@@ -4,7 +4,7 @@ namespace Tests;
 
 class ReplaceNonNumericTest extends BaseStringSuite
 {
-    public function __validData(): array
+    public static function __validData(): array
     {
         return [
             ['   ', 'quick brown foo bar', '', false],
@@ -28,10 +28,8 @@ class ReplaceNonNumericTest extends BaseStringSuite
         ];
     }
 
-    /**
-     * @dataProvider __validData
-     */
-    public function testStringIsStrippedOfNoneNumericValues($expected, $string, $turnTo, $strict): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    public function testStringIsStrippedOfNoneNumericValues(string $expected, string $string, string $turnTo, bool $strict): void
     {
         $this->assertEquals($expected, $this->utility($string)->replaceNonNumeric($turnTo, $strict)->value());
     }
