@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class IsAlphaTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -14,7 +16,7 @@ class IsAlphaTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testStringOnlyContainsAlphaCharacters(bool $expected, string|int $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->isAlpha());

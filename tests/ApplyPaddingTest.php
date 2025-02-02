@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use ReflectionClass;
 
 class ApplyPaddingTest extends BaseStringSuite
@@ -16,7 +17,7 @@ class ApplyPaddingTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testStringIsPaddedOnBothSides(string $expected, string $string, int $left = 0, int $right = 0, $padding = ' '): void
     {
         $utility = $this->utility($string);

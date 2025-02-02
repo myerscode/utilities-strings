@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class AppendTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -13,7 +15,7 @@ class AppendTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testStringIsAppendedWithValue(string $expected, string $string, string $ensure): void
     {
         $this->assertEquals($expected, $this->utility($string)->append($ensure));

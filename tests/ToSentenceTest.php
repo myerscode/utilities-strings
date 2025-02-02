@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class ToSentenceTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -19,7 +21,7 @@ class ToSentenceTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testStringIsTransformedToTheSentenceFormat(string $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->toSentence()->value());

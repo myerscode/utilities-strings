@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class ToCamelCaseTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -20,7 +22,7 @@ class ToCamelCaseTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testStringIsTransformedToTheCamelCaseFormat(string $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->toCamelCase()->value());

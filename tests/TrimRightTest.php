@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class TrimRightTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -18,7 +20,7 @@ class TrimRightTest extends BaseStringSuite
         $this->assertEquals('forbar', $this->utility('forbar         ')->trimRight()->value());
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testStringIsStrippedOfGivenValues(string $expected, string $string, string|array $charList): void
     {
         $this->assertEquals($expected, $this->utility($string)->trimRight($charList)->value());

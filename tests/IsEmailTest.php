@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class IsEmailTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -13,7 +15,7 @@ class IsEmailTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testStringIsInAValidEmailFormat(bool $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->isEmail());

@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class RepeatTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -13,7 +15,7 @@ class RepeatTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testStringIsRepeated(string $expected, string $string, int $multiplier): void
     {
         $this->assertEquals($expected, $this->utility($string)->repeat($multiplier)->value());

@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class FirstTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -15,7 +17,7 @@ class FirstTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testFirstMethod(string $expected, string $string, ?int $length = null): void
     {
         $this->assertEquals($expected, $this->utility($string)->first($length)->value());

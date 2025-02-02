@@ -2,7 +2,11 @@
 
 namespace Tests;
 
-#[\PHPUnit\Framework\Attributes\CoversClass(\Myerscode\Utilities\Strings\Utility::class)]
+use PHPUnit\Framework\Attributes\CoversClass;
+use Myerscode\Utilities\Strings\Utility;
+use PHPUnit\Framework\Attributes\DataProvider;
+
+#[CoversClass(Utility::class)]
 class AtTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -17,7 +21,7 @@ class AtTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testAtMethod(string $expected, string $string, int $position): void
     {
         $this->assertEquals($expected, $this->utility($string)->at($position));

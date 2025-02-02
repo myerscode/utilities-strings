@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class ContainsAnyTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -18,7 +20,7 @@ class ContainsAnyTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testStringContainsAnyOfTheGivenValues(bool $expected, string $string, string|array $charList, int $offset = 0): void
     {
         $this->assertEquals($expected, $this->utility($string)->containsAny($charList, $offset));

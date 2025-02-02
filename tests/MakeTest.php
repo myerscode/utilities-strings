@@ -2,10 +2,12 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Myerscode\Utilities\Strings\Utility;
 use Tests\Support\StringConstructorTestCase;
 
-#[\PHPUnit\Framework\Attributes\CoversClass(Utility::class)]
+#[CoversClass(Utility::class)]
 class MakeTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -20,7 +22,7 @@ class MakeTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testValueSetViaMake(
         string $expected,
         bool|int|Utility|string|StringConstructorTestCase $string

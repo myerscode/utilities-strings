@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class CleanTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -25,7 +27,7 @@ class CleanTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testStringIsTrimmedAndCleaned(string $expected, string $string, ?string $allowable_tags = null): void
     {
         $this->assertEquals($expected, $this->utility($string)->clean($allowable_tags)->value());

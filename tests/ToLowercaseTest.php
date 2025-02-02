@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class ToLowercaseTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -12,7 +14,7 @@ class ToLowercaseTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testStringIsTransformedBeAllLowercase(string $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->toLowercase()->value());

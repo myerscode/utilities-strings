@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Myerscode\Utilities\Strings\Utility;
 use Tests\Support\StringConstructorTestCase;
 
@@ -19,8 +20,8 @@ class ConstructTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
-    public function testStringIsSetViaConstructor(string $expected, string|int|bool|\Tests\Support\StringConstructorTestCase|\Myerscode\Utilities\Strings\Utility $string): void
+    #[DataProvider('__validData')]
+    public function testStringIsSetViaConstructor(string $expected, string|int|bool|StringConstructorTestCase|Utility $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->value());
     }

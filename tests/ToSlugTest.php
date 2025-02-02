@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class ToSlugTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -31,7 +33,7 @@ class ToSlugTest extends BaseStringSuite
         $this->assertEquals('hello-_-world', $this->utility('hello_- world')->toSlug('-_-')->value());
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testStringIsTransformedToTheSlugFormat(string $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->toSlug()->value());

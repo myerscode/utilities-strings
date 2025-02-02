@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class EncodingTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -12,13 +14,13 @@ class EncodingTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testStringsEncodingIsSetViaConstructor(string $encoding): void
     {
         $this->assertEquals($encoding, $this->utility('hello world', $encoding)->encoding());
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testStringsEncodingIsSetViaMethod(string $encoding): void
     {
         $this->assertEquals($encoding, $this->utility('hello world')->setEncoding($encoding)->encoding());

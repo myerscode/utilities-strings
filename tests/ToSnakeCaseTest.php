@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class ToSnakeCaseTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -28,7 +30,7 @@ class ToSnakeCaseTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testStringIsTransformedToTheSnakeCaseFormat(string $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->toSnakeCase()->value());

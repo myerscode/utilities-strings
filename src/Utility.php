@@ -884,7 +884,7 @@ class Utility implements Stringable
     /**
      * Return the value when casting to string
      */
-    public function value(): string|\Stringable
+    public function value(): string|Stringable
     {
         return $this->string;
     }

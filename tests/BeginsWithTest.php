@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class BeginsWithTest extends BaseStringSuite
 {
     protected string $string = 'hello world. this is a unit test.';
@@ -34,7 +36,7 @@ class BeginsWithTest extends BaseStringSuite
     }
 
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testStringBeingsWithValue(bool $expected, string|array $beginsWith, bool $strict = false): void
     {
         $this->assertEquals($expected, $this->utility($this->string)->beginsWith($beginsWith, $strict));

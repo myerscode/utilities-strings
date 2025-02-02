@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class ReplaceNonAlphaTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -28,7 +30,7 @@ class ReplaceNonAlphaTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testStringIsStrippedOfNoneAlphaValues(string $expected, string $string, string $turnTo, bool $strict): void
     {
         $this->assertEquals($expected, $this->utility($string)->replaceNonAlpha($turnTo, $strict)->value());

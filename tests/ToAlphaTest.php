@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class ToAlphaTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -17,7 +19,7 @@ class ToAlphaTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testStringIsStrippedOfNoneAlphanumericValues(string $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->toAlpha()->value());

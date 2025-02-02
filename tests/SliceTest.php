@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class SliceTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -19,7 +21,7 @@ class SliceTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testSliceOfValueIsReturned(string $expected, string $string, int $start, ?int $length = null): void
     {
         $this->assertEquals($expected, $this->utility($string)->slice($start, $length)->value());

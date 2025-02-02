@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class LimitTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -13,7 +15,7 @@ class LimitTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testStringIsTransformedToTheTitleCaseFormat(string $expected, string $string, int $length): void
     {
         $this->assertEquals($expected, $this->utility($string)->limit($length)->value());

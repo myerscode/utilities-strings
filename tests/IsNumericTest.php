@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class IsNumericTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -15,7 +17,7 @@ class IsNumericTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testStringOnlyNumericCharacters(bool $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->isNumeric());

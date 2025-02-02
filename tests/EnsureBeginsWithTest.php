@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class EnsureBeginsWithTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -14,7 +16,7 @@ class EnsureBeginsWithTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testStringIsMadeToBeginWithValue(string $expected, string $string, string $ensure): void
     {
         $this->assertEquals($expected, $this->utility($string)->ensureBeginsWith($ensure));

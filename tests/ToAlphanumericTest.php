@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class ToAlphanumericTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -17,7 +19,7 @@ class ToAlphanumericTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testStringIsTransformedToContainOnlyAlphanumericValues(string $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->toAlphanumeric()->value());

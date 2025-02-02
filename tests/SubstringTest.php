@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class SubstringTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -17,7 +19,7 @@ class SubstringTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testSubstringOfValueIsReturned(string $expected, string $string, int $start, ?int $length = null): void
     {
         $this->assertEquals($expected, $this->utility($string)->substring($start, $length)->value());

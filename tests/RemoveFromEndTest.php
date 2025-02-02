@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class RemoveFromEndTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -16,7 +18,7 @@ class RemoveFromEndTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testStringHasValuesRemoved(string $expected, string $value, string $remove): void
     {
         $this->assertEquals($expected, $this->utility($value)->removeFromEnd($remove)->value());

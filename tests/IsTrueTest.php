@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class IsTrueTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -19,7 +21,7 @@ class IsTrueTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testIsTrueReturnsTrue(bool $expected, string $string): void
     {
         $this->assertEquals($expected, $this->utility($string)->isTrue());

@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class EndsWithTest extends BaseStringSuite
 {
     protected string $string = 'hello world. this is a unit test.';
@@ -34,7 +36,7 @@ class EndsWithTest extends BaseStringSuite
     }
 
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testStringEndsWithValue(bool $expected, string|array $endsWith, bool $strict = false): void
     {
         $this->assertEquals($expected, $this->utility($this->string)->endsWith($endsWith, $strict));

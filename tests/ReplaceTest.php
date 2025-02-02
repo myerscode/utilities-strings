@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class ReplaceTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -19,7 +21,7 @@ class ReplaceTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testValuesAreReplaced(string $expected, string $value, string|array $replace, string $with): void
     {
         $this->assertEquals($expected, $this->utility($value)->replace($replace, $with)->value());

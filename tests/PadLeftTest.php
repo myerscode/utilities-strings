@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class PadLeftTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -18,7 +20,7 @@ class PadLeftTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testStringIsPaddedOnTheLeft(string $expected, string $string, int $length, string $padding = ' '): void
     {
         $this->assertEquals($expected, $this->utility($string)->padLeft($length, $padding)->value());

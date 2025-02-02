@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class RemoveRepeatingTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -15,7 +17,7 @@ class RemoveRepeatingTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testStringHasRepeatingValuesRemoved(string $expected, string $string, string $repeatingValue): void
     {
         $this->assertEquals($expected, $this->utility($string)->removeRepeating($repeatingValue)->value());

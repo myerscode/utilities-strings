@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class MatchesTest extends BaseStringSuite
 {
     public static function __validData(): array
@@ -14,7 +16,7 @@ class MatchesTest extends BaseStringSuite
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testMatchesArrayGetsUpdated(): void
     {
         $matches = [];
@@ -22,7 +24,7 @@ class MatchesTest extends BaseStringSuite
         $this->assertEquals(['Hello=World', 'Hello', 'World'], $matches);
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('__validData')]
+    #[DataProvider('__validData')]
     public function testStringCanBeMatchedWithRegex(string $string, string $pattern, bool $expected): void
     {
         $this->assertEquals($expected, $this->utility($string)->matches($pattern));
