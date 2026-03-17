@@ -7,6 +7,10 @@
 ![Tests](https://github.com/myerscode/utilities-strings/actions/workflows/tests.yml/badge.svg?branch=main)
 [![codecov](https://codecov.io/gh/myerscode/utilities-strings/graph/badge.svg?token=YR0YHVERNV)](https://codecov.io/gh/myerscode/utilities-strings)
 
+## Requirements
+
+- PHP ^8.5
+
 ## Install
 
 You can install this package via composer:
