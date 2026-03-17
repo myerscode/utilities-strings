@@ -2,6 +2,7 @@
 > A PHP utility class that creates a fluent interface for interacting with strings
 
 [![Latest Stable Version](https://poser.pugx.org/myerscode/utilities-strings/v/stable)](https://packagist.org/packages/myerscode/utilities-strings)
+[![PHP Version Require](http://poser.pugx.org/myerscode/utilities-strings/require/php)](https://packagist.org/packages/myerscode/utilities-strings)
 [![Total Downloads](https://poser.pugx.org/myerscode/utilities-strings/downloads)](https://packagist.org/packages/myerscode/utilities-strings)
 [![License](https://poser.pugx.org/myerscode/utilities-strings/license)](https://packagist.org/packages/myerscode/utilities-strings)
 ![Tests](https://github.com/myerscode/utilities-strings/actions/workflows/tests.yml/badge.svg?branch=main)
