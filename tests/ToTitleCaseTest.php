@@ -1,23 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use Iterator;
 
-class ToTitleCaseTest extends BaseStringSuite
+final class ToTitleCaseTest extends BaseStringSuite
 {
-    public static function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            ['Quickbrown Foobar', 'QuickBrown fooBar'],
-            ['Quick Brown Foo Bar', 'Quick brown foo bar'],
-            ['Quick Brown Foo Bar.', 'Quick brown foo bar.'],
-        ];
+        yield ['Quickbrown Foobar', 'QuickBrown fooBar'];
+        yield ['Quick Brown Foo Bar', 'Quick brown foo bar'];
+        yield ['Quick Brown Foo Bar.', 'Quick brown foo bar.'];
     }
 
     #[DataProvider('__validData')]
     public function testStringIsTransformedToTheTitleCaseFormat(string $expected, string $string): void
     {
-        $this->assertEquals($expected, $this->utility($string)->toTitleCase()->value());
+        $this->assertSame($expected, $this->utility($string)->toTitleCase()->value());
     }
 }

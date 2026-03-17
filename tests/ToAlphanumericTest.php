@@ -1,27 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use Iterator;
 
-class ToAlphanumericTest extends BaseStringSuite
+final class ToAlphanumericTest extends BaseStringSuite
 {
-    public static function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            ['quickbrownfoobar', 'quick brown foo bar'],
-            ['foobar123', 'foo bar 123'],
-            ['1234567890', '1234567890'],
-            ['omgitsafoxD', "omg!!! it's a fox =D"],
-            ['', ':"{}~`'],
-            ['', '!@£$%^&*()'],
-            ['', ''],
-        ];
+        yield ['quickbrownfoobar', 'quick brown foo bar'];
+        yield ['foobar123', 'foo bar 123'];
+        yield ['1234567890', '1234567890'];
+        yield ['omgitsafoxD', "omg!!! it's a fox =D"];
+        yield ['', ':"{}~`'];
+        yield ['', '!@£$%^&*()'];
+        yield ['', ''];
     }
 
     #[DataProvider('__validData')]
     public function testStringIsTransformedToContainOnlyAlphanumericValues(string $expected, string $string): void
     {
-        $this->assertEquals($expected, $this->utility($string)->toAlphanumeric()->value());
+        $this->assertSame($expected, $this->utility($string)->toAlphanumeric()->value());
     }
 }

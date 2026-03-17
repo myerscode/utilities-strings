@@ -1,18 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use Iterator;
 
-class AppendTest extends BaseStringSuite
+final class AppendTest extends BaseStringSuite
 {
-    public static function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            ['bar', '', 'bar'],
-            ['foobar', 'foo', 'bar'],
-            ['foobarbar', 'foobar', 'bar'],
-        ];
+        yield ['bar', '', 'bar'];
+        yield ['foobar', 'foo', 'bar'];
+        yield ['foobarbar', 'foobar', 'bar'];
     }
 
     #[DataProvider('__validData')]

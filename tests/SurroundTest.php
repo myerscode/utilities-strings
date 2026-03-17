@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
-class SurroundTest extends BaseStringSuite
+final class SurroundTest extends BaseStringSuite
 {
     public function testSurround(): void
     {

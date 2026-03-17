@@ -1,27 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use Iterator;
 
-class ToAlphaTest extends BaseStringSuite
+final class ToAlphaTest extends BaseStringSuite
 {
-    public static function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            ['quickbrownfoobar', 'quick brown foo bar'],
-            ['foobar', 'foobar123'],
-            ['', '1234567890'],
-            ['omgitsafoxD', "omg!!! it's a fox =D"],
-            ['', ':"{}~`'],
-            ['', '!@£$%^&*()'],
-            ['', ''],
-        ];
+        yield ['quickbrownfoobar', 'quick brown foo bar'];
+        yield ['foobar', 'foobar123'];
+        yield ['', '1234567890'];
+        yield ['omgitsafoxD', "omg!!! it's a fox =D"];
+        yield ['', ':"{}~`'];
+        yield ['', '!@£$%^&*()'];
+        yield ['', ''];
     }
 
     #[DataProvider('__validData')]
     public function testStringIsStrippedOfNoneAlphanumericValues(string $expected, string $string): void
     {
-        $this->assertEquals($expected, $this->utility($string)->toAlpha()->value());
+        $this->assertSame($expected, $this->utility($string)->toAlpha()->value());
     }
 }

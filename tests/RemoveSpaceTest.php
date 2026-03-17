@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
-class RemoveSpaceTest extends BaseStringSuite
+final class RemoveSpaceTest extends BaseStringSuite
 {
     public function testTextHasSpacesRemoved(): void
     {

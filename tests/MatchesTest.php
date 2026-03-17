@@ -1,19 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use Iterator;
 
-class MatchesTest extends BaseStringSuite
+final class MatchesTest extends BaseStringSuite
 {
-    public static function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            ['Hello World', '/Hello World/', true],
-            ['Hello=World', '/(.+)=(.+)/', true],
-            ['foobar', '/(.+)=(.+)/', false],
-            ['£77.49p', '/^[a-z0-9\s]*$/i', false],
-        ];
+        yield ['Hello World', '/Hello World/', true];
+        yield ['Hello=World', '/(.+)=(.+)/', true];
+        yield ['foobar', '/(.+)=(.+)/', false];
+        yield ['£77.49p', '/^[a-z0-9\s]*$/i', false];
     }
 
     #[DataProvider('__validData')]
@@ -21,12 +22,12 @@ class MatchesTest extends BaseStringSuite
     {
         $matches = [];
         $this->utility('Hello=World')->matches('/(.+)=(.+)/', $matches);
-        $this->assertEquals(['Hello=World', 'Hello', 'World'], $matches);
+        $this->assertSame(['Hello=World', 'Hello', 'World'], $matches);
     }
 
     #[DataProvider('__validData')]
     public function testStringCanBeMatchedWithRegex(string $string, string $pattern, bool $expected): void
     {
-        $this->assertEquals($expected, $this->utility($string)->matches($pattern));
+        $this->assertSame($expected, $this->utility($string)->matches($pattern));
     }
 }

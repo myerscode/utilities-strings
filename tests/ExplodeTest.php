@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
-class ExplodeTest extends BaseStringSuite
+final class ExplodeTest extends BaseStringSuite
 {
     public function testExplode(): void
     {

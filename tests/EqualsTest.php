@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
-class EqualsTest extends BaseStringSuite
+final class EqualsTest extends BaseStringSuite
 {
     public function testEquals(): void
     {

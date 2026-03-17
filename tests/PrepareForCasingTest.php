@@ -1,24 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use ReflectionClass;
+use Iterator;
 
-class PrepareForCasingTest extends BaseStringSuite
+final class PrepareForCasingTest extends BaseStringSuite
 {
-    public static function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            ['fooBar', ['foo', 'Bar'],],
-            ['hello_world', ['hello', 'world'],],
-            ['hello_world', ['hello', 'world'],],
-            ['  foo b ar', ['foo', 'b', 'ar']],
-            ['FooUBar', ['Foo', 'U', 'Bar']],
-            ['FooICYou', ['Foo', 'I', 'C', 'You']],
-            ['string_with1number', ['string', 'with', '1', 'number']],
-            ['omg!!! its a fox =D', ['omg!!!', 'its', 'a', 'fox', '=D']],
-        ];
+        yield ['fooBar', ['foo', 'Bar'],];
+        yield ['hello_world', ['hello', 'world'],];
+        yield ['hello_world', ['hello', 'world'],];
+        yield ['  foo b ar', ['foo', 'b', 'ar']];
+        yield ['FooUBar', ['Foo', 'U', 'Bar']];
+        yield ['FooICYou', ['Foo', 'I', 'C', 'You']];
+        yield ['string_with1number', ['string', 'with', '1', 'number']];
+        yield ['omg!!! its a fox =D', ['omg!!!', 'its', 'a', 'fox', '=D']];
     }
 
     #[DataProvider('__validData')]
@@ -27,7 +28,6 @@ class PrepareForCasingTest extends BaseStringSuite
         $utility = $this->utility($string);
         $reflectionClass = new ReflectionClass($utility::class);
         $reflectionMethod = $reflectionClass->getMethod('prepareForCasing');
-        $reflectionMethod->setAccessible(true);
         $this->assertEquals($expected, $reflectionMethod->invokeArgs($utility, [$string]));
     }
 }

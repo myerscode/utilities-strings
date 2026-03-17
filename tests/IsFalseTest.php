@@ -1,27 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use Iterator;
 
-class IsFalseTest extends BaseStringSuite
+final class IsFalseTest extends BaseStringSuite
 {
-    public static function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            [true, 'false'],
-            [true, '0'],
-            [true, 'off'],
-            [true, 'no'],
-            [true, ''],
-            [false, 'cross'],
-            [false, 'foobar'],
-        ];
+        yield [true, 'false'];
+        yield [true, '0'];
+        yield [true, 'off'];
+        yield [true, 'no'];
+        yield [true, ''];
+        yield [false, 'cross'];
+        yield [false, 'foobar'];
     }
 
     #[DataProvider('__validData')]
     public function testDoesTheStringRepresentFalse(bool $expected, string $string): void
     {
-        $this->assertEquals($expected, $this->utility($string)->isFalse());
+        $this->assertSame($expected, $this->utility($string)->isFalse());
     }
 }

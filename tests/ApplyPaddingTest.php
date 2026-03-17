@@ -1,20 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use ReflectionClass;
+use Iterator;
 
-class ApplyPaddingTest extends BaseStringSuite
+final class ApplyPaddingTest extends BaseStringSuite
 {
-    public static function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            ['foo bar', 'foo bar', 0],
-            ['  foo bar', 'foo bar', 2],
-            ['foo bar  ', 'foo bar', 0, 2],
-            ['  foo bar  ', 'foo bar', 2, 2],
-        ];
+        yield ['foo bar', 'foo bar', 0];
+        yield ['  foo bar', 'foo bar', 2];
+        yield ['foo bar  ', 'foo bar', 0, 2];
+        yield ['  foo bar  ', 'foo bar', 2, 2];
     }
 
     #[DataProvider('__validData')]
@@ -23,7 +24,6 @@ class ApplyPaddingTest extends BaseStringSuite
         $utility = $this->utility($string);
         $reflectionClass = new ReflectionClass($utility::class);
         $reflectionMethod = $reflectionClass->getMethod('applyPadding');
-        $reflectionMethod->setAccessible(true);
         $this->assertEquals($expected, $reflectionMethod->invokeArgs($utility, [$left, $right, $padding])->value());
     }
 }

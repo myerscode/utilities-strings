@@ -1,23 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use Iterator;
 
-class LengthTest extends BaseStringSuite
+final class LengthTest extends BaseStringSuite
 {
-    public static function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            [6, 'foobar'],
-            [1, '0'],
-            [0, ''],
-        ];
+        yield [6, 'foobar'];
+        yield [1, '0'];
+        yield [0, ''];
     }
 
     #[DataProvider('__validData')]
     public function testGetCorrectStringLength(int $expected, string $string): void
     {
-        $this->assertEquals($expected, $this->utility($string)->length());
+        $this->assertSame($expected, $this->utility($string)->length());
     }
 }

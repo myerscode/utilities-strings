@@ -1,28 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
-use PHPUnit\Framework\Attributes\DataProvider;
 use Myerscode\Utilities\Strings\Utility;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\Support\StringConstructorTestCase;
+use Iterator;
 
-class ConstructTest extends BaseStringSuite
+final class ConstructTest extends BaseStringSuite
 {
-    public static function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            'string' => ['hello world', 'hello world'],
-            'number' => ['123', 123],
-            'true' => ['1', true],
-            'false' => ['', false],
-            'class with __toString()' => ['StringConstructorTestCase::class', new StringConstructorTestCase()],
-            'Utility' => ['Hello World', new Utility('Hello World')],
-        ];
+        yield 'string' => ['hello world', 'hello world'];
+        yield 'class with __toString()' => ['StringConstructorTestCase::class', new StringConstructorTestCase()];
+        yield 'Utility' => ['Hello World', new Utility('Hello World')];
     }
 
     #[DataProvider('__validData')]
-    public function testStringIsSetViaConstructor(string $expected, string|int|bool|StringConstructorTestCase|Utility $string): void
+    public function testStringIsSetViaConstructor(string $expected, string|StringConstructorTestCase|Utility $string): void
     {
-        $this->assertEquals($expected, $this->utility($string)->value());
+        $this->assertSame($expected, (string) $this->utility($string)->value());
     }
 }

@@ -1,27 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use Iterator;
 
-class ToNumericTest extends BaseStringSuite
+final class ToNumericTest extends BaseStringSuite
 {
-    public static function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            ['', 'quick brown foo bar'],
-            ['123', 'foobar123'],
-            ['1234567890', '1234567890'],
-            ['', "omg!!! it's a fox =D"],
-            ['', ':"{}~`'],
-            ['', '!@£$%^&*()'],
-            ['', ''],
-        ];
+        yield ['', 'quick brown foo bar'];
+        yield ['123', 'foobar123'];
+        yield ['1234567890', '1234567890'];
+        yield ['', "omg!!! it's a fox =D"];
+        yield ['', ':"{}~`'];
+        yield ['', '!@£$%^&*()'];
+        yield ['', ''];
     }
 
     #[DataProvider('__validData')]
     public function testStringIsTransformedToContainOnlyNumericValues(string $expected, string $string): void
     {
-        $this->assertEquals($expected, $this->utility($string)->toNumeric()->value());
+        $this->assertSame($expected, $this->utility($string)->toNumeric()->value());
     }
 }

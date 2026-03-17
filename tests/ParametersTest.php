@@ -1,17 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
 use ReflectionClass;
 
-class ParametersTest extends BaseStringSuite
+final class ParametersTest extends BaseStringSuite
 {
     public function testExpectedResults(): void
     {
         $utility = $this->utility('hello world');
         $reflectionClass = new ReflectionClass($utility::class);
         $reflectionMethod = $reflectionClass->getMethod('parameters');
-        $reflectionMethod->setAccessible(true);
 
         $expected = [
             $this->utility('hello world'),

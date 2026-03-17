@@ -2,7 +2,6 @@
 
 namespace Myerscode\Utilities\Strings;
 
-use Myerscode\Utilities\Strings\Exceptions\InvalidFormatArgumentException;
 use Stringable;
 
 use function mb_strlen;
@@ -29,19 +28,19 @@ class Utility implements Stringable
     }
 
     /**
-     * Create a new instance of the string utility
-     */
-    public static function make(string|Stringable|Utility $string, ?string $encoding = null): Utility
-    {
-        return new Utility($string, $encoding);
-    }
-
-    /**
      * Return the value when casting to string
      */
     public function __toString(): string
     {
         return (string) $this->value();
+    }
+
+    /**
+     * Create a new instance of the string utility
+     */
+    public static function make(string|Stringable|Utility $string, ?string $encoding = null): Utility
+    {
+        return new Utility($string, $encoding);
     }
 
     /**
@@ -67,6 +66,8 @@ class Utility implements Stringable
     /**
      * Does string start with a given value(s).
      * You can pass a single string or an array of strings to look check for.
+     *
+     * @param array<string>|string|Utility $begins
      */
     public function beginsWith(array|string|Utility $begins, bool $caseSensitive = false): bool
     {
@@ -102,6 +103,8 @@ class Utility implements Stringable
 
     /**
      * Check if a string contains all the given values
+     *
+     * @param array<string>|string|Utility $contains
      */
     public function containsAll(array|string|Utility $contains, int $offset = 0): bool
     {
@@ -111,22 +114,17 @@ class Utility implements Stringable
 
         $parameters = $this->parameters($contains);
 
-
         if ($offset > $this->length()) {
             return false;
         }
 
-        foreach ($parameters as $needle) {
-            if (!str_contains(substr($this->string, $offset), (string) $needle->value())) {
-                return false;
-            }
-        }
-
-        return true;
+        return array_all($parameters, fn ($needle): bool => str_contains(substr($this->string, $offset), (string) $needle->value()));
     }
 
     /**
      * Check if a string contains any of the given values
+     *
+     * @param array<string>|string|Utility $contains
      */
     public function containsAny(array|string|Utility $contains, int $offset = 0): bool
     {
@@ -140,13 +138,7 @@ class Utility implements Stringable
             return false;
         }
 
-        foreach ($parameters as $needle) {
-            if (str_contains(substr($this->string, $offset), (string) $needle->value())) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($parameters, fn ($needle): bool => str_contains(substr($this->string, $offset), (string) $needle->value()));
     }
 
     /**
@@ -160,6 +152,8 @@ class Utility implements Stringable
     /**
      * Does string end with a given value(s).
      * You can pass a single string or an array of strings to look check for.
+     *
+     * @param array<string>|string|Utility $ends
      */
     public function endsWith(array|string|Utility $ends, bool $caseSensitive = false): bool
     {
@@ -186,7 +180,7 @@ class Utility implements Stringable
     /**
      * Ensure the string starts with a given value
      */
-    public function ensureBeginsWith(string|Utility $ensure): static
+    public function ensureBeginsWith(string|Utility $ensure): Utility
     {
         if (!$this->beginsWith($ensure)) {
             return $this->prepend($ensure);
@@ -196,9 +190,9 @@ class Utility implements Stringable
     }
 
     /**
-     * Ensure the string starts with a given value
+     * Ensure the string ends with a given value
      */
-    public function ensureEndsWith(string|Utility $ensure): static
+    public function ensureEndsWith(string|Utility $ensure): Utility
     {
         if (!$this->endsWith($ensure)) {
             return $this->append($ensure);
@@ -216,11 +210,17 @@ class Utility implements Stringable
     }
 
     /**
-     * Explode the string on a given
+     * Explode the string on a given delimiter
+     *
+     * @return array<string>
      */
     public function explode(string $delimiter, int $limit = PHP_INT_MAX): array
     {
-        return array_slice(array_map('trim', array_filter(explode($delimiter, (string) $this->string, $limit))), 0);
+        if ($delimiter === '') {
+            return [];
+        }
+
+        return array_slice(array_map(trim(...), array_filter(explode($delimiter, (string) $this->string, $limit))), 0);
     }
 
     /**
@@ -237,20 +237,15 @@ class Utility implements Stringable
 
     /**
      * Inserts the given values into the chronological placeholders
+     *
+     * @param array<string|Stringable> $replacements
      */
     public function format(array $replacements = []): Utility
     {
         $string = $this->string;
 
         foreach ($replacements as $index => $value) {
-            if (!is_string($value) && !($value instanceof Stringable)) {
-                $type = get_debug_type($value);
-                throw new InvalidFormatArgumentException(
-                    sprintf('Placeholder %s could not convert type %s to a string', $index, $type)
-                );
-            }
-
-            $string = str_replace('{' . $index . '}', $value, $string);
+            $string = str_replace('{' . $index . '}', (string) $value, $string);
         }
 
         return static::make($string, $this->encoding);
@@ -261,7 +256,7 @@ class Utility implements Stringable
      */
     public function isAlpha(): bool
     {
-        return (bool)preg_match('#^[a-z\s]*$#i', (string) $this->string);
+        return (bool) preg_match('#^[a-z\s]*$#i', (string) $this->string);
     }
 
     /**
@@ -269,7 +264,7 @@ class Utility implements Stringable
      */
     public function isAlphaNumeric(): bool
     {
-        return (bool)preg_match('#^[a-z0-9\s]*$#i', (string) $this->string);
+        return (bool) preg_match('#^[a-z0-9\s]*$#i', (string) $this->string);
     }
 
     /**
@@ -299,11 +294,11 @@ class Utility implements Stringable
     {
         json_decode($this->string);
 
-        return (json_last_error() == JSON_ERROR_NONE);
+        return (json_last_error() === JSON_ERROR_NONE);
     }
 
     /**
-     * Does the string only contain letters and numbers
+     * Does the string only contain numbers
      */
     public function isNumeric(): bool
     {
@@ -347,10 +342,12 @@ class Utility implements Stringable
 
     /**
      * Does the string match a given RegEx pattern
+     *
+     * @param array<mixed> $matches
      */
     public function matches(string $pattern, array &$matches = []): bool
     {
-        return (bool)preg_match($pattern, (string) $this->string, $matches);
+        return (bool) preg_match($pattern, (string) $this->string, $matches);
     }
 
     /**
@@ -392,7 +389,7 @@ class Utility implements Stringable
             // Remove comments
         ];
 
-        $string = preg_replace(array_keys($replace), array_values($replace), $this->string);
+        $string = (string) preg_replace(array_keys($replace), array_values($replace), $this->string);
 
         $remove = ['</option>', '</li>', '</dt>', '</dd>', '</tr>', '</th>', '</td>'];
 
@@ -412,6 +409,8 @@ class Utility implements Stringable
 
     /**
      * Find all the positions of occurrences of the given needle in the string
+     *
+     * @return array<int>
      */
     public function occurrences(string $needle): array
     {
@@ -433,7 +432,7 @@ class Utility implements Stringable
     {
         $padLength = $length - $this->length();
 
-        return $this->applyPadding(floor($padLength / 2), ceil($padLength / 2), $padding);
+        return $this->applyPadding((int) floor($padLength / 2), (int) ceil($padLength / 2), $padding);
     }
 
     /**
@@ -462,6 +461,8 @@ class Utility implements Stringable
 
     /**
      * Remove part of the string
+     *
+     * @param array<string>|string $remove
      */
     public function remove(array|string $remove): Utility
     {
@@ -471,7 +472,7 @@ class Utility implements Stringable
     /**
      * Remove words from the end of a string
      */
-    public function removeFromEnd(string|Utility $remove): static
+    public function removeFromEnd(string|Utility $remove): Utility
     {
         if ($this->endsWith($remove)) {
             $length = strlen((string) $remove);
@@ -486,9 +487,9 @@ class Utility implements Stringable
     }
 
     /**
-     * Remove words from the end of a string
+     * Remove words from the start of a string
      */
-    public function removeFromStart(string $remove): static
+    public function removeFromStart(string $remove): Utility
     {
         if ($this->beginsWith($remove)) {
             $length = strlen($remove);
@@ -507,7 +508,7 @@ class Utility implements Stringable
      */
     public function removePunctuation(): Utility
     {
-        $string = preg_replace('#[[:punct:]]#', '', $this->string);
+        $string = (string) preg_replace('#[[:punct:]]#', '', $this->string);
 
         return static::make($string, $this->encoding);
     }
@@ -517,7 +518,7 @@ class Utility implements Stringable
      */
     public function removeRepeating(string $repeatingValue = ' '): Utility
     {
-        $string = preg_replace('{(' . preg_quote($repeatingValue) . ')\1+}', $repeatingValue, $this->string);
+        $string = (string) preg_replace('{(' . preg_quote($repeatingValue) . ')\1+}', $repeatingValue, $this->string);
 
         return static::make($string, $this->encoding);
     }
@@ -527,7 +528,7 @@ class Utility implements Stringable
      */
     public function removeSpace(): Utility
     {
-        $string = preg_replace('#[[:cntrl:][:space:]]#', '', trim($this->string));
+        $string = (string) preg_replace('#[[:cntrl:][:space:]]#', '', trim($this->string));
 
         return static::make($string, $this->encoding);
     }
@@ -544,6 +545,8 @@ class Utility implements Stringable
 
     /**
      * Replace occurrences in the string with a given value
+     *
+     * @param array<string>|string $find
      */
     public function replace(array|string $find, string $with): Utility
     {
@@ -555,7 +558,7 @@ class Utility implements Stringable
 
         $static = static::make($with, $this->encoding);
 
-        $string = preg_replace('#(' . implode('|', $replace) . ')#', $static->value(), $this->string);
+        $string = (string) preg_replace('#(' . implode('|', $replace) . ')#', $static->value(), $this->string);
 
         return static::make($string, $this->encoding);
     }
@@ -567,7 +570,7 @@ class Utility implements Stringable
     {
         $pattern = $strict ? '/[^a-zA-Z]/' : '/[^a-zA-Z ]/';
 
-        $string = preg_replace($pattern, $replacement, trim($this->string));
+        $string = (string) preg_replace($pattern, $replacement, trim($this->string));
 
         return static::make($string, $this->encoding);
     }
@@ -579,7 +582,7 @@ class Utility implements Stringable
     {
         $pattern = $strict ? '/[^a-zA-Z0-9]/' : '/[^a-zA-Z0-9 ]/';
 
-        $string = preg_replace($pattern, $replacement, trim($this->string));
+        $string = (string) preg_replace($pattern, $replacement, trim($this->string));
 
         return static::make($string, $this->encoding);
     }
@@ -591,7 +594,7 @@ class Utility implements Stringable
     {
         $pattern = $strict ? '/[^0-9]/' : '/[^0-9 ]/';
 
-        $string = preg_replace($pattern, $replacement, trim($this->string));
+        $string = (string) preg_replace($pattern, $replacement, trim($this->string));
 
         return static::make($string, $this->encoding);
     }
@@ -612,8 +615,6 @@ class Utility implements Stringable
 
     /**
      * Set the strings encoding
-     *
-     *
      */
     public function setEncoding(string $encoding): static
     {
@@ -657,13 +658,13 @@ class Utility implements Stringable
     }
 
     /**
-     * Wrap the  string with a value
+     * Wrap the string with a value
      */
     public function surround(string|Stringable|Utility $with): Utility
     {
-        $static = static::make($with, $this->encoding);
+        $utility = static::make($with, $this->encoding);
 
-        return static::make(implode('', [$static, $this->string, $static]), $this->encoding);
+        return static::make(implode('', [$utility, $this->string, $utility]), $this->encoding);
     }
 
     /**
@@ -688,11 +689,15 @@ class Utility implements Stringable
     public function toCamelCase(): Utility
     {
         // separate existing joined words
-        $string = preg_replace('#([a-z0-9])(?=[A-Z])#', '$1 ', $this->string);
+        $string = (string) preg_replace('#([a-z0-9])(?=[A-Z])#', '$1 ', $this->string);
 
-        $words = preg_split('#[\W_]#', (string) $string);
+        $words = preg_split('#[\W_]#', $string);
 
-        $words = array_map(fn($word): string => ucfirst(strtolower($word)), $words);
+        if ($words === false) {
+            return static::make('', $this->encoding);
+        }
+
+        $words = array_map(fn (string $word): string => ucfirst(strtolower($word)), $words);
 
         $string = lcfirst(implode('', $words));
 
@@ -718,7 +723,7 @@ class Utility implements Stringable
     }
 
     /**
-     * Sanitize a string to only contain letters and numbers
+     * Sanitize a string to only contain numbers
      */
     public function toNumeric(): Utility
     {
@@ -747,6 +752,10 @@ class Utility implements Stringable
             PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE
         );
 
+        if ($sentences === false) {
+            return static::make($this->string, $this->encoding);
+        }
+
         $sentences = array_map(function ($sentence): string {
             $sentence = trim($sentence);
             if (!ctype_upper($sentence[0])) {
@@ -771,14 +780,17 @@ class Utility implements Stringable
      */
     public function toSlug(string $separator = '-'): Utility
     {
-        $string = mb_convert_encoding($this->string, 'UTF-8', $this->encoding);
-        $string = preg_replace('/[^\s\p{L}0-9\-' . $separator . ']/u', '', $string);
-        $string = htmlentities((string) $string, ENT_QUOTES, 'UTF-8');
-        $string = preg_replace('#&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);#i', '$1', $string);
-        $string = iconv(mb_detect_encoding((string) $string, 'UTF-8, ASCII, ISO-8859-1'), 'ASCII//TRANSLIT//IGNORE', (string) $string);
+        $converted = mb_convert_encoding($this->string, 'UTF-8', $this->encoding);
+        $string = is_string($converted) ? $converted : $this->string;
+        $string = (string) preg_replace('/[^\s\p{L}0-9\-' . $separator . ']/u', '', $string);
+        $string = htmlentities($string, ENT_QUOTES, 'UTF-8');
+        $string = (string) preg_replace('#&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);#i', '$1', $string);
+
+        $detectedEncoding = mb_detect_encoding($string, 'UTF-8, ASCII, ISO-8859-1');
+        $string = (string) iconv($detectedEncoding !== false ? $detectedEncoding : 'UTF-8', 'ASCII//TRANSLIT//IGNORE', $string);
         $string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
-        $string = preg_replace('#[^0-9a-z]+#i', $separator, $string);
-        $string = trim((string) $string, $separator);
+        $string = (string) preg_replace('#[^0-9a-z]+#i', $separator, $string);
+        $string = trim($string, $separator);
         $string = mb_strtolower($string);
 
         return static::make($string, $this->encoding);
@@ -789,11 +801,12 @@ class Utility implements Stringable
      */
     public function toSlugUtf8(string $separator = '-'): Utility
     {
-        $string = mb_convert_encoding($this->string, 'UTF-8', $this->encoding);
-        $string = preg_replace('/[^\s\p{L}0-9\-' . $separator . ']/u', '', $string);
-        $string = preg_replace('#&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);#i', '$1', (string) $string);
-        $string = preg_replace('#[\s_\-]#', $separator, (string) $string);
-        $string = trim((string) $string, $separator);
+        $converted = mb_convert_encoding($this->string, 'UTF-8', $this->encoding);
+        $string = is_string($converted) ? $converted : $this->string;
+        $string = (string) preg_replace('/[^\s\p{L}0-9\-' . $separator . ']/u', '', $string);
+        $string = (string) preg_replace('#&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);#i', '$1', $string);
+        $string = (string) preg_replace('#[\s_\-]#', $separator, $string);
+        $string = trim($string, $separator);
         $string = mb_strtolower($string, 'utf-8');
 
         return static::make($string, $this->encoding);
@@ -806,11 +819,11 @@ class Utility implements Stringable
     {
         $string = mb_ereg_replace('\B([A-Z])', '-\1', trim($this->string));
 
-        $string = mb_strtolower($string, $this->encoding);
+        $string = mb_strtolower((string) $string, $this->encoding);
 
         $string = mb_ereg_replace('[-_\s]+', '_', $string);
 
-        return static::make($string, $this->encoding);
+        return static::make((string) $string, $this->encoding);
     }
 
     /**
@@ -847,6 +860,8 @@ class Utility implements Stringable
 
     /**
      * Trim a collection of values from the string using trim
+     *
+     * @param array<string>|string $values
      */
     public function trim(array|string $values = " \t\n\r\0\x0B"): Utility
     {
@@ -858,7 +873,9 @@ class Utility implements Stringable
     }
 
     /**
-     * Trim a collection of values from the string using rtrim
+     * Trim a collection of values from the left of the string
+     *
+     * @param array<string>|string $values
      */
     public function trimLeft(array|string $values = " \t\n\r\0\x0B"): Utility
     {
@@ -870,7 +887,9 @@ class Utility implements Stringable
     }
 
     /**
-     * Trim a collection of values from the string using ltrim
+     * Trim a collection of values from the right of the string
+     *
+     * @param array<string>|string $values
      */
     public function trimRight(array|string $values = " \t\n\r\0\x0B"): Utility
     {
@@ -908,9 +927,9 @@ class Utility implements Stringable
             return $this;
         }
 
-        $leftPadding = mb_substr(str_repeat($padding, ceil($left / $length)), 0, $left, $this->encoding);
+        $leftPadding = mb_substr(str_repeat($padding, (int) ceil($left / $length)), 0, $left, $this->encoding);
 
-        $rightPadding = mb_substr(str_repeat($padding, ceil($right / $length)), 0, $right, $this->encoding);
+        $rightPadding = mb_substr(str_repeat($padding, (int) ceil($right / $length)), 0, $right, $this->encoding);
 
         $string = $leftPadding . $this->string . $rightPadding;
 
@@ -919,10 +938,13 @@ class Utility implements Stringable
 
     /**
      * Transform user input into a collection of Utility
+     *
+     * @param array<string>|string|Utility $parameters
+     * @return array<Utility>
      */
     private function parameters(array|string|Utility $parameters): array
     {
-        $values = (is_array($parameters)) ? $parameters : [(string)$parameters];
+        $values = (is_array($parameters)) ? $parameters : [(string) $parameters];
 
         $strings = [];
 
@@ -935,18 +957,24 @@ class Utility implements Stringable
 
     /**
      * Clean up and chunk a string ready for use in casing the string value
+     *
+     * @return array<string>
      */
     private function prepareForCasing(string $string): array
     {
         $string = str_replace(['.', '_', '-'], ' ', $string);
 
         // split on capital letters
-        $string = implode(' ', preg_split('#(?<=\w)(?=[A-Z])#', $string));
+        $string = implode(' ', preg_split('#(?<=\w)(?=[A-Z])#', $string) ?: []);
 
         // explode on numbers
         $parts = preg_split('#(,?\s+)|((?<=[a-z])(?=\d))|((?<=\d)(?=[a-z]))#i', $string);
 
+        if ($parts === false) {
+            return [];
+        }
+
         // return only words
-        return array_values(array_filter($parts, fn($value): bool => $value !== '' && $value !== '0'));
+        return array_values(array_filter($parts, fn (string $value): bool => $value !== '' && $value !== '0'));
     }
 }

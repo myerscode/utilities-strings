@@ -1,16 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use Iterator;
 
-class OccurrencesTest extends BaseStringSuite
+final class OccurrencesTest extends BaseStringSuite
 {
-    public static function __validData(): array
+    public static function __validData(): Iterator
     {
-        return [
-            ['hello world. foo bar. food. foo bar. hello world.', 'foo', [13, 22, 28]],
-        ];
+        yield ['hello world. foo bar. food. foo bar. hello world.', 'foo', [13, 22, 28]];
     }
 
     #[DataProvider('__validData')]
