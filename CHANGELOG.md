@@ -31,6 +31,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Removed
 - `squizlabs/php_codesniffer` dev dependency
+- `InvalidFormatArgumentException` and `InvalidStringException` exception classes (unused dead code)
 - `InvalidFormatArgumentException` runtime check in `format()` (type safety enforced via PHPDoc)
 
 ## [2025.0.0](https://github.com/myerscode/utilities-strings/releases/tag/2025.0.0) - 2025-02-02
