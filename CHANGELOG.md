@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 - Upgrade minimum PHP version to ^8.5
+- Upgrade PHPUnit to ^13.0
 - Modernise codebase with Rector (PHP 8.5+ syntax, strict types, early returns, dead code removal)
 - Replace deprecated Rector `strictBooleans` set with `codingStyle`
 - Replace `squizlabs/php_codesniffer` with `laravel/pint` for linting
@@ -28,6 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 - PHPStan level 8 compliance (null safety, return types, iterable types)
 - Handle `preg_replace`/`preg_split`/`mb_convert_encoding` returning `false`
+- Fix MatchesTest data provider warning in PHPUnit 13 (unused parameters)
 
 ### Removed
 - `squizlabs/php_codesniffer` dev dependency

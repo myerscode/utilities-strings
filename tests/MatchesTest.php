@@ -18,7 +18,7 @@ final class MatchesTest extends BaseStringSuite
     }
 
     #[DataProvider('__validData')]
-    public function testMatchesArrayGetsUpdated(): void
+    public function testMatchesArrayGetsUpdated(string $string, string $pattern, bool $expected): void
     {
         $matches = [];
         $this->utility('Hello=World')->matches('/(.+)=(.+)/', $matches);
