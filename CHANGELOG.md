@@ -17,6 +17,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Tighten type declarations across Utility class (PHPDoc and native types)
 - Replace `InvalidFormatArgumentException` with native `Error` for invalid format arguments
 - Use `array_all`/`array_any` for containsAll/containsAny methods
+- Replace `strlen`/`substr` with `mb_strlen`/`mb_substr` for multibyte safety
+- Replace `strtolower`/`strtoupper`/`ucfirst`/`lcfirst` with `mb_` equivalents
+- Use `json_validate()` instead of `json_decode` + `json_last_error` for `isJson()`
+- Simplify `reverse()` with `mb_str_split` + `array_reverse`
+- Simplify `parameters()` with `array_map`
 
 ### Added
 - PHPStan static analysis at level 8
@@ -25,6 +30,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Security audit GitHub Actions workflow (daily)
 - Dependabot configuration for composer and GitHub Actions
 - Composer scripts: `lint`, `analyse`, `security-audit`
+- Additional test edge cases and data providers (447 → 492 tests)
 
 ### Fixed
 - PHPStan level 8 compliance (null safety, return types, iterable types)
