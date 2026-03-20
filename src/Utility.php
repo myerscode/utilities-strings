@@ -778,7 +778,7 @@ class Utility implements Stringable
         $string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
         $string = (string) preg_replace('#[^0-9a-z]+#i', $separator, $string);
         $string = trim($string, $separator);
-        $string = mb_strtolower($string);
+        $string = mb_strtolower($string, $this->encoding);
 
         return static::make($string, $this->encoding);
     }
@@ -820,7 +820,7 @@ class Utility implements Stringable
     {
         $string = implode(' ', $this->prepareForCasing($this->string));
 
-        $string = str_replace(' ', '', ucwords($string));
+        $string = str_replace(' ', '', mb_convert_case($string, MB_CASE_TITLE, $this->encoding));
 
         return static::make($string, $this->encoding);
     }
