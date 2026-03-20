@@ -127,6 +127,24 @@ echo $str->beginsWith('<p>Hello <strong>World</strong></p>', '<p>');
 // <p>Hello World</p>
 ```
 
+### contains `bool`
+Check if the string contains a given value.
+
+Has an optional `$offset` parameter to change where the string starts looking from.
+
+```php
+$str = new Utility('Hello World');
+
+echo $str->contains('World');
+// true
+
+echo $str->contains('xyz');
+// false
+
+echo $str->contains('World', 10);
+// false
+```
+
 ### containsAll `bool`
 Will check if the string contains ALL the passed values.
 

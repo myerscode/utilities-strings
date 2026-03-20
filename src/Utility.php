@@ -186,6 +186,22 @@ class Utility implements Stringable
     }
 
     /**
+     * Check if the string contains a given value
+     */
+    public function contains(string $needle, int $offset = 0): bool
+    {
+        if ($needle === '') {
+            return false;
+        }
+
+        if ($offset > $this->length()) {
+            return false;
+        }
+
+        return str_contains(mb_substr($this->string, $offset, null, $this->encoding), $needle);
+    }
+
+    /**
      * Check if a string contains all the given values
      *
      * @param array<string>|string|Utility $contains
