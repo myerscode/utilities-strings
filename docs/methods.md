@@ -68,6 +68,22 @@ echo $str->before('');
 // Hello World
 ```
 
+### beforeLast `Utility`
+Get the portion of the string before the last occurrence of a given value
+
+```php
+$str = new Utility('foo.bar.baz');
+
+echo $str->beforeLast('.');
+// foo.bar
+
+echo $str->beforeLast('xyz');
+// (empty string)
+
+echo $str->beforeLast('');
+// foo.bar.baz
+```
+
 ### beginsWith `bool`
 BeginsWith defaults to case insensitive checks.
 
