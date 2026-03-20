@@ -368,19 +368,19 @@ class Utility implements Stringable
     }
 
     /**
-     * Check if the string is empty
-     */
-    public function isEmpty(): bool
-    {
-        return $this->string === '';
-    }
-
-    /**
      * Is the string in a valid email format
      */
     public function isEmail(): bool
     {
         return filter_var($this->string, FILTER_VALIDATE_EMAIL) !== false;
+    }
+
+    /**
+     * Check if the string is empty
+     */
+    public function isEmpty(): bool
+    {
+        return $this->string === '';
     }
 
     /**
