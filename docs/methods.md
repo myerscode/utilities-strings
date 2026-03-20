@@ -685,6 +685,19 @@ echo $str->replaceFirst('xyz', 'baz');
 // foo bar foo
 ```
 
+### replaceLast `Utility`
+Replace the last occurrence of a value in the string
+
+```php
+$str = new Utility('foo bar foo')
+
+echo $str->replaceLast('foo', 'baz');
+// foo bar baz
+
+echo $str->replaceLast('xyz', 'baz');
+// foo bar foo
+```
+
 ### reverse `Utility`
 Reverse the string
 
