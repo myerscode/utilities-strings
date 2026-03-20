@@ -424,6 +424,22 @@ echo $str->isTrue();
 // false
 ```
 
+### last `Utility`
+Get the last x characters from the string
+
+```php
+$str = new Utility('Hello World')
+
+echo $str->last(5);
+// World
+
+echo $str->last(0);
+// (empty string)
+
+echo $str->last(50);
+// Hello World
+```
+
 ### length `int`
 Get the length of the string
 

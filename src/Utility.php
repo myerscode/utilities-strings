@@ -433,6 +433,22 @@ class Utility implements Stringable
     }
 
     /**
+     * Get the last x characters from the string
+     */
+    public function last(int $count): Utility
+    {
+        if ($count <= 0) {
+            return static::make('', $this->encoding);
+        }
+
+        if ($count >= $this->length()) {
+            return static::make($this->string, $this->encoding);
+        }
+
+        return static::make(mb_substr($this->string, -$count, null, $this->encoding), $this->encoding);
+    }
+
+    /**
      * The length of the string.
      */
     public function length(): int
