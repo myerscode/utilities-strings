@@ -16,6 +16,22 @@ echo $str->after('');
 // Hello World
 ```
 
+### afterLast `Utility`
+Get the remainder of the string after the last occurrence of a given value
+
+```php
+$str = new Utility('foo.bar.baz');
+
+echo $str->afterLast('.');
+// baz
+
+echo $str->afterLast('xyz');
+// (empty string)
+
+echo $str->afterLast('');
+// foo.bar.baz
+```
+
 ### append `Utility`
 Append a value to the string
 

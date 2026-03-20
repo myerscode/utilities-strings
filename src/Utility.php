@@ -62,6 +62,24 @@ class Utility implements Stringable
     }
 
     /**
+     * Get the remainder of the string after the last occurrence of a given value
+     */
+    public function afterLast(string $search): Utility
+    {
+        if ($search === '') {
+            return static::make($this->string, $this->encoding);
+        }
+
+        $position = mb_strrpos($this->string, $search, 0, $this->encoding);
+
+        if ($position === false) {
+            return static::make('', $this->encoding);
+        }
+
+        return static::make(mb_substr($this->string, $position + mb_strlen($search, $this->encoding), null, $this->encoding), $this->encoding);
+    }
+
+    /**
      * Append the string with a given value
      */
     public function append(string $postfix): Utility
