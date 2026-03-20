@@ -672,6 +672,19 @@ echo $str->replace(['Foo', 'Bar'], '');
 // .123
 ```
 
+### replaceFirst `Utility`
+Replace the first occurrence of a value in the string
+
+```php
+$str = new Utility('foo bar foo')
+
+echo $str->replaceFirst('foo', 'baz');
+// baz bar foo
+
+echo $str->replaceFirst('xyz', 'baz');
+// foo bar foo
+```
+
 ### reverse `Utility`
 Reverse the string
 

@@ -694,6 +694,27 @@ class Utility implements Stringable
     }
 
     /**
+     * Replace the first occurrence of a value in the string
+     */
+    public function replaceFirst(string $search, string $replace): Utility
+    {
+        if ($search === '') {
+            return static::make($this->string, $this->encoding);
+        }
+
+        $position = mb_strpos($this->string, $search, 0, $this->encoding);
+
+        if ($position === false) {
+            return static::make($this->string, $this->encoding);
+        }
+
+        $before = mb_substr($this->string, 0, $position, $this->encoding);
+        $after = mb_substr($this->string, $position + mb_strlen($search, $this->encoding), null, $this->encoding);
+
+        return static::make($before . $replace . $after, $this->encoding);
+    }
+
+    /**
      * Replace none alpha characters in the string with the given value
      */
     public function replaceNonAlpha(string $replacement = '', bool $strict = false): Utility
