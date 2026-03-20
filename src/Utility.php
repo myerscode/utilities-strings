@@ -164,6 +164,18 @@ class Utility implements Stringable
     }
 
     /**
+     * Get the portion of the string between two given values
+     */
+    public function between(string $from, string $to): Utility
+    {
+        if ($from === '' || $to === '') {
+            return static::make($this->string, $this->encoding);
+        }
+
+        return $this->after($from)->before($to);
+    }
+
+    /**
      * Remove tags and trim the string
      */
     public function clean(?string $allowedTags = null): Utility

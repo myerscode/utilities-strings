@@ -97,6 +97,21 @@ echo $str->beginsWith('hello', true);
 // false
 ```
 
+### between `Utility`
+Get the portion of the string between two given values
+
+```php
+$str = new Utility('Hello World!');
+
+echo $str->between('Hello ', '!');
+// World
+
+$str = new Utility('key=value&other');
+
+echo $str->between('=', '&');
+// value
+```
+
 ### clean `Utility`
 Clean will do a basic `trim` and `strip_tags` calls on the string.
 
