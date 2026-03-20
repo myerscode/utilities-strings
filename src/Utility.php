@@ -78,7 +78,7 @@ class Utility implements Stringable
         $parameters = $this->parameters($begins);
 
         foreach ($parameters as $parameter) {
-            $beginning = $this->substring(0, strlen((string) $parameter));
+            $beginning = $this->substring(0, mb_strlen((string) $parameter, $this->encoding));
             if ($caseSensitive) {
                 if (strcmp($beginning, (string) $parameter) === 0) {
                     return true;
@@ -118,7 +118,7 @@ class Utility implements Stringable
             return false;
         }
 
-        return array_all($parameters, fn ($needle): bool => str_contains(substr($this->string, $offset), (string) $needle->value()));
+        return array_all($parameters, fn ($needle): bool => str_contains(mb_substr($this->string, $offset, null, $this->encoding), (string) $needle->value()));
     }
 
     /**
@@ -138,7 +138,7 @@ class Utility implements Stringable
             return false;
         }
 
-        return array_any($parameters, fn ($needle): bool => str_contains(substr($this->string, $offset), (string) $needle->value()));
+        return array_any($parameters, fn ($needle): bool => str_contains(mb_substr($this->string, $offset, null, $this->encoding), (string) $needle->value()));
     }
 
     /**
@@ -164,7 +164,7 @@ class Utility implements Stringable
         $parameters = $this->parameters($ends);
 
         foreach ($parameters as $parameter) {
-            $ending = $this->substring(strlen((string) $this->string) - strlen((string) $parameter));
+            $ending = $this->substring(mb_strlen((string) $this->string, $this->encoding) - mb_strlen((string) $parameter, $this->encoding));
             if ($caseSensitive) {
                 if (strcmp($ending, (string) $parameter->value()) === 0) {
                     return true;
@@ -292,9 +292,7 @@ class Utility implements Stringable
      */
     public function isJson(): bool
     {
-        json_decode($this->string);
-
-        return (json_last_error() === JSON_ERROR_NONE);
+        return json_validate($this->string);
     }
 
     /**
@@ -334,7 +332,7 @@ class Utility implements Stringable
         $string = $this->string;
 
         if ($this->length() > $length) {
-            $string = substr($string, 0, $length);
+            $string = mb_substr($string, 0, $length, $this->encoding);
         }
 
         return static::make($string, $this->encoding);
@@ -475,12 +473,12 @@ class Utility implements Stringable
     public function removeFromEnd(string|Utility $remove): Utility
     {
         if ($this->endsWith($remove)) {
-            $length = strlen((string) $remove);
+            $length = mb_strlen((string) $remove, $this->encoding);
             if ($length === 0) {
                 return $this;
             }
 
-            return static::make(substr($this->string, 0, -strlen((string) $remove)), $this->encoding);
+            return static::make(mb_substr($this->string, 0, -$length, $this->encoding), $this->encoding);
         }
 
         return $this;
@@ -492,12 +490,12 @@ class Utility implements Stringable
     public function removeFromStart(string $remove): Utility
     {
         if ($this->beginsWith($remove)) {
-            $length = strlen($remove);
+            $length = mb_strlen($remove, $this->encoding);
             if ($length === 0) {
                 return $this;
             }
 
-            return static::make(substr($this->string, strlen($remove)), $this->encoding);
+            return static::make(mb_substr($this->string, $length, null, $this->encoding), $this->encoding);
         }
 
         return $this;
@@ -604,11 +602,7 @@ class Utility implements Stringable
      */
     public function reverse(): Utility
     {
-        $string = '';
-
-        for ($i = $this->length() - 1; $i >= 0; --$i) {
-            $string .= mb_substr($this->string, $i, 1, $this->encoding);
-        }
+        $string = implode('', array_reverse(mb_str_split($this->string, 1, $this->encoding)));
 
         return static::make($string, $this->encoding);
     }
@@ -697,9 +691,9 @@ class Utility implements Stringable
             return static::make('', $this->encoding);
         }
 
-        $words = array_map(fn (string $word): string => ucfirst(strtolower($word)), $words);
+        $words = array_map(fn (string $word): string => mb_ucfirst(mb_strtolower($word, $this->encoding)), $words);
 
-        $string = lcfirst(implode('', $words));
+        $string = mb_lcfirst(implode('', $words));
 
         return static::make($string, $this->encoding);
     }
@@ -711,7 +705,7 @@ class Utility implements Stringable
     {
         $utility = $this->toSlug();
 
-        return static::make(strtolower($utility), $this->encoding);
+        return static::make(mb_strtolower($utility, $this->encoding), $this->encoding);
     }
 
     /**
@@ -719,7 +713,7 @@ class Utility implements Stringable
      */
     public function toLowercase(): Utility
     {
-        return static::make(strtolower($this->string), $this->encoding);
+        return static::make(mb_strtolower($this->string, $this->encoding), $this->encoding);
     }
 
     /**
@@ -735,7 +729,7 @@ class Utility implements Stringable
      */
     public function toPascalCase(): Utility
     {
-        $string = ucfirst($this->toCamelCase()->value());
+        $string = mb_ucfirst($this->toCamelCase()->value());
 
         return static::make($string, $this->encoding);
     }
@@ -756,14 +750,7 @@ class Utility implements Stringable
             return static::make($this->string, $this->encoding);
         }
 
-        $sentences = array_map(function ($sentence): string {
-            $sentence = trim($sentence);
-            if (!ctype_upper($sentence[0])) {
-                return ucfirst($sentence);
-            }
-
-            return $sentence;
-        }, $sentences);
+        $sentences = array_map(fn (string $sentence): string => ctype_upper(trim($sentence)[0] ?? '') ? trim($sentence) : mb_ucfirst(trim($sentence)), $sentences);
 
         $string = implode(' ', $sentences);
 
@@ -855,7 +842,7 @@ class Utility implements Stringable
      */
     public function toUppercase(): Utility
     {
-        return static::make(strtoupper($this->string), $this->encoding);
+        return static::make(mb_strtoupper($this->string, $this->encoding), $this->encoding);
     }
 
     /**
@@ -946,13 +933,7 @@ class Utility implements Stringable
     {
         $values = (is_array($parameters)) ? $parameters : [(string) $parameters];
 
-        $strings = [];
-
-        foreach ($values as $value) {
-            $strings[] = self::make($value, $this->encoding);
-        }
-
-        return $strings;
+        return array_map(fn (string|Stringable|Utility $value): Utility => self::make($value, $this->encoding), $values);
     }
 
     /**
