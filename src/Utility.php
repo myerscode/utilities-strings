@@ -836,6 +836,20 @@ class Utility implements Stringable
     }
 
     /**
+     * Swap multiple keywords in the string using a key/value map
+     *
+     * @param array<string, string> $map
+     */
+    public function swap(array $map): Utility
+    {
+        if ($map === []) {
+            return static::make($this->string, $this->encoding);
+        }
+
+        return static::make(strtr($this->string, $map), $this->encoding);
+    }
+
+    /**
      * Sanitize a string to only contain letters
      */
     public function toAlpha(): Utility

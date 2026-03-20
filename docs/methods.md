@@ -752,6 +752,21 @@ echo $str->surround('!!!');
 // !!!Foo Bar!!!
 ```
 
+### swap `Utility`
+Swap multiple keywords in the string using a key/value map
+
+```php
+$str = new Utility('foo bar')
+
+echo $str->swap(['foo' => 'bar', 'bar' => 'foo']);
+// bar foo
+
+$str = new Utility('a-b-c')
+
+echo $str->swap(['a' => '1', 'b' => '2', 'c' => '3']);
+// 1-2-3
+```
+
 ### toAlphanumeric `Utility`
 Convert the string to only contain alphanumeric values
 
