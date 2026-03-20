@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use PHPUnit\Framework\Attributes\DataProvider;
 use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class LengthTest extends BaseStringSuite
 {
@@ -14,6 +14,9 @@ final class LengthTest extends BaseStringSuite
         yield [6, 'foobar'];
         yield [1, '0'];
         yield [0, ''];
+        yield [11, 'Hello World'];
+        yield [1, ' '];
+        yield [3, 'foo'];
     }
 
     #[DataProvider('__validData')]

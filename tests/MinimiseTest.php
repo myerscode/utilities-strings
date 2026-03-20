@@ -4,22 +4,34 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
+
 final class MinimiseTest extends BaseStringSuite
 {
-    public function testTextGetsMinimised(): void
+    public static function __validData(): Iterator
     {
-        $original = 'hello world.     quick
-        
-        
+        yield [
+            'hello world. quick brown fox. <select><option>foobar</select>',
+            'hello world.     quick
+
+
         brown 
-        
+
                fox.
                         <select><option>foobar</option></select>
-                                            
-        ';
 
-        $expected = 'hello world. quick brown fox. <select><option>foobar</select>';
+        ',
+        ];
+        yield ['foo bar', 'foo   bar'];
+        yield ['', ''];
+        yield ['hello', '  hello  '];
+        yield ['a b', "a\t\tb"];
+    }
 
-        $this->assertSame($expected, $this->utility($original)->minimise()->value());
+    #[DataProvider('__validData')]
+    public function testTextGetsMinimised(string $expected, string $string): void
+    {
+        $this->assertSame($expected, $this->utility($string)->minimise()->value());
     }
 }

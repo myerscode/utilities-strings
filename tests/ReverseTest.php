@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use PHPUnit\Framework\Attributes\DataProvider;
 use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class ReverseTest extends BaseStringSuite
 {
@@ -13,6 +13,10 @@ final class ReverseTest extends BaseStringSuite
     {
         yield ['raboof', 'foobar'];
         yield ['rab oof', 'foo bar'];
+        yield ['', ''];
+        yield ['a', 'a'];
+        yield ['cba', 'abc'];
+        yield ['321', '123'];
     }
 
     #[DataProvider('__validData')]
