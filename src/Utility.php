@@ -368,6 +368,14 @@ class Utility implements Stringable
     }
 
     /**
+     * Check if the string is empty
+     */
+    public function isEmpty(): bool
+    {
+        return $this->string === '';
+    }
+
+    /**
      * Is the string in a valid email format
      */
     public function isEmail(): bool
@@ -393,6 +401,14 @@ class Utility implements Stringable
     public function isJson(): bool
     {
         return json_validate($this->string);
+    }
+
+    /**
+     * Check if the string is not empty
+     */
+    public function isNotEmpty(): bool
+    {
+        return !$this->isEmpty();
     }
 
     /**

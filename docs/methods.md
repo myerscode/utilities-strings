@@ -324,6 +324,26 @@ echo $str->isEmail();
 // false
 ```
 
+### isEmpty `bool`
+Check if the string is empty
+
+```php
+$str = new Utility('')
+
+echo $str->isEmpty();
+// true
+
+$str = new Utility('hello')
+
+echo $str->isEmpty();
+// false
+
+$str = new Utility(' ')
+
+echo $str->isEmpty();
+// false
+```
+
 ### isFalse `bool`
 Check if the string could be assumed to represent a false value ("false", "0", "no", "off", "")
 
@@ -371,6 +391,21 @@ echo $str->isNumeric();
 $str = new Utility('77.49')
 
 echo $str->isNumeric();
+// false
+```
+
+### isNotEmpty `bool`
+Check if the string is not empty
+
+```php
+$str = new Utility('hello')
+
+echo $str->isNotEmpty();
+// true
+
+$str = new Utility('')
+
+echo $str->isNotEmpty();
 // false
 ```
 
