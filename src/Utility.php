@@ -100,6 +100,24 @@ class Utility implements Stringable
     }
 
     /**
+     * Get the portion of the string before the first occurrence of a given value
+     */
+    public function before(string $search): Utility
+    {
+        if ($search === '') {
+            return static::make($this->string, $this->encoding);
+        }
+
+        $position = mb_strpos($this->string, $search, 0, $this->encoding);
+
+        if ($position === false) {
+            return static::make('', $this->encoding);
+        }
+
+        return static::make(mb_substr($this->string, 0, $position, $this->encoding), $this->encoding);
+    }
+
+    /**
      * Does string start with a given value(s).
      * You can pass a single string or an array of strings to look check for.
      *

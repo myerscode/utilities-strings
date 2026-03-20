@@ -52,6 +52,22 @@ echo $str->at(6);
 // W
 ```
 
+### before `Utility`
+Get the portion of the string before the first occurrence of a given value
+
+```php
+$str = new Utility('Hello World');
+
+echo $str->before(' World');
+// Hello
+
+echo $str->before('xyz');
+// (empty string)
+
+echo $str->before('');
+// Hello World
+```
+
 ### beginsWith `bool`
 BeginsWith defaults to case insensitive checks.
 
