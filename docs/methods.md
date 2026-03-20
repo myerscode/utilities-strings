@@ -1,5 +1,21 @@
 # Methods
 
+### after `Utility`
+Get the remainder of the string after the first occurrence of a given value
+
+```php
+$str = new Utility('Hello World');
+
+echo $str->after('Hello ');
+// World
+
+echo $str->after('xyz');
+// (empty string)
+
+echo $str->after('');
+// Hello World
+```
+
 ### append `Utility`
 Append a value to the string
 
