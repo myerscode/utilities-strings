@@ -24,7 +24,7 @@ final class FormatTest extends BaseStringSuite
     {
         $this->assertSame(
             'Hello World! This is a test!',
-            (string) $this->utility('Hello {0}! This is a {1}!')->format(['World', 'test'])->value()
+            (string) $this->utility('Hello {0}! This is a {1}!')->format(['World', 'test'])->value(),
         );
     }
 
@@ -42,7 +42,7 @@ final class FormatTest extends BaseStringSuite
     {
         $this->assertSame(
             'tes{4} n{5} placeholder{6}',
-            (string) $this->utility('tes{4} n{5} placeholder{6}')->format(['T', 'E', 'S', 'T'])->value()
+            (string) $this->utility('tes{4} n{5} placeholder{6}')->format(['T', 'E', 'S', 'T'])->value(),
         );
     }
 
@@ -50,7 +50,7 @@ final class FormatTest extends BaseStringSuite
     {
         $this->assertSame(
             'test no placeholders',
-            (string) $this->utility('test no placeholders')->format(['T', 'E', 'S', 'T'])->value()
+            (string) $this->utility('test no placeholders')->format(['T', 'E', 'S', 'T'])->value(),
         );
     }
 }

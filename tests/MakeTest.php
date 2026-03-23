@@ -23,7 +23,7 @@ final class MakeTest extends BaseStringSuite
     #[DataProvider('__validData')]
     public function testValueSetViaMake(
         string $expected,
-        string|Utility|StringConstructorTestCase $string
+        string|Utility|StringConstructorTestCase $string,
     ): void {
         $this->assertSame($expected, (string) Utility::make($string)->value());
     }
