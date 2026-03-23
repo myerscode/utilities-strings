@@ -16,6 +16,7 @@ final class ApplyPaddingTest extends BaseStringSuite
         yield ['  foo bar', 'foo bar', 2];
         yield ['foo bar  ', 'foo bar', 0, 2];
         yield ['  foo bar  ', 'foo bar', 2, 2];
+        yield ['foo bar', 'foo bar', 2, 2, ''];
     }
 
     #[DataProvider('__validData')]

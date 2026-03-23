@@ -605,12 +605,7 @@ class Utility implements Stringable
     public function removeFromEnd(string|Utility $remove): Utility
     {
         if ($this->endsWith($remove)) {
-            $length = mb_strlen((string) $remove, $this->encoding);
-            if ($length === 0) {
-                return $this;
-            }
-
-            return static::make(mb_substr($this->string, 0, -$length, $this->encoding), $this->encoding);
+            return static::make(mb_substr($this->string, 0, -mb_strlen((string) $remove, $this->encoding), $this->encoding), $this->encoding);
         }
 
         return $this;
@@ -622,12 +617,7 @@ class Utility implements Stringable
     public function removeFromStart(string $remove): Utility
     {
         if ($this->beginsWith($remove)) {
-            $length = mb_strlen($remove, $this->encoding);
-            if ($length === 0) {
-                return $this;
-            }
-
-            return static::make(mb_substr($this->string, $length, null, $this->encoding), $this->encoding);
+            return static::make(mb_substr($this->string, mb_strlen($remove, $this->encoding), null, $this->encoding), $this->encoding);
         }
 
         return $this;
@@ -873,11 +863,7 @@ class Utility implements Stringable
         // separate existing joined words
         $string = (string) preg_replace('#([a-z0-9])(?=[A-Z])#', '$1 ', $this->string);
 
-        $words = preg_split('#[\W_]#', $string);
-
-        if ($words === false) {
-            return static::make('', $this->encoding);
-        }
+        $words = preg_split('#[\W_]#', $string) ?: [];
 
         $words = array_map(fn (string $word): string => mb_ucfirst(mb_strtolower($word, $this->encoding)), $words);
 
@@ -932,11 +918,7 @@ class Utility implements Stringable
             (string) $this->string,
             -1,
             PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE,
-        );
-
-        if ($sentences === false) {
-            return static::make($this->string, $this->encoding);
-        }
+        ) ?: [];
 
         $sentences = array_map(fn (string $sentence): string => ctype_upper(trim($sentence)[0] ?? '') ? trim($sentence) : mb_ucfirst(trim($sentence)), $sentences);
 
@@ -1137,11 +1119,7 @@ class Utility implements Stringable
         $string = implode(' ', preg_split('#(?<=\w)(?=[A-Z])#', $string) ?: []);
 
         // explode on numbers
-        $parts = preg_split('#(,?\s+)|((?<=[a-z])(?=\d))|((?<=\d)(?=[a-z]))#i', $string);
-
-        if ($parts === false) {
-            return [];
-        }
+        $parts = preg_split('#(,?\s+)|((?<=[a-z])(?=\d))|((?<=\d)(?=[a-z]))#i', $string) ?: [];
 
         // return only words
         return array_values(array_filter($parts, fn (string $value): bool => $value !== '' && $value !== '0'));
