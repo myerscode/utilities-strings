@@ -84,6 +84,7 @@
 | [trimRight](#trimright-utility) | `Utility` | Trim values from the right of the string |
 | [value](#value-utility) | `Utility` | Get the current value of the string |
 | [wordCount](#wordcount-int) | `int` | Count the number of words in the string |
+| [wrap](#wrap-utility) | `Utility` | Wrap the string with a start and optional end value |
 
 ## Method Reference
 
@@ -1200,4 +1201,19 @@ $str = new Utility('   ')
 
 echo $str->wordCount();
 // 0
+```
+
+### wrap `Utility`
+Wrap the string with a value at the start and, optionally, a different value at the end. When no end value is given, the start value is used on both sides. Unlike [surround](#surround-utility), the start and end values can differ.
+
+```php
+$str = new Utility('foo')
+
+echo $str->wrap('"');
+// "foo"
+
+$str = new Utility('hello')
+
+echo $str->wrap('<p>', '</p>');
+// <p>hello</p>
 ```

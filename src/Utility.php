@@ -1140,6 +1140,18 @@ class Utility implements Stringable
     }
 
     /**
+     * Wrap the string with a value at the start and, optionally, a different value at the end.
+     * When no end value is given, the start value is used on both sides.
+     */
+    public function wrap(string|Stringable|Utility $before, string|Stringable|Utility|null $after = null): Utility
+    {
+        $start = static::make($before, $this->encoding);
+        $end = static::make($after ?? $before, $this->encoding);
+
+        return static::make(implode('', [$start, $this->string, $end]), $this->encoding);
+    }
+
+    /**
      * Adds the specified amount of left and right padding to the given string.
      * The default character used is a space.
      */
