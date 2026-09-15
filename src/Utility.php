@@ -176,6 +176,16 @@ class Utility implements Stringable
     }
 
     /**
+     * Get the string as an array of its individual characters
+     *
+     * @return array<string>
+     */
+    public function chars(): array
+    {
+        return mb_str_split($this->string, 1, $this->encoding);
+    }
+
+    /**
      * Remove tags and trim the string
      */
     public function clean(?string $allowedTags = null): Utility

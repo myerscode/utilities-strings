@@ -12,6 +12,7 @@
 | [beforeLast](#beforelast-utility) | `Utility` | Portion of the string before the last occurrence of a value |
 | [beginsWith](#beginswith-bool) | `bool` | Does the string begin with a given value |
 | [between](#between-utility) | `Utility` | Portion of the string between two values |
+| [chars](#chars-array) | `array` | Get the string as an array of characters |
 | [clean](#clean-utility) | `Utility` | Trim and strip tags from the string |
 | [contains](#contains-bool) | `bool` | Does the string contain a value |
 | [containsAll](#containsall-bool) | `bool` | Does the string contain all of the given values |
@@ -190,6 +191,26 @@ $str = new Utility('key=value&other');
 
 echo $str->between('=', '&');
 // value
+```
+
+### chars `array`
+Get the string as an array of its individual characters. Multibyte aware.
+
+```php
+$str = new Utility('foo');
+
+echo $str->chars();
+// ['f', 'o', 'o']
+
+$str = new Utility('');
+
+echo $str->chars();
+// []
+
+$str = new Utility('fòôbàř');
+
+echo $str->chars();
+// ['f', 'ò', 'ô', 'b', 'à', 'ř']
 ```
 
 ### clean `Utility`
