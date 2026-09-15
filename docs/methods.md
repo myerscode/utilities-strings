@@ -81,6 +81,7 @@
 | [trimLeft](#trimleft-utility) | `Utility` | Trim values from the left of the string |
 | [trimRight](#trimright-utility) | `Utility` | Trim values from the right of the string |
 | [value](#value-utility) | `Utility` | Get the current value of the string |
+| [wordCount](#wordcount-int) | `int` | Count the number of words in the string |
 
 ## Method Reference
 
@@ -1142,4 +1143,24 @@ $str = new Utility('Foo Bar')
 
 echo $str->value();
 // Foo Bar
+```
+
+### wordCount `int`
+Count the number of words in the string. Words are runs of non-whitespace characters, so any amount of whitespace between words is treated as a single separator.
+
+```php
+$str = new Utility('Hello World')
+
+echo $str->wordCount();
+// 2
+
+$str = new Utility('Foo   Bar   Baz')
+
+echo $str->wordCount();
+// 3
+
+$str = new Utility('   ')
+
+echo $str->wordCount();
+// 0
 ```

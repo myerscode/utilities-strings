@@ -1110,6 +1110,14 @@ class Utility implements Stringable
     }
 
     /**
+     * Count the number of words in the string
+     */
+    public function wordCount(): int
+    {
+        return (int) preg_match_all('/\S+/u', $this->string);
+    }
+
+    /**
      * Adds the specified amount of left and right padding to the given string.
      * The default character used is a space.
      */
