@@ -33,6 +33,7 @@
 | [isNumeric](#isnumeric-bool) | `bool` | Does the string only contain numeric characters |
 | [isTrue](#istrue-bool) | `bool` | Does the string represent a true-y value |
 | [last](#last-utility) | `Utility` | Get the last x characters of the string |
+| [lcfirst](#lcfirst-utility) | `Utility` | Convert the first character to lowercase |
 | [length](#length-int) | `int` | Get the length of the string |
 | [limit](#limit-utility) | `Utility` | Limit the length of the string |
 | [matches](#match-bool) | `bool` | Does the string match a regular expression |
@@ -541,6 +542,21 @@ echo $str->last(0);
 
 echo $str->last(50);
 // Hello World
+```
+
+### lcfirst `Utility`
+Convert the first character of the string to lowercase. Multibyte aware.
+
+```php
+$str = new Utility('Foo Bar')
+
+echo $str->lcfirst();
+// foo Bar
+
+$str = new Utility('Hello')
+
+echo $str->lcfirst();
+// hello
 ```
 
 ### length `int`

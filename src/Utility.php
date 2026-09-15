@@ -459,6 +459,14 @@ class Utility implements Stringable
     }
 
     /**
+     * Convert the first character of the string to lowercase
+     */
+    public function lcfirst(): Utility
+    {
+        return static::make(mb_lcfirst($this->string, $this->encoding), $this->encoding);
+    }
+
+    /**
      * The length of the string.
      */
     public function length(): int
