@@ -443,6 +443,27 @@ class Utility implements Stringable
     }
 
     /**
+     * Is the string in a valid URL format.
+     * An optional list of allowed schemes (e.g. ['http', 'https']) can be given to restrict what is considered valid.
+     *
+     * @param array<string> $protocols
+     */
+    public function isUrl(array $protocols = []): bool
+    {
+        if (filter_var($this->string, FILTER_VALIDATE_URL) === false) {
+            return false;
+        }
+
+        if ($protocols === []) {
+            return true;
+        }
+
+        $scheme = mb_strtolower((string) parse_url($this->string, PHP_URL_SCHEME), $this->encoding);
+
+        return in_array($scheme, array_map(fn (string $protocol): string => mb_strtolower($protocol, $this->encoding), $protocols), true);
+    }
+
+    /**
      * Get the last x characters from the string
      */
     public function last(int $count): Utility

@@ -32,6 +32,7 @@
 | [isNotEmpty](#isnotempty-bool) | `bool` | Is the string not empty |
 | [isNumeric](#isnumeric-bool) | `bool` | Does the string only contain numeric characters |
 | [isTrue](#istrue-bool) | `bool` | Does the string represent a true-y value |
+| [isUrl](#isurl-bool) | `bool` | Is the string in a URL format |
 | [last](#last-utility) | `Utility` | Get the last x characters of the string |
 | [lcfirst](#lcfirst-utility) | `Utility` | Convert the first character to lowercase |
 | [length](#length-int) | `int` | Get the length of the string |
@@ -530,6 +531,26 @@ echo $str->isTrue();
 $str = new Utility('false')
 
 echo $str->isTrue();
+// false
+```
+
+### isUrl `bool`
+Check if the string is in a valid URL format. An optional list of allowed schemes can be passed to restrict what is considered valid.
+
+```php
+$str = new Utility('https://example.com')
+
+echo $str->isUrl();
+// true
+
+$str = new Utility('example.com')
+
+echo $str->isUrl();
+// false
+
+$str = new Utility('ftp://example.com')
+
+echo $str->isUrl(['http', 'https']);
 // false
 ```
 
