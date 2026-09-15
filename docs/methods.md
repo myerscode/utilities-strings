@@ -58,6 +58,7 @@
 | [replaceNonNumeric](#replacenonnumeric-utility) | `Utility` | Replace non numeric characters |
 | [reverse](#reverse-utility) | `Utility` | Reverse the string |
 | [slice](#slice-utility) | `Utility` | Create a slice of the string |
+| [squish](#squish-utility) | `Utility` | Collapse whitespace runs to a single space and trim |
 | [substring](#substring-utility) | `Utility` | Create a substring of the string |
 | [substringCount](#substringcount-int) | `int` | Count occurrences of a value in the string |
 | [surround](#surround-utility) | `Utility` | Wrap the string with another string |
@@ -837,6 +838,21 @@ $str = new Utility('foobar')
 
 echo $str->slice(0,3);
 // foo
+```
+
+### squish `Utility`
+Collapse all runs of whitespace (spaces, tabs and newlines) into a single space and trim the ends.
+
+```php
+$str = new Utility('foo    bar')
+
+echo $str->squish();
+// foo bar
+
+$str = new Utility("  foo \t\n bar  ")
+
+echo $str->squish();
+// foo bar
 ```
 
 ### substring `Utility`

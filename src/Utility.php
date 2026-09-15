@@ -820,6 +820,16 @@ class Utility implements Stringable
     }
 
     /**
+     * Collapse all runs of whitespace to a single space and trim the ends
+     */
+    public function squish(): Utility
+    {
+        $string = (string) preg_replace('/\s+/u', ' ', $this->string);
+
+        return static::make(trim($string), $this->encoding);
+    }
+
+    /**
      * Create substring from the string beginning at $start with a length of $end.
      * If $end value is omitted, the rest of the string is used.
      * If $end is negative, it is computed from the end of the string.
