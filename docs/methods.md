@@ -75,6 +75,7 @@
 | [toStudlyCase](#tostudlycase-utility) | `Utility` | Convert to StudlyCase |
 | [toTitleCase](#totitlecase-utility) | `Utility` | Convert to Title Case |
 | [toUppercase](#touppercase-utility) | `Utility` | Convert to uppercase |
+| [ucfirst](#ucfirst-utility) | `Utility` | Convert the first character to uppercase |
 | [trim](#trim-utility) | `Utility` | Trim values from both ends of the string |
 | [trimLeft](#trimleft-utility) | `Utility` | Trim values from the left of the string |
 | [trimRight](#trimright-utility) | `Utility` | Trim values from the right of the string |
@@ -1055,6 +1056,21 @@ $str = new Utility('hello world')
 
 echo $str->toUppercase();
 // HELLO WORLD
+```
+
+### ucfirst `Utility`
+Convert the first character of the string to uppercase. Multibyte aware.
+
+```php
+$str = new Utility('foo bar')
+
+echo $str->ucfirst();
+// Foo bar
+
+$str = new Utility('hELLO')
+
+echo $str->ucfirst();
+// HELLO
 ```
 
 ### trimLeft `Utility`

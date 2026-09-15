@@ -1086,6 +1086,14 @@ class Utility implements Stringable
     }
 
     /**
+     * Convert the first character of the string to uppercase
+     */
+    public function ucfirst(): Utility
+    {
+        return static::make(mb_ucfirst($this->string, $this->encoding), $this->encoding);
+    }
+
+    /**
      * Return the value when casting to string
      */
     public function value(): string|Stringable
