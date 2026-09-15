@@ -60,6 +60,7 @@
 | [substring](#substring-utility) | `Utility` | Create a substring of the string |
 | [surround](#surround-utility) | `Utility` | Wrap the string with another string |
 | [swap](#swap-utility) | `Utility` | Swap multiple keywords using a key/value map |
+| [swapCase](#swapcase-utility) | `Utility` | Swap the case of each character |
 | [toAlpha](#toalpha-utility) | `Utility` | Convert to only alpha characters |
 | [toAlphanumeric](#toalphanumeric-utility) | `Utility` | Convert to only alphanumeric characters |
 | [toCamelCase](#tocamelcase-utility) | `Utility` | Convert to camelCase |
@@ -866,6 +867,26 @@ $str = new Utility('a-b-c')
 
 echo $str->swap(['a' => '1', 'b' => '2', 'c' => '3']);
 // 1-2-3
+```
+
+### swapCase `Utility`
+Swap the case of each character, turning uppercase into lowercase and vice versa. Multibyte aware.
+
+```php
+$str = new Utility('Hello World')
+
+echo $str->swapCase();
+// hELLO wORLD
+
+$str = new Utility('foobar')
+
+echo $str->swapCase();
+// FOOBAR
+
+$str = new Utility('123 !@#')
+
+echo $str->swapCase();
+// 123 !@#
 ```
 
 ### toAlphanumeric `Utility`

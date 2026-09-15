@@ -850,6 +850,24 @@ class Utility implements Stringable
     }
 
     /**
+     * Swap the case of each character in the string, turning uppercase to lowercase and vice versa
+     */
+    public function swapCase(): Utility
+    {
+        $characters = mb_str_split($this->string, 1, $this->encoding);
+
+        $swapped = array_map(function (string $character): string {
+            $upper = mb_strtoupper($character, $this->encoding);
+
+            return $character === $upper
+                ? mb_strtolower($character, $this->encoding)
+                : $upper;
+        }, $characters);
+
+        return static::make(implode('', $swapped), $this->encoding);
+    }
+
+    /**
      * Sanitize a string to only contain letters
      */
     public function toAlpha(): Utility
