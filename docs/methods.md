@@ -1,5 +1,85 @@
 # Methods
 
+## Available Methods
+
+| Method | Returns | Description |
+| --- | --- | --- |
+| [after](#after-utility) | `Utility` | Remainder of the string after the first occurrence of a value |
+| [afterLast](#afterlast-utility) | `Utility` | Remainder of the string after the last occurrence of a value |
+| [append](#append-utility) | `Utility` | Append a value to the string |
+| [at](#at-string) | `Utility` | Get the character at a specific index |
+| [before](#before-utility) | `Utility` | Portion of the string before the first occurrence of a value |
+| [beforeLast](#beforelast-utility) | `Utility` | Portion of the string before the last occurrence of a value |
+| [beginsWith](#beginswith-bool) | `bool` | Does the string begin with a given value |
+| [between](#between-utility) | `Utility` | Portion of the string between two values |
+| [clean](#clean-utility) | `Utility` | Trim and strip tags from the string |
+| [contains](#contains-bool) | `bool` | Does the string contain a value |
+| [containsAll](#containsall-bool) | `bool` | Does the string contain all of the given values |
+| [containsAny](#containsany-bool) | `bool` | Does the string contain any of the given values |
+| [endsWith](#endswith-bool) | `bool` | Does the string end with any of the given values |
+| [ensureBeginsWith](#ensurebeingswith-utility) | `Utility` | Prepend a value unless the string already begins with it |
+| [ensureEndsWith](#ensureendswith-utility) | `Utility` | Append a value unless the string already ends with it |
+| [equals](#equals-bool) | `bool` | Compare the string with another |
+| [explode](#explode-array) | `array` | Explode the string by a delimiter |
+| [format](#format-bool) | `Utility` | Replace placeholders with the given values in order |
+| [isAlpha](#isalpha-bool) | `bool` | Does the string only contain alpha characters |
+| [isAlphaNumeric](#isalphanumeric-bool) | `bool` | Does the string only contain alphanumeric characters |
+| [isEmail](#isemail-bool) | `bool` | Is the string in an email format |
+| [isEmpty](#isempty-bool) | `bool` | Is the string empty |
+| [isFalse](#isfalse-bool) | `bool` | Does the string represent a false-y value |
+| [isJson](#isjson-bool) | `bool` | Is the string valid JSON |
+| [isNotEmpty](#isnotempty-bool) | `bool` | Is the string not empty |
+| [isNumeric](#isnumeric-bool) | `bool` | Does the string only contain numeric characters |
+| [isTrue](#istrue-bool) | `bool` | Does the string represent a true-y value |
+| [last](#last-utility) | `Utility` | Get the last x characters of the string |
+| [length](#length-int) | `int` | Get the length of the string |
+| [limit](#limit-utility) | `Utility` | Limit the length of the string |
+| [matches](#match-bool) | `bool` | Does the string match a regular expression |
+| [minimise](#minimise-utility) | `Utility` | Remove spaces and unnecessary html |
+| [occurrences](#occurrences-array) | `array` | Starting positions of all occurrences of a value |
+| [pad](#pad-utility) | `Utility` | Pad both sides of the string to a given length |
+| [padLeft](#padleft-utility) | `Utility` | Pad the left of the string to a given length |
+| [padRight](#padright-utility) | `Utility` | Pad the right of the string to a given length |
+| [prepend](#prepend-utility) | `Utility` | Prepend a value to the string |
+| [remove](#remove-utility) | `Utility` | Remove occurrences of a value from the string |
+| [removeFromEnd](#removefromend-utility) | `Utility` | Remove a word from the end of the string |
+| [removeFromStart](#removefromstart-utility) | `Utility` | Remove a word from the start of the string |
+| [removePunctuation](#removepunctuation-utility) | `Utility` | Strip punctuation characters |
+| [removeRepeating](#removerepeating-utility) | `Utility` | Collapse repeating characters |
+| [removeSpace](#removespace-utility) | `Utility` | Strip all space characters |
+| [repeat](#repeat-utility) | `Utility` | Repeat the string a number of times |
+| [replace](#replace-utility) | `Utility` | Replace all occurrences of values |
+| [replaceFirst](#replacefirst-utility) | `Utility` | Replace the first occurrence of a value |
+| [replaceLast](#replacelast-utility) | `Utility` | Replace the last occurrence of a value |
+| [replaceNonAlpha](#replacenonalpha-utility) | `Utility` | Replace non alpha characters |
+| [replaceNonAlphanumeric](#replacenonalphanumeric-utility) | `Utility` | Replace non alphanumeric characters |
+| [replaceNonNumeric](#replacenonnumeric-utility) | `Utility` | Replace non numeric characters |
+| [reverse](#reverse-utility) | `Utility` | Reverse the string |
+| [slice](#slice-utility) | `Utility` | Create a slice of the string |
+| [substring](#substring-utility) | `Utility` | Create a substring of the string |
+| [surround](#surround-utility) | `Utility` | Wrap the string with another string |
+| [swap](#swap-utility) | `Utility` | Swap multiple keywords using a key/value map |
+| [toAlpha](#toalpha-utility) | `Utility` | Convert to only alpha characters |
+| [toAlphanumeric](#toalphanumeric-utility) | `Utility` | Convert to only alphanumeric characters |
+| [toCamelCase](#tocamelcase-utility) | `Utility` | Convert to camelCase |
+| [toKebabCase](#tokebabcase-utility) | `Utility` | Convert to kebab-case |
+| [toLowercase](#tolowercase-utility) | `Utility` | Convert to lowercase |
+| [toNumeric](#tonumeric-utility) | `Utility` | Convert to only numeric characters |
+| [toPascalCase](#topascalcase-utility) | `Utility` | Convert to PascalCase |
+| [toSentence](#tosentencecase-utility) | `Utility` | Convert to sentence case |
+| [toSlug](#toslug-utility) | `Utility` | Convert to a URL slug |
+| [toSlugUtf8](#toslugutf8-utility) | `Utility` | Convert to a slug preserving UTF-8 characters |
+| [toSnakeCase](#tosnakecase-utility) | `Utility` | Convert to snake_case |
+| [toStudlyCase](#tostudlycase-utility) | `Utility` | Convert to StudlyCase |
+| [toTitleCase](#totitlecase-utility) | `Utility` | Convert to Title Case |
+| [toUppercase](#touppercase-utility) | `Utility` | Convert to uppercase |
+| [trim](#trim-utility) | `Utility` | Trim values from both ends of the string |
+| [trimLeft](#trimleft-utility) | `Utility` | Trim values from the left of the string |
+| [trimRight](#trimright-utility) | `Utility` | Trim values from the right of the string |
+| [value](#value-utility) | `Utility` | Get the current value of the string |
+
+## Method Reference
+
 ### after `Utility`
 Get the remainder of the string after the first occurrence of a given value
 
