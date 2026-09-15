@@ -25,6 +25,7 @@
 | [format](#format-bool) | `Utility` | Replace placeholders with the given values in order |
 | [isAlpha](#isalpha-bool) | `bool` | Does the string only contain alpha characters |
 | [isAlphaNumeric](#isalphanumeric-bool) | `bool` | Does the string only contain alphanumeric characters |
+| [isAscii](#isascii-bool) | `bool` | Does the string only contain 7-bit ASCII characters |
 | [isEmail](#isemail-bool) | `bool` | Is the string in an email format |
 | [isEmpty](#isempty-bool) | `bool` | Is the string empty |
 | [isFalse](#isfalse-bool) | `bool` | Does the string represent a false-y value |
@@ -416,6 +417,21 @@ echo $str->isAlpha();
 $str = new Utility('Foo Bar!!!')
 
 echo $str->isAlpha();
+// false
+```
+
+### isAscii `bool`
+Check if the string only contains 7-bit ASCII characters
+
+```php
+$str = new Utility('Hello World')
+
+echo $str->isAscii();
+// true
+
+$str = new Utility('café')
+
+echo $str->isAscii();
 // false
 ```
 

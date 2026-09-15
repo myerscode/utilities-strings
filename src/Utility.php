@@ -378,6 +378,14 @@ class Utility implements Stringable
     }
 
     /**
+     * Does the string only contain 7-bit ASCII characters
+     */
+    public function isAscii(): bool
+    {
+        return mb_check_encoding($this->string, 'ASCII');
+    }
+
+    /**
      * Is the string in a valid email format
      */
     public function isEmail(): bool
