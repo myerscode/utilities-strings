@@ -834,6 +834,18 @@ class Utility implements Stringable
     }
 
     /**
+     * Count the number of non-overlapping occurrences of a value in the string
+     */
+    public function substringCount(string $needle): int
+    {
+        if ($needle === '') {
+            return 0;
+        }
+
+        return mb_substr_count($this->string, $needle, $this->encoding);
+    }
+
+    /**
      * Wrap the string with a value
      */
     public function surround(string|Stringable|Utility $with): Utility

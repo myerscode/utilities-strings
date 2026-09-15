@@ -59,6 +59,7 @@
 | [reverse](#reverse-utility) | `Utility` | Reverse the string |
 | [slice](#slice-utility) | `Utility` | Create a slice of the string |
 | [substring](#substring-utility) | `Utility` | Create a substring of the string |
+| [substringCount](#substringcount-int) | `int` | Count occurrences of a value in the string |
 | [surround](#surround-utility) | `Utility` | Wrap the string with another string |
 | [swap](#swap-utility) | `Utility` | Swap multiple keywords using a key/value map |
 | [swapCase](#swapcase-utility) | `Utility` | Swap the case of each character |
@@ -860,6 +861,26 @@ $str = new Utility('foobar')
 
 echo $str->slice(0,-3);
 // foo
+```
+
+### substringCount `int`
+Count the number of non-overlapping occurrences of a value in the string. The comparison is case sensitive.
+
+```php
+$str = new Utility('foo bar foo')
+
+echo $str->substringCount('foo');
+// 2
+
+$str = new Utility('aaa')
+
+echo $str->substringCount('aa');
+// 1
+
+$str = new Utility('Hello World')
+
+echo $str->substringCount('xyz');
+// 0
 ```
 
 ### surround `Utility`
