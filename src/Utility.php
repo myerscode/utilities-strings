@@ -1124,6 +1124,29 @@ class Utility implements Stringable
     }
 
     /**
+     * Remove a wrapping value from the start and end of the string, if present.
+     * When no end value is given, the start value is used for both sides.
+     * Each side is only removed when the string actually starts or ends with the value.
+     */
+    public function unwrap(string|Stringable|Utility $before, string|Stringable|Utility|null $after = null): Utility
+    {
+        $start = (string) static::make($before, $this->encoding);
+        $end = (string) static::make($after ?? $before, $this->encoding);
+
+        $string = $this->string;
+
+        if ($start !== '' && str_starts_with($string, $start)) {
+            $string = mb_substr($string, mb_strlen($start, $this->encoding), null, $this->encoding);
+        }
+
+        if ($end !== '' && $string !== '' && str_ends_with($string, $end)) {
+            $string = mb_substr($string, 0, -mb_strlen($end, $this->encoding), $this->encoding);
+        }
+
+        return static::make($string, $this->encoding);
+    }
+
+    /**
      * Return the value when casting to string
      */
     public function value(): string|Stringable

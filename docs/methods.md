@@ -79,6 +79,7 @@
 | [toTitleCase](#totitlecase-utility) | `Utility` | Convert to Title Case |
 | [toUppercase](#touppercase-utility) | `Utility` | Convert to uppercase |
 | [ucfirst](#ucfirst-utility) | `Utility` | Convert the first character to uppercase |
+| [unwrap](#unwrap-utility) | `Utility` | Remove a wrapping value from the start and end |
 | [trim](#trim-utility) | `Utility` | Trim values from both ends of the string |
 | [trimLeft](#trimleft-utility) | `Utility` | Trim values from the left of the string |
 | [trimRight](#trimright-utility) | `Utility` | Trim values from the right of the string |
@@ -1126,6 +1127,26 @@ $str = new Utility('hELLO')
 
 echo $str->ucfirst();
 // HELLO
+```
+
+### unwrap `Utility`
+Remove a wrapping value from the start and end of the string, if present. When no end value is given, the start value is used for both sides. Each side is only removed when the string actually starts or ends with the value, and the match is case sensitive.
+
+```php
+$str = new Utility('-Laravel-')
+
+echo $str->unwrap('-');
+// Laravel
+
+$str = new Utility('{framework}')
+
+echo $str->unwrap('{', '}');
+// framework
+
+$str = new Utility('Laravel')
+
+echo $str->unwrap('-');
+// Laravel
 ```
 
 ### trimLeft `Utility`
