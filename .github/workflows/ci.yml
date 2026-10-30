@@ -3,12 +3,28 @@ on:
   pull_request:
     branches: [ main ]
 permissions:
-  contents: write
+  contents: read
 jobs:
+  tests:
+    uses: myerscode/workflows/.github/workflows/php-tests.yml@develop
+    with:
+      php-versions: "['8.5']"
+      os: "['ubuntu-latest']"
+      extensions: "ctype, iconv, json, mbstring"
   lint:
-    permissions:
-      contents: write
     uses: myerscode/workflows/.github/workflows/php-lint.yml@develop
     with:
       php-version: "8.5"
       extensions: "ctype, iconv, json, mbstring"
+  audit:
+    uses: myerscode/workflows/.github/workflows/php-security-audit.yml@develop
+    with:
+      php-version: "8.5"
+      extensions: "ctype, iconv, json, mbstring"
+  coverage:
+    uses: myerscode/workflows/.github/workflows/php-coverage.yml@develop
+    with:
+      php-version: "8.5"
+      extensions: "ctype, iconv, json, mbstring"
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
