@@ -5,14 +5,15 @@ on:
 permissions:
   contents: read
 jobs:
-  tests:
-    uses: myerscode/workflows/.github/workflows/php-tests.yml@v1
-    with:
-      php-versions: "['8.5']"
-      os: "['ubuntu-latest']"
-      extensions: "ctype, iconv, json, mbstring"
   lint:
-    uses: myerscode/workflows/.github/workflows/php-lint.yml@v1
+    uses: myerscode/workflows/.github/workflows/php-lint.yml@develop
     with:
       php-version: "8.5"
       extensions: "ctype, iconv, json, mbstring"
+  coverage:
+    uses: myerscode/workflows/.github/workflows/php-coverage.yml@develop
+    with:
+      php-version: "8.5"
+      extensions: "ctype, iconv, json, mbstring"
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
