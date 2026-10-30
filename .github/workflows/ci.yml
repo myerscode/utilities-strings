@@ -11,3 +11,8 @@ jobs:
       php-versions: "['8.5']"
       os: "['ubuntu-latest']"
       extensions: "ctype, iconv, json, mbstring"
+  lint:
+    uses: myerscode/workflows/.github/workflows/php-lint.yml@v1
+    with:
+      php-version: "8.5"
+      extensions: "ctype, iconv, json, mbstring"
