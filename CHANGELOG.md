@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2026.0.1] - 2026-10-31
+### New Features
+- [`be8a0db`](https://github.com/myerscode/utilities-strings/commit/be8a0db920405b90c8dfb4709664c5cdf967212e) - **str**: add chars() method *(commit by [@oniice](https://github.com/oniice))*
+- [`c758199`](https://github.com/myerscode/utilities-strings/commit/c7581991c331218896eb6f80d507d83ea7b94414) - **str**: add swapCase() method *(commit by [@oniice](https://github.com/oniice))*
+- [`f00abe6`](https://github.com/myerscode/utilities-strings/commit/f00abe689b7e381188197b2924b929d6047a5c09) - **str**: add ucfirst() method *(commit by [@oniice](https://github.com/oniice))*
+- [`1a9a8be`](https://github.com/myerscode/utilities-strings/commit/1a9a8be3aaa695ac1ff371ed993d4596194318ad) - **str**: add lcfirst() method *(commit by [@oniice](https://github.com/oniice))*
+- [`0ff5342`](https://github.com/myerscode/utilities-strings/commit/0ff5342d6f8bffe85c5266081f3a5229a2a49679) - **str**: add wordCount() method *(commit by [@oniice](https://github.com/oniice))*
+- [`2e51e86`](https://github.com/myerscode/utilities-strings/commit/2e51e866eb27685376b28866fff614406cb100e7) - **str**: add substringCount() method *(commit by [@oniice](https://github.com/oniice))*
+- [`f70c571`](https://github.com/myerscode/utilities-strings/commit/f70c57163ce31354a20c69ae8c900e285c55eefc) - **str**: add squish() method *(commit by [@oniice](https://github.com/oniice))*
+- [`de92d73`](https://github.com/myerscode/utilities-strings/commit/de92d73994670c69f89d6f7a03160c548973388e) - **str**: add wrap() method *(commit by [@oniice](https://github.com/oniice))*
+- [`e33ddcf`](https://github.com/myerscode/utilities-strings/commit/e33ddcf275c724b99248a65d348873121259992c) - **str**: add unwrap() method *(commit by [@oniice](https://github.com/oniice))*
+- [`2959046`](https://github.com/myerscode/utilities-strings/commit/295904665a37b7e708ac2d0514fbe652a681112f) - **str**: add isUrl() method *(commit by [@oniice](https://github.com/oniice))*
+- [`2acfc54`](https://github.com/myerscode/utilities-strings/commit/2acfc5483016a22e8b0f06f359ae981af1f26fee) - **str**: add isAscii() method *(commit by [@oniice](https://github.com/oniice))*
+- [`35de302`](https://github.com/myerscode/utilities-strings/commit/35de3022cf23aac2ff01baa29ed1f5834db850d4) - **ci**: add shared dependabot auto-merge *(PR #10 by [@oniice](https://github.com/oniice))*
+
+[2026.0.1]: https://github.com/myerscode/utilities-strings/compare/2026.0.0...2026.0.1
+
 ## [2026.0.0] - 2026-03-24
 ### New Features
 - [`3b213f9`](https://github.com/myerscode/utilities-strings/commit/3b213f9f548c18d9e5f9655b843c668796c0335f) - **str**: add after() method *(commit by [@oniice](https://github.com/oniice))*
