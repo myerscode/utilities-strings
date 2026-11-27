@@ -7,7 +7,7 @@
 | [after](#after-utility) | `Utility` | Remainder of the string after the first occurrence of a value |
 | [afterLast](#afterlast-utility) | `Utility` | Remainder of the string after the last occurrence of a value |
 | [append](#append-utility) | `Utility` | Append a value to the string |
-| [at](#at-string) | `Utility` | Get the character at a specific index |
+| [at](#at-utility) | `Utility` | Get the character at a specific index |
 | [before](#before-utility) | `Utility` | Portion of the string before the first occurrence of a value |
 | [beforeLast](#beforelast-utility) | `Utility` | Portion of the string before the last occurrence of a value |
 | [beginsWith](#beginswith-bool) | `bool` | Does the string begin with a given value |
@@ -17,12 +17,13 @@
 | [contains](#contains-bool) | `bool` | Does the string contain a value |
 | [containsAll](#containsall-bool) | `bool` | Does the string contain all of the given values |
 | [containsAny](#containsany-bool) | `bool` | Does the string contain any of the given values |
+| [encoding](#encoding-string) | `string` | Get the string's encoding |
 | [endsWith](#endswith-bool) | `bool` | Does the string end with any of the given values |
-| [ensureBeginsWith](#ensurebeingswith-utility) | `Utility` | Prepend a value unless the string already begins with it |
+| [ensureBeginsWith](#ensurebeginswith-utility) | `Utility` | Prepend a value unless the string already begins with it |
 | [ensureEndsWith](#ensureendswith-utility) | `Utility` | Append a value unless the string already ends with it |
 | [equals](#equals-bool) | `bool` | Compare the string with another |
 | [explode](#explode-array) | `array` | Explode the string by a delimiter |
-| [format](#format-bool) | `Utility` | Replace placeholders with the given values in order |
+| [format](#format-utility) | `Utility` | Replace placeholders with the given values in order |
 | [isAlpha](#isalpha-bool) | `bool` | Does the string only contain alpha characters |
 | [isAlphaNumeric](#isalphanumeric-bool) | `bool` | Does the string only contain alphanumeric characters |
 | [isAscii](#isascii-bool) | `bool` | Does the string only contain 7-bit ASCII characters |
@@ -38,7 +39,8 @@
 | [lcfirst](#lcfirst-utility) | `Utility` | Convert the first character to lowercase |
 | [length](#length-int) | `int` | Get the length of the string |
 | [limit](#limit-utility) | `Utility` | Limit the length of the string |
-| [matches](#match-bool) | `bool` | Does the string match a regular expression |
+| [make](#make-utility) | `Utility` | Create a new instance (static) |
+| [matches](#matches-bool) | `bool` | Does the string match a regular expression |
 | [minimise](#minimise-utility) | `Utility` | Remove spaces and unnecessary html |
 | [occurrences](#occurrences-array) | `array` | Starting positions of all occurrences of a value |
 | [pad](#pad-utility) | `Utility` | Pad both sides of the string to a given length |
@@ -59,6 +61,7 @@
 | [replaceNonAlphanumeric](#replacenonalphanumeric-utility) | `Utility` | Replace non alphanumeric characters |
 | [replaceNonNumeric](#replacenonnumeric-utility) | `Utility` | Replace non numeric characters |
 | [reverse](#reverse-utility) | `Utility` | Reverse the string |
+| [setEncoding](#setencoding-static) | `static` | Set the string's encoding |
 | [slice](#slice-utility) | `Utility` | Create a slice of the string |
 | [squish](#squish-utility) | `Utility` | Collapse whitespace runs to a single space and trim |
 | [substring](#substring-utility) | `Utility` | Create a substring of the string |
@@ -73,7 +76,7 @@
 | [toLowercase](#tolowercase-utility) | `Utility` | Convert to lowercase |
 | [toNumeric](#tonumeric-utility) | `Utility` | Convert to only numeric characters |
 | [toPascalCase](#topascalcase-utility) | `Utility` | Convert to PascalCase |
-| [toSentence](#tosentencecase-utility) | `Utility` | Convert to sentence case |
+| [toSentence](#tosentence-utility) | `Utility` | Convert to sentence case |
 | [toSlug](#toslug-utility) | `Utility` | Convert to a URL slug |
 | [toSlugUtf8](#toslugutf8-utility) | `Utility` | Convert to a slug preserving UTF-8 characters |
 | [toSnakeCase](#tosnakecase-utility) | `Utility` | Convert to snake_case |
@@ -85,7 +88,7 @@
 | [trim](#trim-utility) | `Utility` | Trim values from both ends of the string |
 | [trimLeft](#trimleft-utility) | `Utility` | Trim values from the left of the string |
 | [trimRight](#trimright-utility) | `Utility` | Trim values from the right of the string |
-| [value](#value-utility) | `Utility` | Get the current value of the string |
+| [value](#value-stringstringable) | `string\|Stringable` | Get the current value of the string |
 | [wordCount](#wordcount-int) | `int` | Count the number of words in the string |
 | [wrap](#wrap-utility) | `Utility` | Wrap the string with a start and optional end value |
 
@@ -133,7 +136,7 @@ echo $str->append('!');
 // Hello World!
 ```
 
-### at `string`
+### at `Utility`
 Get the character at a specific index
 
 ```php
@@ -305,6 +308,16 @@ echo $str->containsAny(['Hello', 'World'], 20);
 // false
 ```
 
+### encoding `string`
+Get the encoding used for multibyte operations
+
+```php
+$str = new Utility('Hello World');
+
+echo $str->encoding();
+// UTF-8
+```
+
 ### endsWith `bool`
 Check to see if the string ends with any of the given values
 
@@ -326,16 +339,16 @@ echo $str->endsWith(['Hello World', 'Foo']);
 // false
 ```
 
-### ensureBeingsWith `Utility`
-Check if the string beings with the given value, if not prepends it.
+### ensureBeginsWith `Utility`
+Check if the string begins with the given value, if not prepends it.
 
 ```php
 $str = new Utility('Foo Bar')
 
-echo $str->ensureBeingsWith('Foo');
+echo $str->ensureBeginsWith('Foo');
 // Foo Bar
 
-echo $str->ensureBeingsWith('Hello ');
+echo $str->ensureBeginsWith('Hello ');
 // Hello Foo Bar
 ```
 
@@ -376,32 +389,32 @@ echo $str->explode(',');
 // ['Foo', 'Bar']
 ```
 
-### format `bool`
+### format `Utility`
 Replace placeholders with the given values in order
 
 ```php
-$str = new Utility('Hello {0} Foo {1}')
+$str = new Utility('Hello {0} Foo {1}');
 
-echo $str->format('World', 'Bar);
+echo $str->format(['World', 'Bar']);
 // Hello World Foo Bar
 
-$str = new Utility('{0} {1} {0} {1} {0} {1}')
-echo $str->format('Foo', 'Bar');
-// Foo Bar Foo Bar Foo Bar 
+$str = new Utility('{0} {1} {0} {1} {0} {1}');
+echo $str->format(['Foo', 'Bar']);
+// Foo Bar Foo Bar Foo Bar
 ```
 
-### isAlphanumeric `bool`
+### isAlphaNumeric `bool`
 Check if the string only contains alphanumeric characters
 
 ```php
 $str = new Utility('Foo Bar 123')
 
-echo $str->isAlphanumeric();
+echo $str->isAlphaNumeric();
 // true
 
 $str = new Utility('Foo Bar!!!')
 
-echo $str->isAlphanumeric();
+echo $str->isAlphaNumeric();
 // false
 ```
 
@@ -621,8 +634,22 @@ echo $str->limit(5);
 // Hello
 ```
 
-### match `bool`
-Check if the string matches a regular expression pattern
+### make `Utility`
+`Utility::make(string|Stringable|Utility $string, ?string $encoding = null)`
+
+Static factory that creates a new instance. The encoding defaults to `mb_internal_encoding()`.
+
+```php
+$str = Utility::make('Hello World');
+
+echo $str->length();
+// 11
+```
+
+### matches `bool`
+`matches(string $pattern, array &$matches = [])`
+
+Check if the string matches a regular expression pattern. Capture groups are written to `$matches`. Throws an `InvalidArgumentException` if the pattern is invalid.
 
 ```php
 $str = new Utility('Hello=World')
@@ -869,6 +896,16 @@ echo $str->reverse();
 // raboof
 ```
 
+### setEncoding `static`
+Set the encoding used for multibyte operations. Modifies and returns the same instance.
+
+```php
+$str = new Utility('Hello World');
+
+echo $str->setEncoding('ISO-8859-1')->encoding();
+// ISO-8859-1
+```
+
 ### slice `Utility`
 Create a slice of the string, starting at the index stated `$start` property for a length of the `$end` property
 
@@ -1068,18 +1105,18 @@ echo $str->toPascalCase();
 // FooBar123
 ```
 
-### toSentenceCase `Utility`
-Convert the string to be in a sentence case slug format
+### toSentence `Utility`
+Convert the string into sentences, ensuring each starts with a capital letter and ends with punctuation
 
 ```php
 $str = new Utility('Foo Bar')
 
-echo $str->toSentenceCase();
-// Foo bar.
+echo $str->toSentence();
+// Foo Bar.
 
 $str = new Utility('Foo Bar!!! 123')
 
-echo $str->toSentenceCase();
+echo $str->toSentence();
 // Foo Bar!!! 123.
 ```
 
@@ -1089,13 +1126,13 @@ Convert the string to be in a slug format
 ```php
 $str = new Utility('Foo Bar')
 
-echo $str->toSentenceCase();
-// foo-bar.
+echo $str->toSlug();
+// foo-bar
 
 $str = new Utility('Foo Bar!!! 123')
 
-echo $str->toSentenceCase();
-// foo-bar-123.
+echo $str->toSlug();
+// foo-bar-123
 ```
 
 ### toSlugUtf8 `Utility`
@@ -1231,7 +1268,7 @@ echo $str->trimLeft(['!', ' ']);
 // Hello World
 ```
 
-### value `Utility`
+### value `string|Stringable`
 Get the current value of the string
 
 ```php
