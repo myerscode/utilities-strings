@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2026.1.0] - 2026-11-27
+### Bug Fixes
+- [`ef520f9`](https://github.com/myerscode/utilities-strings/commit/ef520f9a8646f047937188f4c87e3993c96958f3) - unicode-aware checks, safe regex, new helpers *(PR [#17](https://github.com/myerscode/utilities-strings/pull/17) by [@oniice](https://github.com/oniice))*
+
+
 ## [2026.0.1] - 2026-10-31
 ### New Features
 - [`be8a0db`](https://github.com/myerscode/utilities-strings/commit/be8a0db920405b90c8dfb4709664c5cdf967212e) - **str**: add chars() method *(commit by [@oniice](https://github.com/oniice))*
@@ -49,3 +54,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - [`1ecc351`](https://github.com/myerscode/utilities-strings/commit/1ecc351ee6e0122e43425bc7fca83edb313ffd5b) chore(core): updated codebase and dependancies for 2025 release
 [2026.0.0]: https://github.com/myerscode/utilities-strings/compare/2025.0.1...2026.0.0
+[2026.1.0]: https://github.com/myerscode/utilities-strings/compare/2026.0.1...2026.1.0
