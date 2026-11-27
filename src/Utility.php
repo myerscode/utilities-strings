@@ -601,7 +601,11 @@ class Utility implements Stringable
         $offset = 0;
         $allPositions = [];
 
-        while (($position = strpos($this->string, $needle, $offset)) !== false) {
+        if ($needle === '') {
+            return $allPositions;
+        }
+
+        while (($position = mb_strpos((string) $this->string, $needle, $offset, $this->encoding)) !== false) {
             $offset = $position + 1;
             $allPositions[] = $position;
         }
