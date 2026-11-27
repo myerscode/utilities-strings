@@ -366,7 +366,7 @@ class Utility implements Stringable
      */
     public function isAlpha(): bool
     {
-        return (bool) preg_match('#^[a-z\s]*$#i', (string) $this->string);
+        return (bool) preg_match('#^[\p{L}\s]*$#u', (string) $this->string);
     }
 
     /**
@@ -374,7 +374,7 @@ class Utility implements Stringable
      */
     public function isAlphaNumeric(): bool
     {
-        return (bool) preg_match('#^[a-z0-9\s]*$#i', (string) $this->string);
+        return (bool) preg_match('#^[\p{L}\p{N}\s]*$#u', (string) $this->string);
     }
 
     /**
@@ -434,7 +434,7 @@ class Utility implements Stringable
      */
     public function isNumeric(): bool
     {
-        return (!empty($this->string) && preg_match('#^\d*$#i', (string) $this->string));
+        return $this->string !== '' && preg_match('#^\p{N}*$#u', (string) $this->string) === 1;
     }
 
     /**
