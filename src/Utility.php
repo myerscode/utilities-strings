@@ -105,8 +105,7 @@ class Utility implements Stringable
         $converted = mb_convert_encoding((string) $this->string, 'UTF-8', $this->encoding);
         $string = is_string($converted) ? $converted : (string) $this->string;
 
-        $transliterator = class_exists(Transliterator::class) ? Transliterator::create('Any-Latin; Latin-ASCII') : null;
-        $result = $transliterator?->transliterate($string);
+        $result = $this->transliterator()?->transliterate($string);
 
         if (!is_string($result)) {
             // htmlentities maps accents to named entities, so they fold to a base letter on every iconv implementation
@@ -1430,6 +1429,14 @@ class Utility implements Stringable
         $string = $leftPadding . $this->string . $rightPadding;
 
         return static::make($string, $this->encoding);
+    }
+
+    /**
+     * The intl transliterator used by ascii(), or null when intl is not installed
+     */
+    protected function transliterator(): ?Transliterator
+    {
+        return class_exists(Transliterator::class) ? Transliterator::create('Any-Latin; Latin-ASCII') : null;
     }
 
     /**
