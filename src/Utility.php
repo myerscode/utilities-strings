@@ -2,6 +2,7 @@
 
 namespace Myerscode\Utilities\Strings;
 
+use InvalidArgumentException;
 use Stringable;
 
 use function mb_strlen;
@@ -528,10 +529,19 @@ class Utility implements Stringable
      * Does the string match a given RegEx pattern
      *
      * @param array<mixed> $matches
+     *
+     * @throws InvalidArgumentException When the pattern is invalid or matching fails
      */
     public function matches(string $pattern, array &$matches = []): bool
     {
-        return (bool) preg_match($pattern, (string) $this->string, $matches);
+        // @ silences the compile warning; failure is reported by the exception below
+        $result = @preg_match($pattern, (string) $this->string, $matches);
+
+        if ($result === false) {
+            throw new InvalidArgumentException('Invalid regex pattern or match failure: ' . preg_last_error_msg());
+        }
+
+        return $result === 1;
     }
 
     /**
