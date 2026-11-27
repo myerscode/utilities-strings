@@ -387,7 +387,13 @@ echo $str->explode(',');
 $str = new Utility('Foo,,,,Bar');
 echo $str->explode(',');
 // ['Foo', 'Bar']
+
+$str = new Utility('Foo,0,Bar');
+echo $str->explode(',');
+// ['Foo', '0', 'Bar']
 ```
+
+Only empty strings are removed, so a `'0'` segment is kept.
 
 ### format `Utility`
 Replace placeholders with the given values in order

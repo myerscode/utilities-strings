@@ -338,7 +338,7 @@ class Utility implements Stringable
             return [];
         }
 
-        return array_slice(array_map(trim(...), array_filter(explode($delimiter, (string) $this->string, $limit))), 0);
+        return array_values(array_filter(array_map(trim(...), explode($delimiter, (string) $this->string, $limit)), fn (string $part): bool => $part !== ''));
     }
 
     /**
