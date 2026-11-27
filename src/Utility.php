@@ -150,12 +150,14 @@ class Utility implements Stringable
         $parameters = $this->parameters($begins);
 
         foreach ($parameters as $parameter) {
-            $beginning = $this->substring(0, mb_strlen((string) $parameter, $this->encoding));
-            if ($caseSensitive) {
-                if (strcmp($beginning, (string) $parameter) === 0) {
-                    return true;
-                }
-            } elseif (strcasecmp($beginning, (string) $parameter) === 0) {
+            $needle = (string) $parameter;
+            $haystack = (string) $this->string;
+            if (!$caseSensitive) {
+                $needle = mb_strtolower($needle, $this->encoding);
+                $haystack = mb_strtolower($haystack, $this->encoding);
+            }
+
+            if (mb_substr($haystack, 0, mb_strlen($needle, $this->encoding), $this->encoding) === $needle) {
                 return true;
             }
         }
@@ -274,12 +276,17 @@ class Utility implements Stringable
         $parameters = $this->parameters($ends);
 
         foreach ($parameters as $parameter) {
-            $ending = $this->substring(mb_strlen((string) $this->string, $this->encoding) - mb_strlen((string) $parameter, $this->encoding));
-            if ($caseSensitive) {
-                if (strcmp($ending, (string) $parameter->value()) === 0) {
-                    return true;
-                }
-            } elseif (strcasecmp($ending, (string) $parameter->value()) === 0) {
+            $needle = (string) $parameter;
+            $haystack = (string) $this->string;
+            if (!$caseSensitive) {
+                $needle = mb_strtolower($needle, $this->encoding);
+                $haystack = mb_strtolower($haystack, $this->encoding);
+            }
+
+            $needleLength = mb_strlen($needle, $this->encoding);
+            $offset = mb_strlen($haystack, $this->encoding) - $needleLength;
+
+            if ($offset >= 0 && mb_substr($haystack, $offset, null, $this->encoding) === $needle) {
                 return true;
             }
         }
