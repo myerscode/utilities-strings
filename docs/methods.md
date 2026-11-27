@@ -39,6 +39,7 @@
 | [lcfirst](#lcfirst-utility) | `Utility` | Convert the first character to lowercase |
 | [length](#length-int) | `int` | Get the length of the string |
 | [limit](#limit-utility) | `Utility` | Limit the length of the string |
+| [mask](#mask-utility) | `Utility` | Mask part of the string with a repeated character |
 | [make](#make-utility) | `Utility` | Create a new instance (static) |
 | [matches](#matches-bool) | `bool` | Does the string match a regular expression |
 | [minimise](#minimise-utility) | `Utility` | Remove spaces and unnecessary html |
@@ -656,6 +657,22 @@ $str = Utility::make('Hello World');
 
 echo $str->length();
 // 11
+```
+
+### mask `Utility`
+Mask part of the string with a repeated character, starting at a character index. Only the first character of `$char` is used. A negative index counts from the end of the string, and the optional `$length` limits how many characters are masked (defaults to the rest of the string).
+
+```php
+$str = new Utility('rupert@example.com');
+
+echo $str->mask('*', 3);
+// rup***************
+
+echo $str->mask('*', -4);
+// rupert@example****
+
+echo $str->mask('*', 3, 3);
+// rup***@example.com
 ```
 
 ### matches `bool`

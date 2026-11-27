@@ -538,6 +538,34 @@ class Utility implements Stringable
     }
 
     /**
+     * Mask a portion of the string with a repeated character, starting at the given character index.
+     * A negative index counts from the end of the string.
+     */
+    public function mask(string $char, int $index, ?int $length = null): Utility
+    {
+        $char = mb_substr($char, 0, 1, $this->encoding);
+
+        if ($char === '') {
+            return $this;
+        }
+
+        $segment = mb_substr($this->string, $index, $length, $this->encoding);
+
+        if ($segment === '') {
+            return $this;
+        }
+
+        $start = $index < 0 ? max($this->length() + $index, 0) : $index;
+        $segmentLength = mb_strlen($segment, $this->encoding);
+
+        $string = mb_substr($this->string, 0, $start, $this->encoding)
+            . str_repeat($char, $segmentLength)
+            . mb_substr($this->string, $start + $segmentLength, null, $this->encoding);
+
+        return static::make($string, $this->encoding);
+    }
+
+    /**
      * Does the string match a given RegEx pattern
      *
      * @param array<mixed> $matches
