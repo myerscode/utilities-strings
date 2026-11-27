@@ -1306,6 +1306,25 @@ class Utility implements Stringable
     }
 
     /**
+     * Limit the string to a given number of words and append an ending when it was shortened.
+     * A limit of zero or less returns an empty string.
+     */
+    public function words(int $words = 100, string $end = '...'): Utility
+    {
+        if ($words <= 0) {
+            return static::make('', $this->encoding);
+        }
+
+        preg_match('/^\s*+(?:\S++\s*+){1,' . $words . '}/u', (string) $this->string, $matches);
+
+        if (!isset($matches[0]) || mb_strlen((string) $this->string, $this->encoding) === mb_strlen($matches[0], $this->encoding)) {
+            return $this;
+        }
+
+        return static::make(rtrim($matches[0]) . $end, $this->encoding);
+    }
+
+    /**
      * Wrap the string with a value at the start and, optionally, a different value at the end.
      * When no end value is given, the start value is used on both sides.
      */

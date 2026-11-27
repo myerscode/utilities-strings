@@ -93,6 +93,7 @@
 | [truncate](#truncate-utility) | `Utility` | Truncate the string to a number of characters and append an ending |
 | [value](#value-stringstringable) | `string\|Stringable` | Get the current value of the string |
 | [wordCount](#wordcount-int) | `int` | Count the number of words in the string |
+| [words](#words-utility) | `Utility` | Limit the string to a number of words |
 | [wrap](#wrap-utility) | `Utility` | Wrap the string with a start and optional end value |
 
 ## Method Reference
@@ -1375,6 +1376,22 @@ $str = new Utility('   ')
 
 echo $str->wordCount();
 // 0
+```
+
+### words `Utility`
+Limit the string to a given number of words (default `100`) and append an ending, `...` by default, when it was shortened. A limit of zero or less returns an empty string.
+
+```php
+$str = new Utility('Rupert met Gerald and Arthur');
+
+echo $str->words(3);
+// Rupert met Gerald...
+
+echo $str->words(2, '~');
+// Rupert met~
+
+echo $str->words(10);
+// Rupert met Gerald and Arthur
 ```
 
 ### wrap `Utility`
