@@ -24,4 +24,12 @@ final class LengthTest extends BaseStringSuite
     {
         $this->assertSame($expected, $this->utility($string)->length());
     }
+
+    public function testLengthIsRecalculatedWhenEncodingChanges(): void
+    {
+        $utility = $this->utility('é', 'UTF-8');
+
+        $this->assertSame(1, $utility->length());
+        $this->assertSame(2, $utility->setEncoding('8bit')->length());
+    }
 }

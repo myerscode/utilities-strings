@@ -17,7 +17,7 @@ final class ToAlphanumericTest extends BaseStringSuite
         yield ['omgitsafoxD', "omg!!! it's a fox =D"];
         yield ['', ':"{}~`'];
         yield ['', '!@£$%^&*()'];
-        yield ['', ''];
+        yield ['caféÉcole1', 'café École 1!'];
     }
 
     #[DataProvider('__validData')]

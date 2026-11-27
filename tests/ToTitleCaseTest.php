@@ -14,6 +14,7 @@ final class ToTitleCaseTest extends BaseStringSuite
         yield ['Quickbrown Foobar', 'QuickBrown fooBar'];
         yield ['Quick Brown Foo Bar', 'Quick brown foo bar'];
         yield ['Quick Brown Foo Bar.', 'Quick brown foo bar.'];
+        yield ['Élan Vital Été', 'élan vital été'];
     }
 
     #[DataProvider('__validData')]

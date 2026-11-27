@@ -23,4 +23,9 @@ final class OccurrencesTest extends BaseStringSuite
     {
         $this->assertSame($occurrences, $this->utility($string)->occurrences($find));
     }
+
+    public function testEmptyNeedleHasNoOccurrences(): void
+    {
+        $this->assertSame([], $this->utility('Rupert and Gerald')->occurrences(''));
+    }
 }

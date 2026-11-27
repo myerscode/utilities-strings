@@ -18,6 +18,11 @@ final class RemoveRepeatingTest extends BaseStringSuite
         yield ['foobar!!!!!!!', 'foobar!!!!!!!', ' '];
     }
 
+    public function testEmptyRepeatingValueLeavesStringUnchanged(): void
+    {
+        $this->assertSame('Rupert  and  Gerald', $this->utility('Rupert  and  Gerald')->removeRepeating('')->value());
+    }
+
     #[DataProvider('__validData')]
     public function testStringHasRepeatingValuesRemoved(string $expected, string $string, string $repeatingValue): void
     {

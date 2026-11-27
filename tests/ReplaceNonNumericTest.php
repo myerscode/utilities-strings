@@ -29,6 +29,7 @@ final class ReplaceNonNumericTest extends BaseStringSuite
         yield ['', ':"{}~`', '', true];
         yield ['', '!@£$%^&*()', '', true];
         yield ['', '', '', true];
+        yield ['١٢٣', 'café ١٢٣', '', true];
     }
 
     #[DataProvider('__validData')]

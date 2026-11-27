@@ -18,6 +18,9 @@ final class ExplodeTest extends BaseStringSuite
         yield [[], 'foobar', ''];
         yield [['foobar'], 'foobar', ','];
         yield [['Hello', 'World'], 'Hello World', ' '];
+        yield [['Rupert', '0', 'Gerald'], 'Rupert,0,Gerald', ','];
+        yield [['0'], '0', ','];
+        yield [['Rupert', 'Gerald'], 'Rupert, ,Gerald', ','];
     }
 
     #[DataProvider('__validData')]

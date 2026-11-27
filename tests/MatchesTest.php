@@ -6,6 +6,7 @@ namespace Tests;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use Iterator;
+use InvalidArgumentException;
 
 final class MatchesTest extends BaseStringSuite
 {
@@ -15,6 +16,13 @@ final class MatchesTest extends BaseStringSuite
         yield ['Hello=World', '/(.+)=(.+)/', true];
         yield ['foobar', '/(.+)=(.+)/', false];
         yield ['£77.49p', '/^[a-z0-9\s]*$/i', false];
+    }
+
+    public function testInvalidPatternThrows(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->utility('Arthur')->matches('/(Arthur/');
     }
 
     #[DataProvider('__validData')]

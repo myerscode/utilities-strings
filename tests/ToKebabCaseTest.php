@@ -18,6 +18,7 @@ final class ToKebabCaseTest extends BaseStringSuite
         yield ['', ':"{}~`'];
         yield ['', '!@£$%^&*()'];
         yield ['', ''];
+        yield ['eclair-ete', 'Éclair Été'];
     }
 
     #[DataProvider('__validData')]

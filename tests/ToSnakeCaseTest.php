@@ -29,6 +29,8 @@ final class ToSnakeCaseTest extends BaseStringSuite
         yield ['foo_σase', 'foo Σase'];
         yield ['στανιλ_foo_bar', 'Στανιλ foo bar'];
         yield ['σash_bar', 'Σash  Bar'];
+        yield ['élan_vital_étoile', 'élanVitalÉtoile'];
+        yield ['rupert_été', 'Rupert Été'];
     }
 
     #[DataProvider('__validData')]
