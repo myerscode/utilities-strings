@@ -565,6 +565,21 @@ class Utility implements Stringable
     }
 
     /**
+     * Get the string as an array of its lines, split on any newline sequence (\n, \r\n or \r).
+     * An empty string has no lines.
+     *
+     * @return array<string>
+     */
+    public function lines(): array
+    {
+        if ($this->string === '') {
+            return [];
+        }
+
+        return preg_split('/\R/u', (string) $this->string) ?: [(string) $this->string];
+    }
+
+    /**
      * Mask a portion of the string with a repeated character, starting at the given character index.
      * A negative index counts from the end of the string.
      */

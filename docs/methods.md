@@ -40,6 +40,7 @@
 | [lcfirst](#lcfirst-utility) | `Utility` | Convert the first character to lowercase |
 | [length](#length-int) | `int` | Get the length of the string |
 | [limit](#limit-utility) | `Utility` | Limit the length of the string |
+| [lines](#lines-array) | `array` | Get the string as an array of its lines |
 | [mask](#mask-utility) | `Utility` | Mask part of the string with a repeated character |
 | [make](#make-utility) | `Utility` | Create a new instance (static) |
 | [matches](#matches-bool) | `bool` | Does the string match a regular expression |
@@ -678,6 +679,16 @@ $str = Utility::make('Hello World');
 
 echo $str->length();
 // 11
+```
+
+### lines `array`
+Get the string as an array of its lines. Lines are split on `\n`, `\r\n` or `\r`, and empty lines are kept. An empty string has no lines.
+
+```php
+$str = new Utility("Rupert\nGerald\r\nArthur");
+
+print_r($str->lines());
+// ['Rupert', 'Gerald', 'Arthur']
 ```
 
 ### mask `Utility`
