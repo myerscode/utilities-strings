@@ -38,6 +38,7 @@
 | [isTrue](#istrue-bool) | `bool` | Does the string represent a true-y value |
 | [isUpper](#isupper-bool) | `bool` | Is the string uppercase |
 | [isUrl](#isurl-bool) | `bool` | Is the string in a URL format |
+| [isUuid](#isuuid-bool) | `bool` | Is the string a valid UUID |
 | [last](#last-utility) | `Utility` | Get the last x characters of the string |
 | [lcfirst](#lcfirst-utility) | `Utility` | Convert the first character to lowercase |
 | [length](#length-int) | `int` | Get the length of the string |
@@ -645,6 +646,17 @@ echo $str->isUrl();
 $str = new Utility('ftp://example.com')
 
 echo $str->isUrl(['http', 'https']);
+// false
+```
+
+### isUuid `bool`
+Is the string a UUID in the `8-4-4-4-12` hexadecimal format. Case is ignored and the version and variant bits are not checked.
+
+```php
+echo (new Utility('550e8400-e29b-41d4-a716-446655440000'))->isUuid();
+// true
+
+echo (new Utility('not-a-uuid'))->isUuid();
 // false
 ```
 

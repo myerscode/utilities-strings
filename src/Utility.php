@@ -539,6 +539,14 @@ class Utility implements Stringable
     }
 
     /**
+     * Is the string a valid UUID in the 8-4-4-4-12 hexadecimal format
+     */
+    public function isUuid(): bool
+    {
+        return preg_match('/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/iD', (string) $this->string) === 1;
+    }
+
+    /**
      * Get the last x characters from the string
      */
     public function last(int $count): Utility
