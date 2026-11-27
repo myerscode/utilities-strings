@@ -18,6 +18,7 @@ final class ToNumericTest extends BaseStringSuite
         yield ['', ':"{}~`'];
         yield ['', '!@£$%^&*()'];
         yield ['', ''];
+        yield ['١٢٣', 'café ١٢٣!'];
     }
 
     #[DataProvider('__validData')]

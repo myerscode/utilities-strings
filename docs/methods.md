@@ -817,6 +817,8 @@ echo $str->replaceNonAlphanumeric('', true);
 // FooBar
 ```
 
+Letters and numbers are matched Unicode-aware, so accented characters such as `é` are kept.
+
 ### replaceNonAlpha `Utility`
 Replace non alpha values with a give value
 
@@ -832,6 +834,8 @@ echo $str->replaceNonAlpha('', true);
 // FooBar
 ```
 
+Letters are matched Unicode-aware, so accented characters such as `é` are kept.
+
 ### replaceNonNumeric `Utility`
 Replace non numeric values with a give value
 
@@ -846,6 +850,8 @@ echo $str->replaceNonNumeric('');
 echo $str->replaceNonNumeric('', true);
 // 123
 ```
+
+Numbers are matched Unicode-aware (`\p{N}`).
 
 ### replace `Utility`
 Replace all occurrences of values from the string with another value
@@ -1028,6 +1034,9 @@ $str = new Utility('Foo Bar 123!')
 
 echo $str->toAlphanumeric();
 // FooBar123
+
+echo (new Utility('Café 1!'))->toAlphanumeric();
+// Café1
 ```
 
 ### toAlpha `Utility`
@@ -1038,6 +1047,9 @@ $str = new Utility('Foo Bar 123!')
 
 echo $str->toAlpha();
 // FooBar
+
+echo (new Utility('Café!'))->toAlpha();
+// Café
 ```
 
 ### toCamelCase `Utility`

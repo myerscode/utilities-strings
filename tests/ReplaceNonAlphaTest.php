@@ -29,6 +29,8 @@ final class ReplaceNonAlphaTest extends BaseStringSuite
         yield ['', ':"{}~`', '', true];
         yield ['', '!@£$%^&*()', '', true];
         yield ['', '', '', true];
+        yield ['café École .', 'café École 1', '.', false];
+        yield ['café.École..', 'café École 1', '.', true];
     }
 
     #[DataProvider('__validData')]

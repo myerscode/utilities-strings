@@ -806,7 +806,7 @@ class Utility implements Stringable
      */
     public function replaceNonAlpha(string $replacement = '', bool $strict = false): Utility
     {
-        $pattern = $strict ? '/[^a-zA-Z]/' : '/[^a-zA-Z ]/';
+        $pattern = $strict ? '/[^\p{L}]/u' : '/[^\p{L} ]/u';
 
         $string = (string) preg_replace($pattern, $replacement, trim($this->string));
 
@@ -818,7 +818,7 @@ class Utility implements Stringable
      */
     public function replaceNonAlphanumeric(string $replacement = '', bool $strict = false): Utility
     {
-        $pattern = $strict ? '/[^a-zA-Z0-9]/' : '/[^a-zA-Z0-9 ]/';
+        $pattern = $strict ? '/[^\p{L}\p{N}]/u' : '/[^\p{L}\p{N} ]/u';
 
         $string = (string) preg_replace($pattern, $replacement, trim($this->string));
 
@@ -830,7 +830,7 @@ class Utility implements Stringable
      */
     public function replaceNonNumeric(string $replacement = '', bool $strict = false): Utility
     {
-        $pattern = $strict ? '/[^0-9]/' : '/[^0-9 ]/';
+        $pattern = $strict ? '/[^\p{N}]/u' : '/[^\p{N} ]/u';
 
         $string = (string) preg_replace($pattern, $replacement, trim($this->string));
 

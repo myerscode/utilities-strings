@@ -18,6 +18,7 @@ final class ToAlphaTest extends BaseStringSuite
         yield ['', ':"{}~`'];
         yield ['', '!@£$%^&*()'];
         yield ['', ''];
+        yield ['caféÉcole', 'café École 1!'];
     }
 
     #[DataProvider('__validData')]
