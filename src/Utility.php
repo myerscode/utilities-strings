@@ -340,6 +340,33 @@ class Utility implements Stringable
     }
 
     /**
+     * Extract the first occurrence of a phrase (case-insensitive) with the given number of characters
+     * of context either side, adding an omission where the string was cut.
+     * Returns an empty string when the phrase is not found.
+     */
+    public function excerpt(string $phrase, int $radius = 100, string $omission = '...'): Utility
+    {
+        $position = $phrase === '' ? false : mb_stripos($this->string, $phrase, 0, $this->encoding);
+
+        if ($position === false) {
+            return static::make('', $this->encoding);
+        }
+
+        $radius = max($radius, 0);
+        $start = max($position - $radius, 0);
+        $end = $position + mb_strlen($phrase, $this->encoding);
+
+        $before = ltrim(mb_substr($this->string, $start, $position - $start, $this->encoding));
+        $match = mb_substr($this->string, $position, $end - $position, $this->encoding);
+        $after = rtrim(mb_substr($this->string, $end, $radius, $this->encoding));
+
+        $prefix = $start > 0 ? $omission : '';
+        $suffix = $end + $radius < $this->length() ? $omission : '';
+
+        return static::make($prefix . $before . $match . $after . $suffix, $this->encoding);
+    }
+
+    /**
      * Explode the string on a given delimiter
      *
      * @return array<string>

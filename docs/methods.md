@@ -22,6 +22,7 @@
 | [ensureBeginsWith](#ensurebeginswith-utility) | `Utility` | Prepend a value unless the string already begins with it |
 | [ensureEndsWith](#ensureendswith-utility) | `Utility` | Append a value unless the string already ends with it |
 | [equals](#equals-bool) | `bool` | Compare the string with another |
+| [excerpt](#excerpt-utility) | `Utility` | Extract a phrase with surrounding context |
 | [explode](#explode-array) | `array` | Explode the string by a delimiter |
 | [format](#format-utility) | `Utility` | Replace placeholders with the given values in order |
 | [isAlpha](#isalpha-bool) | `bool` | Does the string only contain alpha characters |
@@ -382,6 +383,25 @@ echo $str->equals('foo bar');
 
 echo $str->equals(new Utility('Foo Bar'));
 // true
+```
+
+### excerpt `Utility`
+Extract the first occurrence of a phrase, matched case-insensitively, with a number of characters of context either side (`$radius`, default `100`). The `$omission` (default `...`) is added where the string was cut. The original casing of the match is kept. An empty string is returned when the phrase is not found.
+
+```php
+$str = new Utility('Rupert met Gerald and Arthur at the market');
+
+echo $str->excerpt('gerald', 6);
+// ...t met Gerald and A...
+
+echo $str->excerpt('Rupert', 4);
+// Rupert met...
+
+echo $str->excerpt('Gerald', 6, '~');
+// ~t met Gerald and A~
+
+echo $str->excerpt('Zebedee');
+// (empty string)
 ```
 
 ### explode `array`
