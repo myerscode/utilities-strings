@@ -685,7 +685,11 @@ class Utility implements Stringable
      */
     public function removeRepeating(string $repeatingValue = ' '): Utility
     {
-        $string = (string) preg_replace('{(' . preg_quote($repeatingValue) . ')\1+}', $repeatingValue, $this->string);
+        if ($repeatingValue === '') {
+            return static::make($this->string, $this->encoding);
+        }
+
+        $string = preg_replace('/(' . preg_quote($repeatingValue, '/') . ')\1+/u', addcslashes($repeatingValue, '\\$'), $this->string) ?? $this->string;
 
         return static::make($string, $this->encoding);
     }
@@ -720,12 +724,16 @@ class Utility implements Stringable
         $replace = [];
 
         foreach ($this->parameters($find) as $utility) {
-            $replace[] = preg_quote((string) $utility->value());
+            if ((string) $utility->value() !== '') {
+                $replace[] = preg_quote((string) $utility->value(), '/');
+            }
         }
 
-        $static = static::make($with, $this->encoding);
+        if ($replace === []) {
+            return static::make($this->string, $this->encoding);
+        }
 
-        $string = (string) preg_replace('#(' . implode('|', $replace) . ')#', $static->value(), $this->string);
+        $string = preg_replace_callback('/(' . implode('|', $replace) . ')/', static fn (): string => $with, $this->string) ?? $this->string;
 
         return static::make($string, $this->encoding);
     }
@@ -1026,14 +1034,14 @@ class Utility implements Stringable
     {
         $converted = mb_convert_encoding($this->string, 'UTF-8', $this->encoding);
         $string = is_string($converted) ? $converted : $this->string;
-        $string = (string) preg_replace('/[^\s\p{L}0-9\-' . $separator . ']/u', '', $string);
+        $string = preg_replace('/[^\s\p{L}0-9\-' . preg_quote($separator, '/') . ']/u', '', $string) ?? $string;
         $string = htmlentities($string, ENT_QUOTES, 'UTF-8');
         $string = (string) preg_replace('#&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);#i', '$1', $string);
 
         $detectedEncoding = mb_detect_encoding($string, 'UTF-8, ASCII, ISO-8859-1');
         $string = (string) iconv($detectedEncoding !== false ? $detectedEncoding : 'UTF-8', 'ASCII//TRANSLIT//IGNORE', $string);
         $string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
-        $string = (string) preg_replace('#[^0-9a-z]+#i', $separator, $string);
+        $string = (string) preg_replace('#[^0-9a-z]+#i', addcslashes($separator, '\\$'), $string);
         $string = trim($string, $separator);
         $string = mb_strtolower($string, $this->encoding);
 
@@ -1047,9 +1055,9 @@ class Utility implements Stringable
     {
         $converted = mb_convert_encoding($this->string, 'UTF-8', $this->encoding);
         $string = is_string($converted) ? $converted : $this->string;
-        $string = (string) preg_replace('/[^\s\p{L}0-9\-' . $separator . ']/u', '', $string);
+        $string = preg_replace('/[^\s\p{L}0-9\-' . preg_quote($separator, '/') . ']/u', '', $string) ?? $string;
         $string = (string) preg_replace('#&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);#i', '$1', $string);
-        $string = (string) preg_replace('#[\s_\-]#', $separator, $string);
+        $string = (string) preg_replace('#[\s_\-]#', addcslashes($separator, '\\$'), $string);
         $string = trim($string, $separator);
         $string = mb_strtolower($string, 'utf-8');
 
