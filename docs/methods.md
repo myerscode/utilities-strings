@@ -1053,7 +1053,7 @@ echo (new Utility('Café!'))->toAlpha();
 ```
 
 ### toCamelCase `Utility`
-Convert the string to be in a camel case slug format
+Convert the string to be in a camel case slug format. Non-ASCII letters are handled, e.g. `élan vitalÉtoile` becomes `élanVitalÉtoile`.
 
 ```php
 $str = new Utility('Foo Bar')
@@ -1068,7 +1068,7 @@ echo $str->toCamelCase();
 ```
 
 ### toKebabCase `Utility`
-Convert the string to be in a kebab case slug format
+Convert the string to be in a kebab case slug format. Accents are transliterated to ASCII, e.g. `Éclair` becomes `eclair`.
 
 ```php
 $str = new Utility('Foo Bar')
@@ -1103,7 +1103,7 @@ echo $str->toNumeric();
 ```
 
 ### toPascalCase `Utility`
-Convert the string to be in a pascal case slug format
+Convert the string to be in a pascal case slug format. Non-ASCII letters are handled.
 
 ```php
 $str = new Utility('Foo Bar')
@@ -1151,7 +1151,7 @@ echo $str->toSlug();
 Convert the string to be in a slug format but preserves utf8 characters
 
 ### toSnakeCase `Utility`
-Convert the string to be in a snake case format
+Convert the string to be in a snake case format. Non-ASCII uppercase letters are split and lowercased, e.g. `élanVital` becomes `élan_vital`.
 
 ```php
 $str = new Utility('Foo Bar')
@@ -1166,7 +1166,7 @@ echo $str->toSnakeCase();
 ```
 
 ### toStudlyCase `Utility`
-Convert the string to be in a snake case format
+Convert the string to be in a studly case format. Non-ASCII letters are handled.
 
 ```php
 $str = new Utility('foo bar')
@@ -1181,7 +1181,7 @@ echo $str->toStudlyCase();
 ```
 
 ### toTitleCase `Utility`
-Convert the string to be in a title case format
+Convert the string to be in a title case format. Non-ASCII letters are handled.
 
 ```php
 $str = new Utility('hello world! foo bar')

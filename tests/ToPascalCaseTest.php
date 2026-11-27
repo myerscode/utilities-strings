@@ -21,6 +21,7 @@ final class ToPascalCaseTest extends BaseStringSuite
         yield ['FooBar', 'fooBar'];
         yield ['Foobar', 'foobar'];
         yield ['FooBar', 'FOo BAr'];
+        yield ['ÉlanVitalÉtoile', 'élan vitalÉtoile'];
     }
 
     /**

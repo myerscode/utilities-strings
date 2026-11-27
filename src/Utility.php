@@ -977,13 +977,13 @@ class Utility implements Stringable
     public function toCamelCase(): Utility
     {
         // separate existing joined words
-        $string = (string) preg_replace('#([a-z0-9])(?=[A-Z])#', '$1 ', $this->string);
+        $string = (string) preg_replace('#([\p{Ll}\p{N}])(?=\p{Lu})#u', '$1 ', $this->string);
 
-        $words = preg_split('#[\W_]#', $string) ?: [];
+        $words = preg_split('#[\W_]#u', $string) ?: [];
 
-        $words = array_map(fn (string $word): string => mb_ucfirst(mb_strtolower($word, $this->encoding)), $words);
+        $words = array_map(fn (string $word): string => mb_ucfirst(mb_strtolower($word, $this->encoding), $this->encoding), $words);
 
-        $string = mb_lcfirst(implode('', $words));
+        $string = mb_lcfirst(implode('', $words), $this->encoding);
 
         return static::make($string, $this->encoding);
     }
@@ -1019,7 +1019,7 @@ class Utility implements Stringable
      */
     public function toPascalCase(): Utility
     {
-        $string = mb_ucfirst($this->toCamelCase()->value());
+        $string = mb_ucfirst($this->toCamelCase()->value(), $this->encoding);
 
         return static::make($string, $this->encoding);
     }
@@ -1090,13 +1090,13 @@ class Utility implements Stringable
      */
     public function toSnakeCase(): Utility
     {
-        $string = mb_ereg_replace('\B([A-Z])', '-\1', trim($this->string));
+        $string = (string) preg_replace('#\B(\p{Lu})#u', '-$1', trim($this->string));
 
-        $string = mb_strtolower((string) $string, $this->encoding);
+        $string = mb_strtolower($string, $this->encoding);
 
-        $string = mb_ereg_replace('[-_\s]+', '_', $string);
+        $string = (string) preg_replace('#[-_\s]+#u', '_', $string);
 
-        return static::make((string) $string, $this->encoding);
+        return static::make($string, $this->encoding);
     }
 
     /**
@@ -1283,10 +1283,10 @@ class Utility implements Stringable
         $string = str_replace(['.', '_', '-'], ' ', $string);
 
         // split on capital letters
-        $string = implode(' ', preg_split('#(?<=\w)(?=[A-Z])#', $string) ?: []);
+        $string = implode(' ', preg_split('#(?<=\w)(?=\p{Lu})#u', $string) ?: []);
 
         // explode on numbers
-        $parts = preg_split('#(,?\s+)|((?<=[a-z])(?=\d))|((?<=\d)(?=[a-z]))#i', $string) ?: [];
+        $parts = preg_split('#(,?\s+)|((?<=\p{L})(?=\d))|((?<=\d)(?=\p{L}))#u', $string) ?: [];
 
         // return only words
         return array_values(array_filter($parts, fn (string $value): bool => $value !== '' && $value !== '0'));

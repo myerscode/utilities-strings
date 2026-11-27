@@ -29,6 +29,8 @@ final class ToStudlyCaseTest extends BaseStringSuite
         yield ['FooΣase', 'foo Σase'];
         yield ['ΣτανιλFooBar', 'Στανιλ foo bar'];
         yield ['ΣashBar', 'Σash  Bar'];
+        yield ['ÉlanVitalÉtoile', 'élan vitalÉtoile'];
+        yield ['RupertÉté', 'rupert été'];
     }
 
     #[DataProvider('__validData')]

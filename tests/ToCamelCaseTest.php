@@ -21,6 +21,8 @@ final class ToCamelCaseTest extends BaseStringSuite
         yield ['fooBar', 'fooBar'];
         yield ['foobar', 'foobar'];
         yield ['fooBar', 'FOo BAr'];
+        yield ['élanVitalÉtoile', 'élan vitalÉtoile'];
+        yield ['éclairAuChocolat', 'Éclair au_chocolat'];
     }
 
     #[DataProvider('__validData')]
