@@ -36,6 +36,7 @@
 | [isNotEmpty](#isnotempty-bool) | `bool` | Is the string not empty |
 | [isNumeric](#isnumeric-bool) | `bool` | Does the string only contain numeric characters |
 | [isTrue](#istrue-bool) | `bool` | Does the string represent a true-y value |
+| [isUpper](#isupper-bool) | `bool` | Is the string uppercase |
 | [isUrl](#isurl-bool) | `bool` | Is the string in a URL format |
 | [last](#last-utility) | `Utility` | Get the last x characters of the string |
 | [lcfirst](#lcfirst-utility) | `Utility` | Convert the first character to lowercase |
@@ -610,6 +611,20 @@ echo $str->isTrue();
 $str = new Utility('false')
 
 echo $str->isTrue();
+// false
+```
+
+### isUpper `bool`
+Is the string uppercase. It must contain at least one cased letter and no lowercase letters, so numbers and symbols alone are not uppercase.
+
+```php
+echo (new Utility('RUPERT ÉLAN'))->isUpper();
+// true
+
+echo (new Utility('Rupert'))->isUpper();
+// false
+
+echo (new Utility('123'))->isUpper();
 // false
 ```
 

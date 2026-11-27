@@ -508,6 +508,16 @@ class Utility implements Stringable
     }
 
     /**
+     * Is the string uppercase, containing at least one cased letter and no lowercase letters
+     */
+    public function isUpper(): bool
+    {
+        $string = (string) $this->string;
+
+        return mb_strtoupper($string, $this->encoding) === $string && mb_strtolower($string, $this->encoding) !== $string;
+    }
+
+    /**
      * Is the string in a valid URL format.
      * An optional list of allowed schemes (e.g. ['http', 'https']) can be given to restrict what is considered valid.
      *
