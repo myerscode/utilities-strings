@@ -32,6 +32,7 @@
 | [isEmpty](#isempty-bool) | `bool` | Is the string empty |
 | [isFalse](#isfalse-bool) | `bool` | Does the string represent a false-y value |
 | [isJson](#isjson-bool) | `bool` | Is the string valid JSON |
+| [isLower](#islower-bool) | `bool` | Is the string lowercase |
 | [isNotEmpty](#isnotempty-bool) | `bool` | Is the string not empty |
 | [isNumeric](#isnumeric-bool) | `bool` | Does the string only contain numeric characters |
 | [isTrue](#istrue-bool) | `bool` | Does the string represent a true-y value |
@@ -545,6 +546,20 @@ echo $str->isJson();
 $str = new Utility('"foo":"bar", "hello":"world"')
 
 echo $str->isJson();
+// false
+```
+
+### isLower `bool`
+Is the string lowercase. It must contain at least one cased letter and no uppercase letters, so numbers and symbols alone are not lowercase.
+
+```php
+echo (new Utility('rupert élan'))->isLower();
+// true
+
+echo (new Utility('Rupert'))->isLower();
+// false
+
+echo (new Utility('123'))->isLower();
 // false
 ```
 

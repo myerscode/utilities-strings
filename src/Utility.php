@@ -469,6 +469,16 @@ class Utility implements Stringable
     }
 
     /**
+     * Is the string lowercase, containing at least one cased letter and no uppercase letters
+     */
+    public function isLower(): bool
+    {
+        $string = (string) $this->string;
+
+        return mb_strtolower($string, $this->encoding) === $string && mb_strtoupper($string, $this->encoding) !== $string;
+    }
+
+    /**
      * Check if the string is not empty
      */
     public function isNotEmpty(): bool
