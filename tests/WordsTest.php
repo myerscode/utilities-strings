@@ -23,16 +23,16 @@ final class WordsTest extends BaseStringSuite
         yield ['Éclair été...', 'Éclair été à Paris', 2, '...'];
     }
 
-    #[DataProvider('__validData')]
-    public function testStringIsLimitedToAmountOfWords(string $expected, string $string, int $words, string $end): void
-    {
-        $this->assertSame($expected, $this->utility($string)->words($words, $end)->value());
-    }
-
     public function testDefaultsToOneHundredWordsAndThreeDots(): void
     {
         $string = implode(' ', array_fill(0, 101, 'Arthur'));
 
         $this->assertSame(implode(' ', array_fill(0, 100, 'Arthur')) . '...', $this->utility($string)->words()->value());
+    }
+
+    #[DataProvider('__validData')]
+    public function testStringIsLimitedToAmountOfWords(string $expected, string $string, int $words, string $end): void
+    {
+        $this->assertSame($expected, $this->utility($string)->words($words, $end)->value());
     }
 }

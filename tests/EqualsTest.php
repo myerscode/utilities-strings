@@ -7,6 +7,7 @@ namespace Tests;
 use Iterator;
 use Myerscode\Utilities\Strings\Utility;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Stringable;
 
 final class EqualsTest extends BaseStringSuite
 {
@@ -31,7 +32,7 @@ final class EqualsTest extends BaseStringSuite
 
     public function testEqualsComparesStringValuesOfUtilityAndStringable(): void
     {
-        $stringable = new class implements \Stringable {
+        $stringable = new class () implements Stringable {
             public function __toString(): string
             {
                 return 'Rupert';

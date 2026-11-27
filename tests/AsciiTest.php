@@ -19,14 +19,14 @@ final class AsciiTest extends BaseStringSuite
         yield ['', ''];
     }
 
+    public function testResultIsAscii(): void
+    {
+        $this->assertTrue($this->utility('Rupert à Zürich')->ascii()->isAscii());
+    }
+
     #[DataProvider('__validData')]
     public function testStringIsTransliteratedToAscii(string $expected, string $string): void
     {
         $this->assertSame($expected, $this->utility($string)->ascii()->value());
-    }
-
-    public function testResultIsAscii(): void
-    {
-        $this->assertTrue($this->utility('Rupert à Zürich')->ascii()->isAscii());
     }
 }

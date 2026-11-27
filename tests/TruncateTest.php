@@ -23,14 +23,14 @@ final class TruncateTest extends BaseStringSuite
         yield ['日本...', '日本語です', 2, '...'];
     }
 
+    public function testDefaultEndingIsThreeDots(): void
+    {
+        $this->assertSame('Arthur...', $this->utility('Arthur is here')->truncate(6)->value());
+    }
+
     #[DataProvider('__validData')]
     public function testStringIsTruncated(string $expected, string $string, int $limit, string $end): void
     {
         $this->assertSame($expected, $this->utility($string)->truncate($limit, $end)->value());
-    }
-
-    public function testDefaultEndingIsThreeDots(): void
-    {
-        $this->assertSame('Arthur...', $this->utility('Arthur is here')->truncate(6)->value());
     }
 }

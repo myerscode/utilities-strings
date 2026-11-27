@@ -22,16 +22,16 @@ final class ExcerptTest extends BaseStringSuite
         yield ['', '', 'Rupert', 5, '...'];
     }
 
-    #[DataProvider('__validData')]
-    public function testExcerptIsExtractedAroundThePhrase(string $expected, string $string, string $phrase, int $radius, string $omission): void
-    {
-        $this->assertSame($expected, $this->utility($string)->excerpt($phrase, $radius, $omission)->value());
-    }
-
     public function testDefaultRadiusAndOmission(): void
     {
         $string = str_repeat('a', 150) . 'Rupert' . str_repeat('b', 150);
 
         $this->assertSame('...' . str_repeat('a', 100) . 'Rupert' . str_repeat('b', 100) . '...', $this->utility($string)->excerpt('Rupert')->value());
+    }
+
+    #[DataProvider('__validData')]
+    public function testExcerptIsExtractedAroundThePhrase(string $expected, string $string, string $phrase, int $radius, string $omission): void
+    {
+        $this->assertSame($expected, $this->utility($string)->excerpt($phrase, $radius, $omission)->value());
     }
 }
