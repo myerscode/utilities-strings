@@ -21,6 +21,11 @@ class Utility implements Stringable
     private string $encoding;
 
     /**
+     * The cached string length, reset when the encoding changes
+     */
+    private ?int $length = null;
+
+    /**
      * Utility constructor.
      */
     public function __construct(protected readonly string|Stringable|Utility $string = '', ?string $encoding = null)
@@ -214,7 +219,7 @@ class Utility implements Stringable
             return false;
         }
 
-        return str_contains(mb_substr($this->string, $offset, null, $this->encoding), $needle);
+        return str_contains($this->haystack($offset), $needle);
     }
 
     /**
@@ -234,7 +239,9 @@ class Utility implements Stringable
             return false;
         }
 
-        return array_all($parameters, fn ($needle): bool => str_contains(mb_substr($this->string, $offset, null, $this->encoding), (string) $needle->value()));
+        $haystack = $this->haystack($offset);
+
+        return array_all($parameters, fn ($needle): bool => str_contains($haystack, (string) $needle->value()));
     }
 
     /**
@@ -254,7 +261,9 @@ class Utility implements Stringable
             return false;
         }
 
-        return array_any($parameters, fn ($needle): bool => str_contains(mb_substr($this->string, $offset, null, $this->encoding), (string) $needle->value()));
+        $haystack = $this->haystack($offset);
+
+        return array_any($parameters, fn ($needle): bool => str_contains($haystack, (string) $needle->value()));
     }
 
     /**
@@ -511,7 +520,7 @@ class Utility implements Stringable
      */
     public function length(): int
     {
-        return mb_strlen($this->string, $this->encoding());
+        return $this->length ??= mb_strlen($this->string, $this->encoding());
     }
 
     /**
@@ -858,6 +867,7 @@ class Utility implements Stringable
     public function setEncoding(string $encoding): static
     {
         $this->encoding = trim($encoding);
+        $this->length = null;
 
         return $this;
     }
@@ -1263,6 +1273,14 @@ class Utility implements Stringable
         $string = $leftPadding . $this->string . $rightPadding;
 
         return static::make($string, $this->encoding);
+    }
+
+    /**
+     * The string from the given character offset, skipping mb_substr when there is nothing to cut
+     */
+    private function haystack(int $offset): string
+    {
+        return $offset === 0 ? (string) $this->string : mb_substr($this->string, $offset, null, $this->encoding);
     }
 
     /**
