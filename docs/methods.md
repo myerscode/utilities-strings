@@ -7,6 +7,7 @@
 | [after](#after-utility) | `Utility` | Remainder of the string after the first occurrence of a value |
 | [afterLast](#afterlast-utility) | `Utility` | Remainder of the string after the last occurrence of a value |
 | [append](#append-utility) | `Utility` | Append a value to the string |
+| [ascii](#ascii-utility) | `Utility` | Transliterate the string to ASCII |
 | [at](#at-utility) | `Utility` | Get the character at a specific index |
 | [before](#before-utility) | `Utility` | Portion of the string before the first occurrence of a value |
 | [beforeLast](#beforelast-utility) | `Utility` | Portion of the string before the last occurrence of a value |
@@ -142,6 +143,18 @@ $str = new Utility('Hello World');
 
 echo $str->append('!');
 // Hello World!
+```
+
+### ascii `Utility`
+Transliterate the string to ASCII, so `Café` becomes `Cafe`.
+
+When the `intl` extension is installed its `Transliterator` is used, which also converts non-Latin scripts (e.g. `Привет` becomes `Privet`). Without it the method falls back to `iconv`, which reliably handles Latin accents only; other characters may be dropped.
+
+```php
+$str = new Utility('Rupert goes to Zürich for crème brûlée');
+
+echo $str->ascii();
+// Rupert goes to Zurich for creme brulee
 ```
 
 ### at `Utility`

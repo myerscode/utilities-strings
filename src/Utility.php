@@ -4,6 +4,7 @@ namespace Myerscode\Utilities\Strings;
 
 use InvalidArgumentException;
 use Stringable;
+use Transliterator;
 
 use function mb_strlen;
 use function mb_substr;
@@ -91,6 +92,30 @@ class Utility implements Stringable
     public function append(string $postfix): Utility
     {
         return static::make($this->string . static::make($postfix, $this->encoding), $this->encoding);
+    }
+
+    /**
+     * Transliterate the string to ASCII, e.g. "Café" becomes "Cafe".
+     *
+     * Uses the intl Transliterator when it is installed, which also covers non-Latin scripts.
+     * Otherwise falls back to iconv, which only handles Latin accents reliably.
+     */
+    public function ascii(): Utility
+    {
+        $converted = mb_convert_encoding((string) $this->string, 'UTF-8', $this->encoding);
+        $string = is_string($converted) ? $converted : (string) $this->string;
+
+        $transliterator = class_exists(Transliterator::class) ? Transliterator::create('Any-Latin; Latin-ASCII') : null;
+        $result = $transliterator?->transliterate($string);
+
+        if (!is_string($result)) {
+            // htmlentities maps accents to named entities, so they fold to a base letter on every iconv implementation
+            $result = htmlentities($string, ENT_QUOTES, 'UTF-8');
+            $result = (string) preg_replace('#&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);#i', '$1', $result);
+            $result = (string) iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', html_entity_decode($result, ENT_QUOTES, 'UTF-8'));
+        }
+
+        return static::make($result, $this->encoding);
     }
 
     /**
