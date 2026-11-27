@@ -189,7 +189,10 @@ class Utility implements Stringable
     }
 
     /**
-     * Remove tags and trim the string
+     * Remove tags and trim the string.
+     *
+     * This uses strip_tags and is NOT an XSS defence: attributes, allowed tags and malformed
+     * markup are not sanitised. Escape output or use an HTML sanitiser for untrusted input.
      */
     public function clean(?string $allowedTags = null): Utility
     {
@@ -545,7 +548,9 @@ class Utility implements Stringable
     }
 
     /**
-     * Minimise string, removing all extra spaces, new lines and any unneeded html content
+     * Minimise string, removing all extra spaces, new lines and any unneeded html content.
+     *
+     * This is regex based and NOT safe for untrusted input or complex JavaScript.
      */
     public function minimise(): Utility
     {

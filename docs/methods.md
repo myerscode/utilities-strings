@@ -231,13 +231,15 @@ Clean will do a basic `trim` and `strip_tags` calls on the string.
 
 You can pass an optional `$allowable_tags` parameter to do define tags that the underlying `strip_tags` will preserve.
 
+> **Warning:** `clean` is not an XSS defence. `strip_tags` does not sanitise attributes, allowed tags or malformed markup. Escape output (e.g. `htmlspecialchars`) or use a dedicated HTML sanitiser for untrusted input.
+
 ```php
 $str = new Utility('<p>Hello <strong>World</strong></p>');
 
 echo $str->clean();
 // Hello World
 
-echo $str->beginsWith('<p>Hello <strong>World</strong></p>', '<p>');
+echo $str->clean('<p>');
 // <p>Hello World</p>
 ```
 
@@ -673,11 +675,13 @@ echo $str->matches('/^[a-z\s]*$/i');
 ### minimise `Utility`
 Minimise the string removing all spaces and all unnecessary html attributes
 
+> **Warning:** `minimise` uses simple regular expressions, not a parser. It is not safe for untrusted input or complex JavaScript (e.g. it can strip content that looks like a comment inside a string). Use a dedicated minifier for those cases.
+
 ```php
 $str = new Utility('foo           <select><option>bar</option></select>')
 
-echo $str->length();
-// foo <select><option>foobar</select>
+echo $str->minimise();
+// foo <select><option>bar</select>
 ```
 
 ### occurrences `array`
