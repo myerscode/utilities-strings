@@ -28,4 +28,19 @@ final class EqualsTest extends BaseStringSuite
     {
         $this->assertSame($expected, $this->utility($string)->equals($compareTo));
     }
+
+    public function testEqualsComparesStringValuesOfUtilityAndStringable(): void
+    {
+        $stringable = new class implements \Stringable {
+            public function __toString(): string
+            {
+                return 'Rupert';
+            }
+        };
+
+        $this->assertTrue($this->utility('Rupert')->equals(new Utility('Rupert')));
+        $this->assertTrue($this->utility(new Utility('Rupert'))->equals('Rupert'));
+        $this->assertTrue($this->utility('Rupert')->equals($stringable));
+        $this->assertFalse($this->utility('Gerald')->equals($stringable));
+    }
 }

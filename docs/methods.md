@@ -366,15 +366,18 @@ echo $str->ensureEndsWith(' World');
 ```
 
 ### equals `bool`
-Compare the string with another
+Compare the string with another. The comparison is case sensitive and uses the string value, so `Stringable` and `Utility` instances can be given.
 ```php
 $str = new Utility('Foo Bar')
 
 echo $str->equals('Foo Bar');
 // true
 
-echo $str->ensureEndsWith('foo bar');
+echo $str->equals('foo bar');
 // false
+
+echo $str->equals(new Utility('Foo Bar'));
+// true
 ```
 
 ### explode `array`

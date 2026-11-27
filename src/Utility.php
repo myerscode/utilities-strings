@@ -324,7 +324,7 @@ class Utility implements Stringable
      */
     public function equals(string|Stringable|Utility $compareTo): bool
     {
-        return ($this->string === $compareTo);
+        return (string) $this->string === (string) $compareTo;
     }
 
     /**
