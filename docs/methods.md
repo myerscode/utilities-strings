@@ -88,6 +88,7 @@
 | [trim](#trim-utility) | `Utility` | Trim values from both ends of the string |
 | [trimLeft](#trimleft-utility) | `Utility` | Trim values from the left of the string |
 | [trimRight](#trimright-utility) | `Utility` | Trim values from the right of the string |
+| [truncate](#truncate-utility) | `Utility` | Truncate the string to a number of characters and append an ending |
 | [value](#value-stringstringable) | `string\|Stringable` | Get the current value of the string |
 | [wordCount](#wordcount-int) | `int` | Count the number of words in the string |
 | [wrap](#wrap-utility) | `Utility` | Wrap the string with a start and optional end value |
@@ -1211,6 +1212,22 @@ $str = new Utility('hello world')
 
 echo $str->toUppercase();
 // HELLO WORLD
+```
+
+### truncate `Utility`
+Truncate the string to a given number of characters (multibyte-safe) and append an ending, `...` by default, when it was shortened. Trailing whitespace is removed before the ending is added. Strings that already fit are returned unchanged.
+
+```php
+$str = new Utility('Rupert met Gerald');
+
+echo $str->truncate(6);
+// Rupert...
+
+echo $str->truncate(6, '~');
+// Rupert~
+
+echo $str->truncate(50);
+// Rupert met Gerald
 ```
 
 ### ucfirst `Utility`

@@ -1189,6 +1189,21 @@ class Utility implements Stringable
     }
 
     /**
+     * Truncate the string to a given number of characters and append an ending when it was shortened.
+     * Trailing whitespace is removed before the ending is added.
+     */
+    public function truncate(int $limit, string $end = '...'): Utility
+    {
+        if ($this->length() <= max($limit, 0)) {
+            return $this;
+        }
+
+        $string = rtrim(mb_substr($this->string, 0, max($limit, 0), $this->encoding));
+
+        return static::make($string . $end, $this->encoding);
+    }
+
+    /**
      * Convert the first character of the string to uppercase
      */
     public function ucfirst(): Utility
